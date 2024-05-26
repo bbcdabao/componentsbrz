@@ -19,16 +19,28 @@
 
     <modules>
         <module>messagebrz</module>
+		<module>flowcontrolbrz</module>
     </modules>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<javax.servlet>4.0.1</javax.servlet>
 		<spring-boot.version>3.2.5</spring-boot.version>
 		<springframework.version>5.3.20</springframework.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${javax.servlet}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
