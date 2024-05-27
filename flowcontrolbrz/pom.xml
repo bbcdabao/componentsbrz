@@ -9,7 +9,7 @@
 	<description>the flow control</description>
 
     <parent>
-		<groupId>baobao.componentsbrz</groupId>
+		<groupId>bbcdabao.componentsbrz</groupId>
 		<artifactId>common</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
     </parent>
