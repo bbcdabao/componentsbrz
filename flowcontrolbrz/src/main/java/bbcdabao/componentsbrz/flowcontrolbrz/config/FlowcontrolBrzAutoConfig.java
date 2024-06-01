@@ -1,4 +1,4 @@
-package baobao.componentsbrz.flowcontrolbrz.config;
+package bbcdabao.componentsbrz.flowcontrolbrz.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,9 +8,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import baobao.componentsbrz.flowcontrolbrz.service.ITokencyctl;
-import baobao.componentsbrz.flowcontrolbrz.service.ITokencyctl.TokenCfg;
-import baobao.componentsbrz.flowcontrolbrz.service.impl.TokencyctlImpl;
+import bbcdabao.componentsbrz.flowcontrolbrz.service.ITokencyctl;
+import bbcdabao.componentsbrz.flowcontrolbrz.service.ITokencyctl.TokenCfg;
+import bbcdabao.componentsbrz.flowcontrolbrz.service.impl.TokencyctlImpl;
 
 /**
  * -≈‰÷√≤ø∑÷

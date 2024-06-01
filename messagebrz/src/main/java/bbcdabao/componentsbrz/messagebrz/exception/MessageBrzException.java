@@ -1,4 +1,4 @@
-package baobao.componentsbrz.messagebrz.exception;
+package bbcdabao.componentsbrz.messagebrz.exception;
 
 /**
  * -“Ï≥£

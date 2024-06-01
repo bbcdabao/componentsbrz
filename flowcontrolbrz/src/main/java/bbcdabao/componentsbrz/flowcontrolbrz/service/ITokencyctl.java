@@ -1,4 +1,4 @@
-package baobao.componentsbrz.flowcontrolbrz.service;
+package bbcdabao.componentsbrz.flowcontrolbrz.service;
 
 /**
  * -第三方并发控制接口，用于实现令牌彤方式限流控制

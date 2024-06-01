@@ -1,4 +1,4 @@
-package baobao.componentsbrz.messagebrz.api.annotation;
+package bbcdabao.componentsbrz.messagebrz.api.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

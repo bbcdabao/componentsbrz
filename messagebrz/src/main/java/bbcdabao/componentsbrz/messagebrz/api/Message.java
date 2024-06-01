@@ -1,4 +1,4 @@
-package baobao.componentsbrz.messagebrz.api;
+package bbcdabao.componentsbrz.messagebrz.api;
 
 /**
  * -消息基类

@@ -1,4 +1,4 @@
-package baobao.componentsbrz.messagebrz.impl;
+package bbcdabao.componentsbrz.messagebrz.impl;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -7,8 +7,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import baobao.componentsbrz.messagebrz.api.Message;
-import baobao.componentsbrz.messagebrz.exception.MessageBrzException;
+import bbcdabao.componentsbrz.messagebrz.api.Message;
+import bbcdabao.componentsbrz.messagebrz.exception.MessageBrzException;
 
 /**
  * -º¯ÊýÓ³Éä¹ØÏµ

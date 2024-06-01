@@ -1,4 +1,4 @@
-package baobao.componentsbrz.messagebrz.config;
+package bbcdabao.componentsbrz.messagebrz.config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,12 +10,12 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import baobao.componentsbrz.messagebrz.IMessagePost;
-import baobao.componentsbrz.messagebrz.api.Message;
-import baobao.componentsbrz.messagebrz.api.annotation.MessageHandler;
-import baobao.componentsbrz.messagebrz.exception.MessageBrzException;
-import baobao.componentsbrz.messagebrz.impl.MessageModel;
-import baobao.componentsbrz.messagebrz.impl.MessagePostImpl;
+import bbcdabao.componentsbrz.messagebrz.IMessagePost;
+import bbcdabao.componentsbrz.messagebrz.api.Message;
+import bbcdabao.componentsbrz.messagebrz.api.annotation.MessageHandler;
+import bbcdabao.componentsbrz.messagebrz.exception.MessageBrzException;
+import bbcdabao.componentsbrz.messagebrz.impl.MessageModel;
+import bbcdabao.componentsbrz.messagebrz.impl.MessagePostImpl;
 
 /**
  * -自动配置加载控制

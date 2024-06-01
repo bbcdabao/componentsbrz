@@ -1,6 +1,6 @@
-package baobao.componentsbrz.messagebrz;
+package bbcdabao.componentsbrz.messagebrz;
 
-import baobao.componentsbrz.messagebrz.api.Message;
+import bbcdabao.componentsbrz.messagebrz.api.Message;
 
 /**
  * -发送消息接口

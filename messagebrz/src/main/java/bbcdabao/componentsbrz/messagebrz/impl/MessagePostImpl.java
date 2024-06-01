@@ -1,4 +1,4 @@
-package baobao.componentsbrz.messagebrz.impl;
+package bbcdabao.componentsbrz.messagebrz.impl;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import baobao.componentsbrz.messagebrz.IMessagePost;
-import baobao.componentsbrz.messagebrz.api.Message;
+import bbcdabao.componentsbrz.messagebrz.IMessagePost;
+import bbcdabao.componentsbrz.messagebrz.api.Message;
 
 /**
  * -实现类单线程驱动
