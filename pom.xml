@@ -28,6 +28,7 @@
 		<javax.servlet>4.0.1</javax.servlet>
 		<spring-boot.version>3.2.5</spring-boot.version>
 		<springframework.version>5.3.20</springframework.version>
+		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -70,8 +71,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>${java.version}</source>
-					<target>${java.version)</target>
+					<target>${java.version}</target>
 				</configuration>
+				<version>${maven-compiler-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
