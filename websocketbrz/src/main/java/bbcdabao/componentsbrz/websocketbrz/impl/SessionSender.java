@@ -20,10 +20,14 @@ import bbcdabao.componentsbrz.websocketbrz.api.ISessionSender.IComplete;
 public class SessionSender {
 	/**
 	 * -发送转接口
-	 * @author zhao
+	 * @author bao
 	 *
 	 */
 	private static interface ISend {
+		/**
+		 * -发送
+		 * @param msg
+		 */
 		void send(WebSocketMessage<?> msg);
 	}
 
@@ -49,5 +53,32 @@ public class SessionSender {
 			logger.info("session id:{} sender is Interrupted", session.getId());
 		}
 		return msg;
+	}
+
+	private void doComplete(WebSocketMessage<?> msg, boolean ok, Throwable exception) {
+		try {
+			complete.onComplete(msg, ok, exception);
+		} catch (Exception e) {
+			logger.error("session id:{} onComplete Exception", session.getId(), e);
+		}
+	}
+	
+	private void doSend(ISend send) {
+		try (WebSocketSession sessionClose = session) {
+			WebSocketMessage<?> msg = getMsg();
+			if (null != msg) {
+				send.send(msg);
+				timeSet.set(0);
+			} else {
+				checkAndSendPing();
+			}
+			
+		} catch (Exception e) {
+			logger.error("session id:{} doSend Exception", session.getId(), e);
+		}
+	}
+
+	private void checkAndSendPing() {
+		
 	}
 }
