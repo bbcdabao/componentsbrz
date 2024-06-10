@@ -1,5 +1,7 @@
 package bbcdabao.componentsbrz.websocketbrz.api;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.web.socket.WebSocketMessage;
@@ -9,7 +11,7 @@ import org.springframework.web.socket.WebSocketMessage;
  * @author bao
  *
  */
-public interface ISessionSender {
+public interface ISessionSender extends Closeable {
 	/**
 	 * -发送消息
 	 * -当内部缓冲队列满了会阻塞参数填入的时间

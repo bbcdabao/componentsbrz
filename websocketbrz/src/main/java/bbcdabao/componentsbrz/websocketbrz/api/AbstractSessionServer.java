@@ -1,10 +1,12 @@
 package bbcdabao.componentsbrz.websocketbrz.api;
 
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.BinaryMessage;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.PongMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
@@ -28,7 +30,7 @@ public abstract class AbstractSessionServer {
 	 * @param message
 	 * @throws Exception
 	 */
-	protected void onTextMessage(TextMessage message) throws Exception {	
+	public void onTextMessage(TextMessage message) throws Exception {	
 	}
 
 	/**
@@ -36,7 +38,7 @@ public abstract class AbstractSessionServer {
 	 * @param message
 	 * @throws Exception
 	 */
-	protected void onBinaryMessage(BinaryMessage message) throws Exception {
+	public void onBinaryMessage(BinaryMessage message) throws Exception {
 	}
 
 	/**
@@ -44,7 +46,11 @@ public abstract class AbstractSessionServer {
 	 * @param message
 	 * @throws Exception
 	 */
-	protected void onPongMessage(PongMessage message) throws Exception {
+	public void onPongMessage(PongMessage message) throws Exception {
+	}
+
+	public void onAfterConnectionEstablished(ISessionSenderGeter sessionSenderGeter, Map<String, String> queryMap)
+			throws Exception {
 	}
 
 	/**
@@ -52,7 +58,10 @@ public abstract class AbstractSessionServer {
 	 * @param exception
 	 * @throws Exception
 	 */
-	protected void onHandleTransportError(Throwable exception) throws Exception {
+	public void onHandleTransportError(Throwable exception) throws Exception {
+	}
+	
+	public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
 	}
 
 	/**

@@ -12,5 +12,5 @@ public interface ISessionSenderGeter {
 	 * @param complete
 	 * @return
 	 */
-	ISessionSender getSessionSender(ISessionSender.IComplete complete);
+	ISessionSender getSessionSender(ISessionSender.IComplete complete) throws Exception;
 }
