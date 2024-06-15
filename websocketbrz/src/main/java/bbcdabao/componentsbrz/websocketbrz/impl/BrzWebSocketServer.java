@@ -11,14 +11,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.ObjectUtils;
@@ -40,7 +39,7 @@ import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
  * @author bao
  *
  */
-public class BrzWebSocketServer extends Thread implements WebSocketHandler, ApplicationContextAware {
+public class BrzWebSocketServer extends Thread implements InitializingBean, DisposableBean, WebSocketHandler, ApplicationContextAware {
 
 	private final Logger logger = LoggerFactory.getLogger(BrzWebSocketServer.class);
 
@@ -206,8 +205,8 @@ public class BrzWebSocketServer extends Thread implements WebSocketHandler, Appl
 		this.pingCyc = pingCyc;
 	}
 
-	@PostConstruct
-	public void initServer() throws Exception {
+	@Override
+	public void afterPropertiesSet() throws Exception {
 		Map<String, Object> serviceBeanMap = context.getBeansWithAnnotation(SessionFactoryBrz.class);
 		if (serviceBeanMap == null) {
 			return;
@@ -230,8 +229,8 @@ public class BrzWebSocketServer extends Thread implements WebSocketHandler, Appl
 		start();
 	}
 
-	@PreDestroy
-	public void destroyServer() {
+	@Override
+	public void destroy() throws Exception {
 		run.set(false);
 		interrupt();
 	}

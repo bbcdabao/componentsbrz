@@ -8,11 +8,10 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.server.ServerHttpRequest;
@@ -31,7 +30,7 @@ import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
  * @author bao
  *
  */
-public class BrzHandshakeInterceptor implements HandshakeInterceptor, ApplicationContextAware {
+public class BrzHandshakeInterceptor implements InitializingBean, HandshakeInterceptor, ApplicationContextAware {
 	private final Logger logger = LoggerFactory.getLogger(BrzHandshakeInterceptor.class);
 	private List<HandshakeInterceptor> interceptors = new ArrayList<>();
 	/**
@@ -39,8 +38,8 @@ public class BrzHandshakeInterceptor implements HandshakeInterceptor, Applicatio
 	 */
 	private ApplicationContext context;
 
-	@PostConstruct
-	public void initServer() throws Exception {
+	@Override
+	public void afterPropertiesSet() throws Exception {
 		Pattern pattern = Pattern.compile("[0-9]*");
 		Map<String, Object> serviceBeanMap = context.getBeansWithAnnotation(SessionInterceptor.class);
 		if (serviceBeanMap == null) {

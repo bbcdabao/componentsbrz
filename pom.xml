@@ -24,11 +24,12 @@
     </modules>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
 		<javax.servlet>4.0.1</javax.servlet>
 		<spring-boot.version>3.2.5</spring-boot.version>
 		<springframework.version>5.3.20</springframework.version>
-		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+		<httpclient.version>4.5.13</httpclient.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -61,7 +62,7 @@
 			<dependency>
 		    	<groupId>org.apache.httpcomponents</groupId>
 			    <artifactId>httpclient</artifactId>
-			    <version>4.5.13</version>
+			    <version>${httpclient.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
