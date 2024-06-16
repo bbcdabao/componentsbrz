@@ -1,7 +1,6 @@
 package bbcdabao.componentsbrz.websocketbrz.api;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.web.socket.WebSocketMessage;
