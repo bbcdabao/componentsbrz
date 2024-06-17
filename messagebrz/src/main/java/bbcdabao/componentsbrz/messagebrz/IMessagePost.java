@@ -26,11 +26,5 @@ import bbcdabao.componentsbrz.messagebrz.api.Message;
  *
  */
 public interface IMessagePost {
-
-	/**
-	 * -发送要处理的消息对象
-	 * @param message
-	 * @return
-	 */
 	boolean post(Message message);
 }
