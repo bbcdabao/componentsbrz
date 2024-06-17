@@ -30,6 +30,8 @@ import org.springframework.web.socket.PingMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import javax.validation.constraints.NotNull;
+
 import bbcdabao.componentsbrz.websocketbrz.api.ISessionSender;
 
 /**
@@ -118,7 +120,7 @@ public class SessionSender extends Thread implements ISessionSender {
 		}
 	}
 
-	public SessionSender(int capacity, WebSocketSession session, IComplete complete, AtomicLong timeSet, long pingCyc) {
+	public SessionSender(int capacity, @NotNull(message = "session must not null") WebSocketSession session, IComplete complete, @NotNull(message = "timeSet must not null") AtomicLong timeSet, long pingCyc) {
 		this.msgList = new LinkedBlockingQueue<>(capacity);
 		this.session = session;
 		this.complete = complete;
