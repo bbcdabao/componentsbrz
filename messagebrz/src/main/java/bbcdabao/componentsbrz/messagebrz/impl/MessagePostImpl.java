@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package bbcdabao.componentsbrz.messagebrz.impl;
 
 import java.util.LinkedList;
@@ -11,34 +29,29 @@ import bbcdabao.componentsbrz.messagebrz.IMessagePost;
 import bbcdabao.componentsbrz.messagebrz.api.Message;
 
 /**
- * -实现类单线程驱动
- * @author bao
- *
+ * Implement class single-threaded driver
  */
 public class MessagePostImpl extends Thread implements IMessagePost {
 
 	private final Logger logger = LoggerFactory.getLogger(MessagePostImpl.class);
 
-	/**
-	 * -运行标记
-	 */
 	private AtomicBoolean running = new AtomicBoolean(true);
 
 	/**
-	 * -调度队列
+	 * Dispatch queue
 	 */
 	private LinkedList<Message> workList = new LinkedList<>();
 
 	/**
-	 * -映射消息
+	 * Mapping message
 	 */
 	private MessageModel messageModel = null;
 
 	/**
-	 * -插入定时消息
-	 * -采用队列头调度算法
-	 * -从队列头到尾调度时间递增
-	 * -队列头始终是最近要处理的消息
+	 * Insert scheduled message
+	 * Using head-of-queue scheduling algorithm
+	 * Scheduling time increases from the beginning to the end of the queue
+	 * The head of the queue is always the most recent message to be processed
 	 * @param message
 	 */
 	private synchronized void addWork(Message message) {
@@ -61,7 +74,7 @@ public class MessagePostImpl extends Thread implements IMessagePost {
 	}
 
 	/**
-	 * -获取一个队列头到期消息
+	 * Get a queue head expiration message
 	 * @return
 	 * @throws InterruptedException
 	 */
@@ -103,7 +116,7 @@ public class MessagePostImpl extends Thread implements IMessagePost {
 	}
 
 	/**
-	 * -实现
+	 * -瀹炵幇
 	 */
 	@Override
 	public boolean post(Message message) {
@@ -120,9 +133,6 @@ public class MessagePostImpl extends Thread implements IMessagePost {
 		}
 	}
 
-	/**
-	 * -构造器
-	 */
 	public static class Builder {
 
 		private MessageModel messageModel = null;
