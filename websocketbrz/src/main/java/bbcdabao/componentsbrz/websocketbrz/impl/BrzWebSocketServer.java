@@ -52,8 +52,8 @@ import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
 import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
 
 /**
- * -·şÎñ»á»°ÊµÏÖ
- * -ºËĞÄ´úÂë
+ * -æœåŠ¡ä¼šè¯å®ç°
+ * -æ ¸å¿ƒä»£ç 
  * @author bao
  *
  */
@@ -73,25 +73,25 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	}
 
 	/**
-	 * -beanÈİÆ÷
+	 * -beanå®¹å™¨
 	 */
 	private ApplicationContext context = null;
 
 
 	/**
-	 * -SESSION ¹¤³§ÈİÆ÷
-	 * -Æô¶¯³õÊ¼»¯´´½¨
+	 * -SESSION å·¥å‚å®¹å™¨
+	 * -å¯åŠ¨åˆå§‹åŒ–åˆ›å»º
 	 */
 	private final Map<String, ISessionFactory> sessionFactoryMap = new HashMap<>(20);
 
 	/**
-	 * -²ÎÊı
+	 * -å‚æ•°
 	 */
 	private boolean isPartialMsg = false;
 
 	/**
-	 * -ÈİÁ¿
-	 * -Òì²½·¢ËÍ¶ÓÁĞÈİÁ¿
+	 * -å®¹é‡
+	 * -å¼‚æ­¥å‘é€é˜Ÿåˆ—å®¹é‡
 	 */
 	private int senderCapacity = 0;
 
@@ -112,8 +112,8 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	}
 
 	/**
-	 * -±éÀúÕÒ³ö³¬ÊĞ»á»°
-	 * -Èç¹ûÓĞĞÅÏ¢½ÓÊÜ»òÕß·¢ËÍµÄÁ÷¶¯timeSet¶¼»á±»ÉèÖÃÎª0
+	 * -éå†æ‰¾å‡ºè¶…å¸‚ä¼šè¯
+	 * -å¦‚æœæœ‰ä¿¡æ¯æ¥å—æˆ–è€…å‘é€çš„æµåŠ¨timeSetéƒ½ä¼šè¢«è®¾ç½®ä¸º0
 	 * 
 	 * @return
 	 * @throws Exception
@@ -203,12 +203,12 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	}
 
 	private void initNode(Node node) throws Exception {
-		// info: ×Ô¶¯×°ÖÃSESSION
+		// info: è‡ªåŠ¨è£…ç½®SESSION
 		context.getAutowireCapableBeanFactory().autowireBean(node.sessionServer);
 		node.sessionServer.onAfterConnectionEstablished(new ISessionSenderGeter() {
 			@Override
 			public ISessionSender getSessionSender(ISessionSender.IComplete complete) throws Exception {
-				SessionSender sessionSender = new SessionSender(senderCapacity, node.session, complete, node.timeSet, pingCyc);
+				SessionSender sessionSender = new SessionSender(node.session, node.timeSet, complete, pingCyc, senderCapacity);
 				return sessionSender;
 			}
 		}, node.queryMap);
