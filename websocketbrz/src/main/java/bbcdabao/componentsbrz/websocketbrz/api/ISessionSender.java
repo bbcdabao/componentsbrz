@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package bbcdabao.componentsbrz.websocketbrz.api;
 
 import java.io.Closeable;
@@ -6,15 +24,14 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.web.socket.WebSocketMessage;
 
 /**
- * -Òì²½·¢ËÍ½Ó¿Ú
- * @author bao
- *
+ * Asynchronous sending interface
  */
 public interface ISessionSender extends Closeable {
+	
 	/**
-	 * -·¢ËÍÏûÏ¢
-	 * -µ±ÄÚ²¿»º³å¶ÓÁĞÂúÁË»á×èÈû²ÎÊıÌîÈëµÄÊ±¼ä
-	 * -ÒòÎªËüÓĞ¿ÉÄÜ×èÈû£¬ËùÒÔ»áÅ×³öInterruptedException
+	 * Send message
+	 * When the internal buffer queue is full, it will block the parameter filling time.
+	 * Because it has the potential to block, it will throwInterruptedException
 	 * @param msg
 	 * @param timeout
 	 * @param unit
@@ -22,32 +39,36 @@ public interface ISessionSender extends Closeable {
 	 * @throws InterruptedException
 	 */
 	boolean postMsg(WebSocketMessage<?> msg, long timeout, TimeUnit unit) throws InterruptedException;
+	
 	/**
-	 * -·¢ËÍÏûÏ¢
-	 * -²»»á×èÈû
+	 * Send message
+	 * Not blocking
 	 * @param msg
 	 * @return
 	 */
 	boolean postMsg(WebSocketMessage<?> msg);
+	
 	/**
-	 * -Í¨µÀÊÇ·ñ´ò¿ª
+	 * Channel is openning
 	 * @return
 	 */
 	boolean isOpen();
+	
 	/**
-	 * -»ñÈ¡»á»°ÔøID
+	 * Get Websocket seddion ID
 	 * @return
 	 */
 	String getSessionId();
+	
 	/**
-	 * -¸Ã½Ó¿Ú»áÔÚ·¢ËÍÏß³ÌÀïÃæ±»µ÷¶È£¬·µ»ØÒ»²¿·¢ËÍ½á¹û
-	 * -¸Ã½Ó¿Ú¿ÉÒÔÈÃÓÃ»§»ØÊÕWebSocketMessageÏûÏ¢£¬±ãÓÚÖØ¸´¹ıÊ¹ÓÃ±ÜÃâÆµ·±new
+	 * -è¯¥æ¥å£ä¼šåœ¨å‘é€çº¿ç¨‹é‡Œé¢è¢«è°ƒåº¦ï¼Œè¿”å›ä¸€éƒ¨å‘é€ç»“æœ
+	 * -è¯¥æ¥å£å¯ä»¥è®©ç”¨æˆ·å›æ”¶WebSocketMessageæ¶ˆæ¯ï¼Œä¾¿äºé‡å¤è¿‡ä½¿ç”¨é¿å…é¢‘ç¹new
 	 * @author zhao
 	 *
 	 */
 	public static interface IComplete {
 		/**
-		 * -·¢ËÍÍê³É»Øµ÷
+		 * -å‘é€å®Œæˆå›è°ƒ
 		 * @param msg
 		 * @param ok
 		 * @param exception
