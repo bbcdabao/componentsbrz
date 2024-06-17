@@ -52,10 +52,7 @@ import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
 import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
 
 /**
- * -服务会话实现
- * -核心代码
- * @author bao
- *
+ * Web Socket callback abstract implementation, core code
  */
 public class BrzWebSocketServer extends Thread implements InitializingBean, DisposableBean, WebSocketHandler, ApplicationContextAware {
 
@@ -65,6 +62,9 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 
 	private final Map<String, Node> sessionMap = new ConcurrentHashMap<>(50);
 
+	/**
+ 	 * Access link encapsulation for internal use
+	 */
 	private class Node {
 		private AbstractSessionServer sessionServer = null;
 		private AtomicLong timeSet = new AtomicLong(0);
@@ -73,25 +73,24 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	}
 
 	/**
-	 * -bean容器
+	 * Bean container
 	 */
 	private ApplicationContext context = null;
 
 
 	/**
-	 * -SESSION 工厂容器
-	 * -启动初始化创建
+	 * SESSION factory container
+	 * Start initial creation
 	 */
 	private final Map<String, ISessionFactory> sessionFactoryMap = new HashMap<>(20);
 
 	/**
-	 * -参数
+	 * Partial support
 	 */
 	private boolean isPartialMsg = false;
 
 	/**
-	 * -容量
-	 * -异步发送队列容量
+	 * Asynchronous send queue capacity
 	 */
 	private int senderCapacity = 0;
 
@@ -112,10 +111,10 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	}
 
 	/**
-	 * -遍历找出超市会话
-	 * -如果有信息接受或者发送的流动timeSet都会被设置为0
+	 * Traverse to find out the timeout session
+	 * If there is a message received or sent, the flowing timeSet will be set to 0.
 	 * 
-	 * @return
+	 * @return To be clear WebSocketSession list
 	 * @throws Exception
 	 */
 	private List<WebSocketSession> checkNodes() throws Exception {
@@ -203,7 +202,7 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	}
 
 	private void initNode(Node node) throws Exception {
-		// info: 自动装置SESSION
+		// automatic device SESSION
 		context.getAutowireCapableBeanFactory().autowireBean(node.sessionServer);
 		node.sessionServer.onAfterConnectionEstablished(new ISessionSenderGeter() {
 			@Override
