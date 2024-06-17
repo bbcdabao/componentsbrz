@@ -98,7 +98,7 @@ public class SessionSender extends Thread implements ISessionSender {
 	private void checkAndSendPing() {
 		long thisSet = timeSet.get();
 		if (0 == thisSet) {
-			// info: Èç¹û¸Õ¸Õ·¢¹ýPingÖ±½Ó·µ»Ø
+			// Just send the message and return directly without sending PING again.
 			pingFlg = 0;
 			return;
 		}
