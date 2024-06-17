@@ -52,10 +52,13 @@ public class SessionSender extends Thread implements ISessionSender {
 	private BlockingQueue<WebSocketMessage<?>> msgList = null;
 
 	/**
-	 * The unit of sending PING cycle is milliseconds
+	 * The unit of sending PING cycle is milliseconds, must not be null
 	 */
 	private WebSocketSession session = null;
 
+	/**
+	 * Send completion notification interface, it can be null
+	 */
 	private IComplete complete = null;
 
 	private long pingCyc = 0;
@@ -93,7 +96,7 @@ public class SessionSender extends Thread implements ISessionSender {
 	private void checkAndSendPing() {
 		long thisSet = timeSet.get();
 		if (0 == thisSet) {
-			// info: 如果刚刚发过Ping直接返回
+			// info: 脠莽鹿没赂脮赂脮路垄鹿媒Ping脰卤陆脫路碌禄脴
 			pingFlg = 0;
 			return;
 		}
