@@ -61,14 +61,15 @@ public interface ISessionSender extends Closeable {
 	String getSessionId();
 	
 	/**
-	 * -该接口会在发送线程里面被调度，返回一部发送结果
-	 * -该接口可以让用户回收WebSocketMessage消息，便于重复过使用避免频繁new
+	 * This interface will be scheduled in the sending thread and return a sending result
+	 * This interface allows users to recycle WebSocketMessage messages to facilitate reuse and avoid frequent new buffer
 	 * @author zhao
 	 *
 	 */
 	public static interface IComplete {
+		
 		/**
-		 * -发送完成回调
+		 * Send completed call back
 		 * @param msg
 		 * @param ok
 		 * @param exception
