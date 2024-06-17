@@ -1,14 +1,10 @@
 package bbcdabao.componentsbrz.websocketbrz.exception;
 
 /**
- * -本组件异常
- * @author bao
- *
+ * Abnormal usage of this module
  */
 public class WebsocketbrzException  extends Exception {
-	/**
-	 * -通用ID
-	 */
+
 	private static final long serialVersionUID = -1;
 
 	public WebsocketbrzException(String msg) {
