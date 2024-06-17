@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package bbcdabao.componentsbrz.websocketbrz.api.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
@@ -11,11 +29,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * -会话接入拦截器用于需要实现鉴权或者类似功能
- * -参数是拦截器优先级
- * -注意：0最高，1，2，3，4 ...依次降低
- * @author bao
- *
+ * Session access interceptor is used to implement authentication or similar functions.
+ * The parameter is the interceptor priority
+ * Note: 0 is the highest, 1, 2, 3, 4...lower in order
  */
 @Retention(RUNTIME)
 @Target(TYPE)
