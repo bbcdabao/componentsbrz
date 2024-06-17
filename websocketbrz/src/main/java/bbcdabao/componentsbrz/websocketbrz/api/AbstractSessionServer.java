@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package bbcdabao.componentsbrz.websocketbrz.api;
 
 import java.util.Map;
@@ -14,9 +32,7 @@ import org.springframework.web.socket.WebSocketMessage;
 import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
 
 /**
- * -框架抽象基础类
- * @author bao
- *
+ * Session framework abstract base class
  */
 public abstract class AbstractSessionServer {
 
@@ -26,7 +42,7 @@ public abstract class AbstractSessionServer {
 	private String sessionId = null;
 
 	/**
-	 * -处理接收文本消息
+	 * Handle receiving text messages
 	 * @param message
 	 * @throws Exception
 	 */
@@ -34,7 +50,7 @@ public abstract class AbstractSessionServer {
 	}
 
 	/**
-	 * -处理接受二进制消息
+	 * Handle accepting binary messages
 	 * @param message
 	 * @throws Exception
 	 */
@@ -42,7 +58,7 @@ public abstract class AbstractSessionServer {
 	}
 
 	/**
-	 * -处理保活消息
+	 * Handle keep-alive messages
 	 * @param message
 	 * @throws Exception
 	 */
@@ -54,7 +70,7 @@ public abstract class AbstractSessionServer {
 	}
 
 	/**
-	 * -出现错误处理
+	 * Error handling occurs
 	 * @param exception
 	 * @throws Exception
 	 */
@@ -65,9 +81,9 @@ public abstract class AbstractSessionServer {
 	}
 
 	/**
-	 * -消息处理
-	 * -定义为不可以被覆盖
-	 * -子类无需重写该方法
+	 * Message processing
+	 * Defined as not to be overridden
+	 * Subclasses do not need to override this method
 	 * @param message
 	 * @throws Exception
 	 */
