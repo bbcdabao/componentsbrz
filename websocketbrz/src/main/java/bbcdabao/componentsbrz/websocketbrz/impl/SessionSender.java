@@ -120,7 +120,7 @@ public class SessionSender extends Thread implements ISessionSender {
 		}
 	}
 
-	public SessionSender(int capacity, @NotNull(message = "session must not null") WebSocketSession session, IComplete complete, @NotNull(message = "timeSet must not null") AtomicLong timeSet, long pingCyc) {
+	public SessionSender(@NotNull(message = "session must not null") WebSocketSession session, @NotNull(message = "timeSet must not null") AtomicLong timeSet, IComplete complete, long pingCyc, int capacity) {
 		this.msgList = new LinkedBlockingQueue<>(capacity);
 		this.session = session;
 		this.complete = complete;
