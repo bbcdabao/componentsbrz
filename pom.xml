@@ -25,7 +25,7 @@
 		<!-- A springboot component for esay to used websocket. -->
 		<module>websocketbrz</module>
 		<!-- A web application with front and back ends for remote login, which uses the websocketbrz component -->
-		<module>terminalhub-brz</module>
+		<module>terminalhub</module>
     </modules>
 
 	<properties>
