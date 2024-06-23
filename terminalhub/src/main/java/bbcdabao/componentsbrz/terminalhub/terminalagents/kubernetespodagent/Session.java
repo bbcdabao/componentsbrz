@@ -9,43 +9,38 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 
-import com.zte.itp.websocketspbrz.api.AbstractSessionServer;
-import com.zte.itp.websocketspbrz.api.ISessionSender;
-import com.zte.itp.websocketspbrz.api.ISessionSenderGeter;
-import com.zte.itp.k8ssessionbrz.exception.SessionException;
-import com.zte.itp.k8ssessionbrz.k8sexec.IK8sClientGter;
-
+import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.ExecWatch;
 
 /**
- * -K8S中EXEC接口命令行会话
+ * -K8S涓璄XEC鎺ュ彛鍛戒护琛屼細璇�
  * 
  * @author 10080262
  *
  */
-public class K8sExecSession  extends AbstractSessionServer {
+public class Session  extends AbstractSessionServer {
 
-        private static final String CLUSTERNAME = "clustername";
+	private static final String CLUSTERNAME = "clustername";
     
     @Autowired
     private K8sConnectorSelector k8sConnectorManager;
 
     /**
-     * -获取KubernetesClient
+     * -鑾峰彇KubernetesClient
      * @return
      * @throws Exception
      */
-    @Override
     public  KubernetesClient getClient(Map<String, String> queryMap) throws Exception {
         return k8sConnectorManager
                 .selectorForCluster(queryMap.get(CLUSTERNAME))
@@ -57,8 +52,8 @@ public class K8sExecSession  extends AbstractSessionServer {
     private final Logger logger = LoggerFactory.getLogger(K8sExecSession.class);
     
     /**
-     * -内部会话线程调度使用
-     * -需要停止时中断
+     * -鍐呴儴浼氳瘽绾跨▼璋冨害浣跨敤
+     * -闇�瑕佸仠姝㈡椂涓柇
      * 
      * @author 10080262
      *
@@ -76,18 +71,18 @@ public class K8sExecSession  extends AbstractSessionServer {
     }
 
     /**
-     * -构造函数传入
-     * -clientGter获取k8s客户端接口
-     * -bufCapacity传输buffer单个大小默认1024
-     * -bufRecycles传输回收大小实现双循环提高效率
+     * -鏋勯�犲嚱鏁颁紶鍏�
+     * -clientGter鑾峰彇k8s瀹㈡埛绔帴鍙�
+     * -bufCapacity浼犺緭buffer鍗曚釜澶у皬榛樿1024
+     * -bufRecycles浼犺緭鍥炴敹澶у皬瀹炵幇鍙屽惊鐜彁楂樻晥鐜�
      */
     IK8sClientGter clientGter;
     private int bufCapacity;
     private int bufRecycles;
     
     /**
-     * -每个session创建时onAfterConnectionEstablished函数内设置
-     * -nameContainer允许为空，如果是空默认登录第一个容器
+     * -姣忎釜session鍒涘缓鏃秓nAfterConnectionEstablished鍑芥暟鍐呰缃�
+     * -nameContainer鍏佽涓虹┖锛屽鏋滄槸绌洪粯璁ょ櫥褰曠涓�涓鍣�
      */
     private String nameSpace = "";
     private String namePod = "";
@@ -96,13 +91,13 @@ public class K8sExecSession  extends AbstractSessionServer {
     private Map<String, String> queryMap = null;
     
     /**
-     * -会话从EXEC读取缓冲回收队列
-     * -为了避免频繁NEW
+     * -浼氳瘽浠嶦XEC璇诲彇缂撳啿鍥炴敹闃熷垪
+     * -涓轰簡閬垮厤棰戠箒NEW
      */
     private ConcurrentLinkedQueue<BinaryMessage> msgFree = new ConcurrentLinkedQueue<>();
     
     /**
-     * -并发计数器
+     * -骞跺彂璁℃暟鍣�
      */
     private final AtomicInteger idxRecycles = new AtomicInteger(INT_ZERO);
     
@@ -134,12 +129,12 @@ public class K8sExecSession  extends AbstractSessionServer {
     private ExecThread execThread = null;
     
     /**
-     * -给接收向里面灌入两个线程需要volatile
+     * -缁欐帴鏀跺悜閲岄潰鐏屽叆涓や釜绾跨▼闇�瑕乿olatile
      */
     private volatile PipedOutputStream cmdToExec = null;
     
     /**
-     * -读取命令行输出流通过websocket发送
+     * -璇诲彇鍛戒护琛岃緭鍑烘祦閫氳繃websocket鍙戦��
      * @param reader
      * @throws Exception
      */
@@ -154,7 +149,7 @@ public class K8sExecSession  extends AbstractSessionServer {
             throw new SessionException("doSendProc read lower 0");
         }
         byteBuffer.limit(readSize);
-        // info: 推向发送队列
+        // info: 鎺ㄥ悜鍙戦�侀槦鍒�
         sender.postMsg(msg);
     }
     
@@ -189,9 +184,7 @@ public class K8sExecSession  extends AbstractSessionServer {
         logger.info("session hashcode:{} run...", hashCode());
         
         try (KubernetesClient client = clientGter.getClient(queryMap)) {
-            
-            // info: 如果没有容器名称默认取第一个容器
-            if (StringUtils.isEmpty(nameContainer)) {
+            if (ObjectUtils.isEmpty(nameContainer)) {
                 List<Container> containers = client.pods().inNamespace(nameSpace).withName(namePod).get().getSpec().getContainers();
                 nameContainer = containers.get(INT_ZERO).getName();
             }

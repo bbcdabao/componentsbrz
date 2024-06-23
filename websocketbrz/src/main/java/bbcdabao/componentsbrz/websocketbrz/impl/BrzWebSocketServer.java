@@ -68,7 +68,6 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	private class Node {
 		private AbstractSessionServer sessionServer = null;
 		private AtomicLong timeSet = new AtomicLong(0);
-		private Map<String, String> queryMap = null;
 		private WebSocketSession session = null;
 	}
 
@@ -184,7 +183,7 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		if (sessionFactory == null) {
 			throw new WebsocketbrzException("sessionfactory is null");
 		}
-		AbstractSessionServer sessionServer = sessionFactory.getSession();
+		AbstractSessionServer sessionServer = sessionFactory.getSession(queryMap);
 		if (sessionServer == null) {
 			throw new WebsocketbrzException("sessionServer is null");
 		}
@@ -197,7 +196,6 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		privateSessionIdField.set(sessionServer, session.getId());
 		node.session = session;
 		node.sessionServer = sessionServer;
-		node.queryMap = queryMap;
 		return node;
 	}
 
@@ -210,7 +208,7 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 				SessionSender sessionSender = new SessionSender(node.session, node.timeSet, complete, pingCyc, senderCapacity);
 				return sessionSender;
 			}
-		}, node.queryMap);
+		});
 	}
 
 	public BrzWebSocketServer(boolean isPartialMsg, int senderCapacity, long timeCyc, long stepOut, int maxSessions, long pingCyc) {

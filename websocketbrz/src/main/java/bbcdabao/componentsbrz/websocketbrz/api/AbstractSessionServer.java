@@ -65,7 +65,7 @@ public abstract class AbstractSessionServer {
 	public void onPongMessage(PongMessage message) throws Exception {
 	}
 
-	public void onAfterConnectionEstablished(ISessionSenderGeter sessionSenderGeter, Map<String, String> queryMap)
+	public void onAfterConnectionEstablished(ISessionSenderGeter sessionSenderGeter)
 			throws Exception {
 	}
 

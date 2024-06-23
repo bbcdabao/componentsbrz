@@ -31,6 +31,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<javax.servlet>4.0.1</javax.servlet>
+		<javax.validation-api>2.0.1.Final</javax.validation-api>
 		<spring-boot.version>3.2.5</spring-boot.version>
 		<springframework.version>5.3.20</springframework.version>
 		<httpclient.version>4.5.13</httpclient.version>
@@ -82,6 +83,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+    		<groupId>javax.validation</groupId>
+    		<artifactId>validation-api</artifactId>
+    		<version>${javax.validation-api}</version>
 		</dependency>
 	</dependencies>
 

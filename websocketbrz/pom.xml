@@ -6,7 +6,7 @@
 	<artifactId>websocketbrz</artifactId>
 	<packaging>jar</packaging>
 
-	<description>the websocket utile</description>
+	<description>A springboot component for esay to used websocket.</description>
 
     <parent>
 		<groupId>bbcdabao.componentsbrz</groupId>

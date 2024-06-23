@@ -6,7 +6,7 @@
 	<artifactId>flowcontrolbrz</artifactId>
 	<packaging>jar</packaging>
 
-	<description>the flow control</description>
+	<description>A springboot component used in the controller layer to call interface functions to control the call flow and avoid being called too frequently.</description>
 
     <parent>
 		<groupId>bbcdabao.componentsbrz</groupId>

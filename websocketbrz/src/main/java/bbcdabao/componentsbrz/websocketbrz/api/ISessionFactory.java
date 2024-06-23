@@ -18,6 +18,8 @@
 
 package bbcdabao.componentsbrz.websocketbrz.api;
 
+import java.util.Map;
+
 /**
  * Session factory interface
  * It will implement the automatic loading function inside the ISessionServer object created
@@ -28,5 +30,5 @@ public interface ISessionFactory {
 	 * @return
 	 * @throws Exception
 	 */
-	AbstractSessionServer getSession() throws Exception;
+	AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception;
 }

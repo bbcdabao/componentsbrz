@@ -6,7 +6,7 @@
 	<artifactId>messagebrz</artifactId>
 	<packaging>jar</packaging>
 
-	<description>the message post</description>
+	<description>A springboot component used to naturally transfer messages between threads and support delayed processing of messages, etc.</description>
 
     <parent>
 		<groupId>bbcdabao.componentsbrz</groupId>
