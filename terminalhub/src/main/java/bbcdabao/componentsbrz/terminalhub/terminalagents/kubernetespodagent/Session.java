@@ -34,6 +34,23 @@ import io.fabric8.kubernetes.client.dsl.ExecWatch;
  *
  */
 public class K8sExecSession  extends AbstractSessionServer {
+
+        private static final String CLUSTERNAME = "clustername";
+    
+    @Autowired
+    private K8sConnectorSelector k8sConnectorManager;
+
+    /**
+     * -获取KubernetesClient
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public  KubernetesClient getClient(Map<String, String> queryMap) throws Exception {
+        return k8sConnectorManager
+                .selectorForCluster(queryMap.get(CLUSTERNAME))
+                .getActiveClient();
+    }
     
     private static final int INT_ZERO = 0;
 
