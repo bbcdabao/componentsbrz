@@ -1,5 +1,5 @@
 package bbcdabao.componentsbrz.terminalhub.terminalagents.kubernetespodagent;
 
-public class Session {
+public class SessionFactory {
 
 }
