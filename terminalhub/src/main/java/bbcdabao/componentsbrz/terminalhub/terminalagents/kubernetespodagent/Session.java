@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.validation.constraints.NotNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,17 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
+import bbcdabao.componentsbrz.websocketbrz.api.ISessionSender;
+import bbcdabao.componentsbrz.websocketbrz.api.ISessionSenderGeter;
 import io.fabric8.kubernetes.api.model.Container;
+import io.fabric8.kubernetes.client.Config;
+import io.fabric8.kubernetes.client.ConfigBuilder;
+import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
+import io.fabric8.kubernetes.client.dsl.ExecListenable;
 import io.fabric8.kubernetes.client.dsl.ExecWatch;
+import io.fabric8.kubernetes.client.dsl.TtyExecable;
 
 /**
  * -K8S涓璄XEC鎺ュ彛鍛戒护琛屼細璇�
@@ -31,25 +41,39 @@ import io.fabric8.kubernetes.client.dsl.ExecWatch;
  */
 public class Session  extends AbstractSessionServer {
 
-	private static final String CLUSTERNAME = "clustername";
-    
-    @Autowired
-    private K8sConnectorSelector k8sConnectorManager;
+	public Session(@NotNull Map<String, String> queryMap) throws Exception {
+		String masterUrl = queryMap.get("masterUrl");
+		if (ObjectUtils.isEmpty(masterUrl)) {
+			throw new Exception("Session create error no masterUrl");
+		}
+		String oauthToken = queryMap.get("oauthToken");		
+		String namespace = queryMap.get("namespace");
+		if (ObjectUtils.isEmpty(namespace)) {
+			namespace = "default";
+		}
+        nameSpace = queryMap.get("space");
+        if (ObjectUtils.isEmpty(nameSpace)) {
+            throw new Exception("nameSpace not had !");
+        }
+        namePod = queryMap.get("pod");
+        if (ObjectUtils.isEmpty(namePod)) {
+            throw new Exception("namePod not had !");
+        }
+        nameContainer = queryMap.get("container");
+	    this.config = new ConfigBuilder()
+	            .withMasterUrl(masterUrl)
+	            .withOauthToken(oauthToken)
+	            .withNamespace(namespace)
+	            .withTrustCerts(true)
+	            .build();
+		this.queryMap = queryMap;
+	}
+	private final Config config;
+	private final Map<String, String> queryMap;
 
-    /**
-     * -鑾峰彇KubernetesClient
-     * @return
-     * @throws Exception
-     */
-    public  KubernetesClient getClient(Map<String, String> queryMap) throws Exception {
-        return k8sConnectorManager
-                .selectorForCluster(queryMap.get(CLUSTERNAME))
-                .getActiveClient();
-    }
-    
     private static final int INT_ZERO = 0;
 
-    private final Logger logger = LoggerFactory.getLogger(K8sExecSession.class);
+    private final Logger logger = LoggerFactory.getLogger(Session.class);
     
     /**
      * -鍐呴儴浼氳瘽绾跨▼璋冨害浣跨敤
@@ -84,11 +108,9 @@ public class Session  extends AbstractSessionServer {
      * -姣忎釜session鍒涘缓鏃秓nAfterConnectionEstablished鍑芥暟鍐呰缃�
      * -nameContainer鍏佽涓虹┖锛屽鏋滄槸绌洪粯璁ょ櫥褰曠涓�涓鍣�
      */
-    private String nameSpace = "";
-    private String namePod = "";
-    private String nameContainer = "";
-    
-    private Map<String, String> queryMap = null;
+    private final String nameSpace;
+    private final String namePod;
+    private final String nameContainer;
     
     /**
      * -浼氳瘽浠嶦XEC璇诲彇缂撳啿鍥炴敹闃熷垪
@@ -126,18 +148,15 @@ public class Session  extends AbstractSessionServer {
     }
     
     ISessionSenderGeter senderGeter = null;
+    ExecListenable execListenable = null;
     private ExecThread execThread = null;
     
-    /**
-     * -缁欐帴鏀跺悜閲岄潰鐏屽叆涓や釜绾跨▼闇�瑕乿olatile
-     */
-    private volatile PipedOutputStream cmdToExec = null;
-    
-    /**
-     * -璇诲彇鍛戒护琛岃緭鍑烘祦閫氳繃websocket鍙戦��
-     * @param reader
-     * @throws Exception
-     */
+	/**
+	 * 
+	 * @param reader
+	 * @param sender
+	 * @throws Exception
+	 */
     private void doSendProc(PipedInputStream reader, ISessionSender sender) throws Exception {
 
         BinaryMessage msg = getBinaryMessage();
@@ -146,7 +165,7 @@ public class Session  extends AbstractSessionServer {
         byte[] readBuffer = byteBuffer.array();
         int readSize = reader.read(readBuffer, INT_ZERO, readBuffer.length);
         if (INT_ZERO >= readSize) {
-            throw new SessionException("doSendProc read lower 0");
+            throw new Exception("doSendProc read lower 0");
         }
         byteBuffer.limit(readSize);
         // info: 鎺ㄥ悜鍙戦�侀槦鍒�
@@ -155,20 +174,18 @@ public class Session  extends AbstractSessionServer {
     
     private void runExecWithClient(KubernetesClient client) {
         
-        try (PipedOutputStream cmdToExec = new PipedOutputStream();
-                PipedInputStream cmdExecTo = new PipedInputStream();
-                ExecWatch execwt = client.pods().inNamespace(nameSpace).withName(namePod).inContainer(nameContainer)
-                        .writingInput(cmdToExec).readingOutput(cmdExecTo).withTTY().exec();
+        try (PipedOutputStream cmdToOut = new PipedOutputStream();
+        		PipedInputStream cmdToIn = new PipedInputStream(cmdToOut);
                 ISessionSender sender = senderGeter.getSessionSender(new ISessionSender.IComplete() {
                     @Override
                     public void onComplete(WebSocketMessage<?> msg, boolean ok, Throwable exception) throws Exception {
                         addBinaryMessage((BinaryMessage) msg);
                     }
                 })) {
-            
-            this.cmdToExec = cmdToExec;
+        	execListenable = client.pods().inNamespace(nameSpace).withName(namePod).inContainer(nameContainer)
+            		.writingOutput(cmdToOut).writingError(cmdToOut).withTTY();
             while (sender.isOpen()) {
-                doSendProc(cmdExecTo, sender);
+                doSendProc(cmdToIn, sender);
             }
         }
         catch (InterruptedIOException e) {
@@ -183,16 +200,14 @@ public class Session  extends AbstractSessionServer {
         
         logger.info("session hashcode:{} run...", hashCode());
         
-        try (KubernetesClient client = clientGter.getClient(queryMap)) {
+        try (KubernetesClient client = null) {
             if (ObjectUtils.isEmpty(nameContainer)) {
                 List<Container> containers = client.pods().inNamespace(nameSpace).withName(namePod).get().getSpec().getContainers();
                 nameContainer = containers.get(INT_ZERO).getName();
-            }
-
-            runExecWithClient(client);
+            }            
         }
         catch (Exception e) {
-            logger.error("session hashcode:{} runExec Exception:", hashCode(), e);
+            logger.error("Session hashcode:{} runExec Exception:", hashCode(), e);
         }
         
         logger.info("session hashcode:{} end over", hashCode());
@@ -206,25 +221,36 @@ public class Session  extends AbstractSessionServer {
     
     @Override
     public void onTextMessage(TextMessage message) throws Exception {
-        if (null == cmdToExec) {
-            return;
-        }
-        cmdToExec.write(message.getPayload().getBytes());
+    	String receivedMessage = message.getPayload();
+    	execListenable.exec(receivedMessage);
     }
 
     @Override
-    public void onAfterConnectionEstablished(ISessionSenderGeter sessionSenderGeter, Map<String, String> queryMap)
+    public void onAfterConnectionEstablished(ISessionSenderGeter sessionSenderGeter)
             throws Exception {
-        this.queryMap = queryMap;
-        nameSpace = queryMap.get("space");
-        if (StringUtils.isEmpty(nameSpace)) {
-            throw new SessionException("nameSpace not had !");
+        try (
+        		KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
+        		PipedOutputStream cmdToOut = new PipedOutputStream();
+        		PipedInputStream cmdToIn = new PipedInputStream(cmdToOut);
+        		ISessionSender sender = senderGeter.getSessionSender(new ISessionSender.IComplete() {
+                    @Override
+                    public void onComplete(WebSocketMessage<?> msg, boolean ok, Throwable exception) throws Exception {
+                        addBinaryMessage((BinaryMessage) msg);
+                    }
+                });
+        		) {
+            if (ObjectUtils.isEmpty(nameContainer)) {
+                List<Container> containers = client.pods().inNamespace(nameSpace).withName(namePod).get().getSpec().getContainers();
+                nameContainer = containers.get(INT_ZERO).getName();
+            }
+        	execListenable = client.pods().inNamespace(nameSpace).withName(namePod).inContainer(nameContainer)
+            		.writingOutput(cmdToOut).writingError(cmdToOut).withTTY();
+
+            runExecWithClient(client);
         }
-        namePod = queryMap.get("pod");
-        if (StringUtils.isEmpty(namePod)) {
-            throw new SessionException("namePod not had !");
+        catch (Exception e) {
+            logger.error("session hashcode:{} runExec Exception:", hashCode(), e);
         }
-        nameContainer = queryMap.get("container");
         senderGeter = sessionSenderGeter;        
         execThread = new ExecThread();
     }
