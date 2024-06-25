@@ -18,11 +18,6 @@
 
 package bbcdabao.componentsbrz.websocketbrz.api;
 
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.PongMessage;
@@ -35,11 +30,6 @@ import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
  * Session framework abstract base class
  */
 public abstract class AbstractSessionServer {
-
-	private final Logger logger = LoggerFactory.getLogger(AbstractSessionServer.class);
-
-	private AtomicLong timeSet = null;
-	private String sessionId = null;
 
 	/**
 	 * Handle receiving text messages
@@ -65,8 +55,14 @@ public abstract class AbstractSessionServer {
 	public void onPongMessage(PongMessage message) throws Exception {
 	}
 
-	public void onAfterConnectionEstablished(ISessionSenderGeter sessionSenderGeter)
+	/**
+	 * When connected call back
+	 * @return
+	 * @throws Exception
+	 */
+	public IGetMsgForSend onAfterConnectionEstablished()
 			throws Exception {
+		return null;
 	}
 
 	/**
@@ -76,7 +72,12 @@ public abstract class AbstractSessionServer {
 	 */
 	public void onHandleTransportError(Throwable exception) throws Exception {
 	}
-	
+
+	/**
+	 * Close call back
+	 * @param closeStatus
+	 * @throws Exception
+	 */
 	public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
 	}
 
@@ -89,16 +90,13 @@ public abstract class AbstractSessionServer {
 	 */
 	final public void onHandleMessage(WebSocketMessage<?> message) throws Exception {
 		if (message instanceof TextMessage) {
-			timeSet.set(0);
 			onTextMessage((TextMessage)message);
 		} else if (message instanceof BinaryMessage) {
-			timeSet.set(0);
 			onBinaryMessage((BinaryMessage)message);
 		} else if (message instanceof PongMessage) {
-			logger.info("session id:{} get pong <<<", sessionId);
 			onPongMessage((PongMessage)message);
 		} else {
-			throw new WebsocketbrzException("session id:" + sessionId + "onHandleMessage error:" + message);
+			throw new WebsocketbrzException("session" + "onHandleMessage error:" + message);
 		}
 	}
 }
