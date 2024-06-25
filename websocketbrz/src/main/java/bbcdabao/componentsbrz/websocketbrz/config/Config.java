@@ -18,14 +18,15 @@
 
 package bbcdabao.componentsbrz.websocketbrz.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.concurrent.Executor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -40,7 +41,6 @@ import bbcdabao.componentsbrz.websocketbrz.impl.BrzWebSocketServer;
 @Configuration
 @EnableWebSocket
 public class Config implements WebSocketConfigurer {
-	private final Logger logger = LoggerFactory.getLogger(Config.class);
 
 	@Value("${wscfg.paths:bbadabao}")
 	private String paths;
@@ -50,9 +50,6 @@ public class Config implements WebSocketConfigurer {
 
 	@Value("${wscfg.isPartialMsg:true}")	
 	private boolean isPartialMsg;
-
-	@Value("${wscfg.senderCapacity:128}")	
-	private int senderCapacity;
 
 	@Value("${wscfg.senderCapacity:2000}")
 	private long timeCyc;
@@ -75,6 +72,24 @@ public class Config implements WebSocketConfigurer {
 	@Autowired
 	private BrzHandshakeInterceptor brzHandshakeInterceptor;
 
+	/**
+	 * Thread pool config
+	 */
+    @Value("${wscfg.threadPool.corePoolSize:20}")
+    private Integer corePoolSize;
+
+    @Value("${wscfg.threadPool.maxPoolSize:40}")
+    private Integer maxPoolSize;
+
+    @Value("${wscfg.threadPool.queueCapacity:50}")
+    private Integer queueCapacity;
+
+    @Value("${wscfg.threadPool.keepAliveSeconds:10}")
+    private Integer keepAliveSeconds;
+
+    @Value("${wscfg.threadPool.threadNamePrefix:wsc-thread}")
+    private String threadNamePrefix;
+
 	@Bean
 	@ConditionalOnProperty(prefix = "wscfg", name = "hadscheduler", havingValue = "true", matchIfMissing = false)
 	public TaskScheduler taskScheduler() {
@@ -86,7 +101,7 @@ public class Config implements WebSocketConfigurer {
 
 	@Bean
 	public BrzWebSocketServer brzWebSocketServer() {
-		return new BrzWebSocketServer(isPartialMsg, senderCapacity, timeCyc, stepOut, maxSessions, pingCyc);
+		return new BrzWebSocketServer(isPartialMsg, timeCyc, stepOut, maxSessions, pingCyc);
 	}
 
 	@Bean
@@ -101,4 +116,17 @@ public class Config implements WebSocketConfigurer {
 		.addInterceptors(brzHandshakeInterceptor)
 		.setAllowedOrigins(allowedOrigins.split(","));
 	}
+
+    @Bean
+    public Executor wscThreadPoolExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(corePoolSize);
+        executor.setMaxPoolSize(maxPoolSize);
+        executor.setQueueCapacity(queueCapacity);
+        executor.setKeepAliveSeconds(keepAliveSeconds);
+        executor.setThreadNamePrefix(threadNamePrefix);
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.initialize();
+        return executor;
+    }
 }
