@@ -19,13 +19,13 @@
 package bbcdabao.componentsbrz.websocketbrz.impl;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.ObjectUtils;
@@ -45,9 +46,8 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
+import bbcdabao.componentsbrz.websocketbrz.api.IGetMsgForSend;
 import bbcdabao.componentsbrz.websocketbrz.api.ISessionFactory;
-import bbcdabao.componentsbrz.websocketbrz.api.ISessionSender;
-import bbcdabao.componentsbrz.websocketbrz.api.ISessionSenderGeter;
 import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
 import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
 
@@ -69,7 +69,12 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		private AbstractSessionServer sessionServer = null;
 		private AtomicLong timeSet = new AtomicLong(0);
 		private WebSocketSession session = null;
+		private SessionSender sessionSender = null;
+		private SessionSenderPing sessionSenderPing = null;
 	}
+
+	@Autowired
+	private Executor wscThreadPoolExecutor;
 
 	/**
 	 * Bean container
@@ -87,11 +92,6 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	 * Partial support
 	 */
 	private boolean isPartialMsg = false;
-
-	/**
-	 * Asynchronous send queue capacity
-	 */
-	private int senderCapacity = 0;
 
 	private long timeCyc = 0;
 	
@@ -187,33 +187,25 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		if (sessionServer == null) {
 			throw new WebsocketbrzException("sessionServer is null");
 		}
+		context.getAutowireCapableBeanFactory().autowireBean(sessionServer);
 		Node node = new Node();
-		Field privateTimeSetField = AbstractSessionServer.class.getDeclaredField("timeSet");
-		privateTimeSetField.setAccessible(true);
-		privateTimeSetField.set(sessionServer, node.timeSet);
-		Field privateSessionIdField = AbstractSessionServer.class.getDeclaredField("sessionId");
-		privateSessionIdField.setAccessible(true);
-		privateSessionIdField.set(sessionServer, session.getId());
 		node.session = session;
 		node.sessionServer = sessionServer;
+
+		IGetMsgForSend getMsgForSend = sessionServer.onAfterConnectionEstablished();
+		if (getMsgForSend != null) {
+			node.sessionSender = new SessionSender(node.session, getMsgForSend, node.timeSet);
+			wscThreadPoolExecutor.execute(node.sessionSender);
+		}
+		if (0 < pingCyc) {
+			node.sessionSenderPing = new SessionSenderPing(node.session, node.timeSet, pingCyc);
+			wscThreadPoolExecutor.execute(node.sessionSenderPing);
+		}
 		return node;
 	}
 
-	private void initNode(Node node) throws Exception {
-		// automatic device SESSION
-		context.getAutowireCapableBeanFactory().autowireBean(node.sessionServer);
-		node.sessionServer.onAfterConnectionEstablished(new ISessionSenderGeter() {
-			@Override
-			public ISessionSender getSessionSender(ISessionSender.IComplete complete) throws Exception {
-				SessionSender sessionSender = new SessionSender(node.session, node.timeSet, complete, pingCyc, senderCapacity);
-				return sessionSender;
-			}
-		});
-	}
-
-	public BrzWebSocketServer(boolean isPartialMsg, int senderCapacity, long timeCyc, long stepOut, int maxSessions, long pingCyc) {
+	public BrzWebSocketServer(boolean isPartialMsg, long timeCyc, long stepOut, int maxSessions, long pingCyc) {
 		this.isPartialMsg = isPartialMsg;
-		this.senderCapacity = senderCapacity;
 		this.timeCyc = timeCyc;
 		this.stepOut = stepOut;
 		this.maxSessions = maxSessions;
@@ -267,7 +259,6 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		try {
 			node = getNode(session);
 			sessionMap.put(session.getId(), node);
-			initNode(node);
 		} catch (Exception e) {
 			logger.info("session id:{} getNode Exception:{}", session.getId(), e.getMessage());
 			session.close();
@@ -280,6 +271,7 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		try {
 			Node node = sessionMap.get(session.getId());
 			node.sessionServer.onHandleMessage(message);
+			node.timeSet.set(0);
 		} catch (Exception e) {
 			session.close();
 		}
