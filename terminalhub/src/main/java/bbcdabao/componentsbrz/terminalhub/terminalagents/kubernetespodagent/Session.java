@@ -21,6 +21,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
+import bbcdabao.componentsbrz.websocketbrz.api.IGetMsgForSend;
 import bbcdabao.componentsbrz.websocketbrz.api.ISessionSender;
 import bbcdabao.componentsbrz.websocketbrz.api.ISessionSenderGeter;
 import io.fabric8.kubernetes.api.model.Container;
@@ -226,33 +227,35 @@ public class Session  extends AbstractSessionServer {
     }
 
     @Override
-    public void onAfterConnectionEstablished(ISessionSenderGeter sessionSenderGeter)
-            throws Exception {
-        try (
-        		KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
-        		PipedOutputStream cmdToOut = new PipedOutputStream();
-        		PipedInputStream cmdToIn = new PipedInputStream(cmdToOut);
-        		ISessionSender sender = senderGeter.getSessionSender(new ISessionSender.IComplete() {
-                    @Override
-                    public void onComplete(WebSocketMessage<?> msg, boolean ok, Throwable exception) throws Exception {
-                        addBinaryMessage((BinaryMessage) msg);
-                    }
-                });
-        		) {
+    public IGetMsgForSend onAfterConnectionEstablished() throws Exception {
+        try (KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
+        		PipedOutputStream streamO = new PipedOutputStream();
+        		PipedInputStream streamI = new PipedInputStream(streamO);) {
             if (ObjectUtils.isEmpty(nameContainer)) {
                 List<Container> containers = client.pods().inNamespace(nameSpace).withName(namePod).get().getSpec().getContainers();
                 nameContainer = containers.get(INT_ZERO).getName();
             }
         	execListenable = client.pods().inNamespace(nameSpace).withName(namePod).inContainer(nameContainer)
-            		.writingOutput(cmdToOut).writingError(cmdToOut).withTTY();
+            		.writingOutput(streamO).writingError(streamO).withTTY();
 
-            runExecWithClient(client);
+            final BinaryMessage msg = new BinaryMessage(ByteBuffer.allocate(bufCapacity));
+            return new IGetMsgForSend() {
+            	public WebSocketMessage<?> getMsg() throws Exception {
+                    ByteBuffer byteBuffer = msg.getPayload();
+                    byteBuffer.clear();
+                    byte[] readBuffer = byteBuffer.array();
+                    int readSize = streamI.read(readBuffer, 0, readBuffer.length);
+                    if (INT_ZERO >= readSize) {
+                        throw new Exception("doSendProc read lower 0");
+                    }
+                    byteBuffer.limit(readSize);
+            		return msg;
+            	}
+            };
         }
         catch (Exception e) {
             logger.error("session hashcode:{} runExec Exception:", hashCode(), e);
         }
-        senderGeter = sessionSenderGeter;        
-        execThread = new ExecThread();
     }
 
     @Override
