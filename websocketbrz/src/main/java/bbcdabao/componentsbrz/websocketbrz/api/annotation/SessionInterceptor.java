@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Session access interceptor is used to implement authentication or similar functions.
+ * Must implements HandshakeInterceptor interface
  * The parameter is the interceptor priority
  * Note: 0 is the highest, 1, 2, 3, 4...lower in order
  */
