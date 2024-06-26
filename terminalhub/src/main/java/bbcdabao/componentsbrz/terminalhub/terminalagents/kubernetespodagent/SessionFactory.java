@@ -1,6 +1,23 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package bbcdabao.componentsbrz.terminalhub.terminalagents.kubernetespodagent;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
@@ -8,18 +25,9 @@ import bbcdabao.componentsbrz.websocketbrz.api.ISessionFactory;
 import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
-import io.fabric8.kubernetes.client.KubernetesClient;
 
-
-/**
- * -K8S绘画工厂，里面会保存所有的KubernetesClient链接
- * @author 10080262
- *
- */
 @SessionFactoryBrz("k8spodexecfactory")
-public class SessionFactory extends Thread implements ISessionFactory {
-
-	private Map<String, KubernetesClient> kubernetesClientMap = new HashMap<>(50);
+public class SessionFactory implements ISessionFactory {
 	
     Config config = new ConfigBuilder()
             .withMasterUrl("https://your-k8s-api-server:6443")
@@ -34,4 +42,3 @@ public class SessionFactory extends Thread implements ISessionFactory {
         //return new K8sExecSession(clientGter, k8sexecConfig.getBufCapacity(), k8sexecConfig.getBufRecycles());
     }
 }
-
