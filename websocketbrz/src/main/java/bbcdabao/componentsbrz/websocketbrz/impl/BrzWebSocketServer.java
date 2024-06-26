@@ -69,8 +69,6 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		private AbstractSessionServer sessionServer = null;
 		private AtomicLong timeSet = new AtomicLong(0);
 		private WebSocketSession session = null;
-		private SessionSender sessionSender = null;
-		private SessionSenderPing sessionSenderPing = null;
 	}
 
 	@Autowired
@@ -194,12 +192,10 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 
 		IGetMsgForSend getMsgForSend = sessionServer.onAfterConnectionEstablished();
 		if (getMsgForSend != null) {
-			node.sessionSender = new SessionSender(node.session, getMsgForSend, node.timeSet);
-			wscThreadPoolExecutor.execute(node.sessionSender);
+			wscThreadPoolExecutor.execute(new SessionSender(node.session, getMsgForSend, node.timeSet));
 		}
 		if (0 < pingCyc) {
-			node.sessionSenderPing = new SessionSenderPing(node.session, node.timeSet, pingCyc);
-			wscThreadPoolExecutor.execute(node.sessionSenderPing);
+			wscThreadPoolExecutor.execute(new SessionSenderPing(node.session, node.timeSet, pingCyc));
 		}
 		return node;
 	}
