@@ -18,6 +18,8 @@
 
 package bbcdabao.componentsbrz.terminalhub.terminalagents.kubernetespodagent;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.nio.ByteBuffer;
@@ -43,7 +45,7 @@ import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.fabric8.kubernetes.client.dsl.ExecListenable;
 
 /**
- * kubernetes pod agent impl
+ * Implementing Remote Login Sessions with KUBERNETES
  */
 public class Session  extends AbstractSessionServer {
 
@@ -54,10 +56,9 @@ public class Session  extends AbstractSessionServer {
     private String nameContainer;
 	private Config config;
 
-    private KubernetesClient client = null;
-    private PipedOutputStream streamO = null;
-    private PipedInputStream streamI = null;
     private ExecListenable execListenable = null;
+
+    private Closeable[] closeables = new Closeable[4];
 
 	public Session(@NotNull Map<String, String> queryMap) throws Exception {
 		String masterUrl = queryMap.get("masterUrl");
@@ -94,9 +95,12 @@ public class Session  extends AbstractSessionServer {
 
     @Override
     public IGetMsgForSend onAfterConnectionEstablished() throws Exception {
-    	client = new KubernetesClientBuilder().withConfig(config).build();
-        streamO = new PipedOutputStream();
-        streamI = new PipedInputStream(streamO);
+    	KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
+    	closeables[0] = client;
+    	PipedOutputStream streamO = new PipedOutputStream();
+        closeables[1] = streamO;
+        PipedInputStream streamI = new PipedInputStream(streamO);
+        closeables[2] = streamI;
         execListenable = client.pods().inNamespace(nameSpace).withName(namePod).inContainer(nameContainer)
                 		.writingOutput(streamO).writingError(streamO).withTTY();
         return new IGetMsgForSend() {
@@ -123,15 +127,11 @@ public class Session  extends AbstractSessionServer {
     @Override
     public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
         logger.info("session hashcode:{} onAfterConnectionClosed", hashCode());
-        if (null != client) {
-        	client.close();
-        }
-        if (null != streamO) {
-        	streamO.close();
-        }
-        if (null != streamI) {
-        	streamI.close();
+        for (Closeable closeable : closeables) {
+            try (closeable) {
+            } catch (IOException e) {
+                System.err.println("Failed to close " + closeable + ": " + e.getMessage());
+            }
         }
     }
 }
-
