@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -72,7 +72,7 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 	}
 
 	@Autowired
-	private Executor wscThreadPoolExecutor;
+	private ExecutorService wscThreadPoolExecutor;
 
 	/**
 	 * Bean container
@@ -189,14 +189,7 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		Node node = new Node();
 		node.session = session;
 		node.sessionServer = sessionServer;
-
-		IGetMsgForSend getMsgForSend = sessionServer.onAfterConnectionEstablished();
-		if (getMsgForSend != null) {
-			wscThreadPoolExecutor.execute(new SessionSender(node.session, getMsgForSend, node.timeSet));
-		}
-		if (0 < pingCyc) {
-			wscThreadPoolExecutor.execute(new SessionSenderPing(node.session, node.timeSet, pingCyc));
-		}
+		sessionMap.put(session.getId(), node);
 		return node;
 	}
 
@@ -254,7 +247,14 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		Node node = null;
 		try {
 			node = getNode(session);
-			sessionMap.put(session.getId(), node);
+			IGetMsgForSend getMsgForSend = node.sessionServer.onAfterConnectionEstablished();
+			if (getMsgForSend != null) {
+				wscThreadPoolExecutor.execute(new SessionSender(node.session, getMsgForSend, node.timeSet));
+			}
+			if (0 < pingCyc) {
+				wscThreadPoolExecutor.execute(new SessionSenderPing(node.session, node.timeSet, pingCyc));
+			}
+
 		} catch (Exception e) {
 			logger.info("session id:{} getNode Exception:{}", session.getId(), e.getMessage());
 			session.close();
