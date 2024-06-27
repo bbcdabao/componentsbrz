@@ -18,15 +18,22 @@
 
 package bbcdabao.componentsbrz.websocketbrz.config;
 
-import java.util.concurrent.Executor;
+import java.io.Closeable;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -41,6 +48,8 @@ import bbcdabao.componentsbrz.websocketbrz.impl.BrzWebSocketServer;
 @Configuration
 @EnableWebSocket
 public class Config implements WebSocketConfigurer {
+
+	private final Logger logger = LoggerFactory.getLogger(Config.class);
 
 	@Value("${wscfg.paths:bbadabao}")
 	private String paths;
@@ -87,7 +96,7 @@ public class Config implements WebSocketConfigurer {
     @Value("${wscfg.threadPool.keepAliveSeconds:10}")
     private Integer keepAliveSeconds;
 
-    @Value("${wscfg.threadPool.threadNamePrefix:wsc-thread}")
+    @Value("${wscfg.threadPool.threadNamePrefix:wsc-sendthread}")
     private String threadNamePrefix;
 
 	@Bean
@@ -117,16 +126,41 @@ public class Config implements WebSocketConfigurer {
 		.setAllowedOrigins(allowedOrigins.split(","));
 	}
 
+	/**
+	 * For sender worker
+	 * @return
+	 */
     @Bean
-    public Executor wscThreadPoolExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(corePoolSize);
-        executor.setMaxPoolSize(maxPoolSize);
-        executor.setQueueCapacity(queueCapacity);
-        executor.setKeepAliveSeconds(keepAliveSeconds);
-        executor.setThreadNamePrefix(threadNamePrefix);
-        executor.setWaitForTasksToCompleteOnShutdown(true);
-        executor.initialize();
+    public ExecutorService wscThreadPoolExecutor() {
+    	ExecutorService executor = new ThreadPoolExecutor(
+    				corePoolSize,
+    				maxPoolSize,
+    				keepAliveSeconds,
+    				TimeUnit.SECONDS,
+    				new ArrayBlockingQueue<>(queueCapacity),
+    				new ThreadFactory() {
+    					private int count = 0;
+    					@Override
+    					public Thread newThread(Runnable r) {
+    						Thread thread = new Thread(r, threadNamePrefix + "-" + count);
+    						count++;
+    				        return thread;
+    					}
+    				},
+    				new RejectedExecutionHandler() {
+    					@Override
+    				    public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+    						if (r instanceof Closeable) {
+    							Closeable rClost = (Closeable)r;
+    							try {
+    								rClost.close();
+    							} catch (Exception e) {
+    								logger.info("wscThreadPoolExecutor RejectedExecutionHandler error:{}", e.getMessage());
+    							}
+    						}
+    					}
+    				}
+    			);
         return executor;
     }
 }
