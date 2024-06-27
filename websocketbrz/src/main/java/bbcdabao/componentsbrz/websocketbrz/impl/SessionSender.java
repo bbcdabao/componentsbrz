@@ -18,6 +18,8 @@
 
 package bbcdabao.componentsbrz.websocketbrz.impl;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
@@ -32,7 +34,7 @@ import bbcdabao.componentsbrz.websocketbrz.api.IGetMsgForSend;
 /**
  * Separate thread sending for WebSocketMessage module
  */
-public class SessionSender implements Runnable {
+public class SessionSender implements Runnable, Closeable {
 
 	private final Logger logger = LoggerFactory.getLogger(SessionSender.class);
 
@@ -58,8 +60,10 @@ public class SessionSender implements Runnable {
 
 	@Override
 	public void run() {
-		try (WebSocketSession sessionClose = session) {
-			while (session.isOpen()) {
+		try {
+			Thread currentThread = Thread.currentThread();
+			boolean isRunning = !currentThread.isInterrupted();
+			while (session.isOpen() && isRunning) {
 				WebSocketMessage<?> msg = getMsgForSend.getMsg();
 				if (null != msg) {
 					try {
@@ -73,5 +77,10 @@ public class SessionSender implements Runnable {
 		} catch (Exception e) {
 			logger.error("session id:{} doSend Exception", session.getId(), e);
 		}
+	}
+
+	@Override
+    public void close() throws IOException {
+		session.close();
 	}
 }
