@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;
@@ -34,6 +36,7 @@ import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
 import bbcdabao.componentsbrz.websocketbrz.api.IGetMsgForSend;
@@ -58,7 +61,7 @@ public class Session  extends AbstractSessionServer {
 
     private ExecListenable execListenable = null;
 
-    private Closeable[] closeables = new Closeable[4];
+    private List<Closeable> arryCloseable = new ArrayList<>();
 
 	public Session(@NotNull Map<String, String> queryMap) throws Exception {
 		String masterUrl = queryMap.get("masterUrl");
@@ -94,22 +97,22 @@ public class Session  extends AbstractSessionServer {
     }
 
     @Override
-    public IGetMsgForSend onAfterConnectionEstablished() throws Exception {
+    public IGetMsgForSend onAfterConnectionEstablished(WebSocketSession session) throws Exception {
     	KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
-    	closeables[0] = client;
-    	PipedOutputStream streamO = new PipedOutputStream();
-        closeables[1] = streamO;
-        PipedInputStream streamI = new PipedInputStream(streamO);
-        closeables[2] = streamI;
+    	arryCloseable.add(client);
+    	PipedOutputStream oStream = new PipedOutputStream();
+    	arryCloseable.add(oStream);
+        PipedInputStream iStream = new PipedInputStream(oStream);
+        arryCloseable.add(oStream);
         execListenable = client.pods().inNamespace(nameSpace).withName(namePod).inContainer(nameContainer)
-                		.writingOutput(streamO).writingError(streamO).withTTY();
+                		.writingOutput(oStream).writingError(oStream).withTTY();
         return new IGetMsgForSend() {
         	private BinaryMessage msg = new BinaryMessage(ByteBuffer.allocate(2048));
         	public WebSocketMessage<?> getMsg() throws Exception {
                 ByteBuffer byteBuffer = msg.getPayload();
                 byteBuffer.clear();
                 byte[] readBuffer = byteBuffer.array();
-                int readSize = streamI.read(readBuffer, 0, readBuffer.length);
+                int readSize = iStream.read(readBuffer, 0, readBuffer.length);
                 if (0 >= readSize) {
                     throw new Exception("doSendProc read lower 0");
                 }
@@ -124,11 +127,15 @@ public class Session  extends AbstractSessionServer {
         logger.info("session hashcode:{} onHandleTransportError", hashCode());
     }
 
+    /**
+     * Close the open resource int the onAfterConnectionEstablished function
+     */
     @Override
     public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
         logger.info("session hashcode:{} onAfterConnectionClosed", hashCode());
-        for (Closeable closeable : closeables) {
+        for (Closeable closeable : arryCloseable) {
             try (closeable) {
+            	logger.info("closed...");
             } catch (IOException e) {
                 System.err.println("Failed to close " + closeable + ": " + e.getMessage());
             }
