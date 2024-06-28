@@ -247,7 +247,7 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		Node node = null;
 		try {
 			node = getNode(session);
-			IGetMsgForSend getMsgForSend = node.sessionServer.onAfterConnectionEstablished();
+			IGetMsgForSend getMsgForSend = node.sessionServer.onAfterConnectionEstablished(session);
 			if (getMsgForSend != null) {
 				wscThreadPoolExecutor.execute(new SessionSender(node.session, getMsgForSend, node.timeSet));
 			}
