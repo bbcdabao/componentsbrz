@@ -23,6 +23,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.PongMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
 
@@ -57,10 +58,20 @@ public abstract class AbstractSessionServer {
 
 	/**
 	 * When connected call back
+	 * note:
+	 * (1) If you use the original WebSocketSession to send messages, you can save and use it within your
+	 *  session to send messages; however, it might be synchronous.
+	 * (2) You can also use DefaultMsgQueueForSend, which requires passing a sending queue, BlockingQueue
+	 * <WebSocketMessage<?>> msgList. You just need to write messages into the queue, and it will have a
+	 *  thread that automatically reads and sends them; this process is certainly asynchronous.
+	 * (3) Lastly, you can also implement IGetMsgForSend yourself. It has an interface, WebSocketMessage
+	 * <?> getMsg(), that you need to implement, which can directly connect to the module you need to send 
+	 * messages to.
+	 * @param session
 	 * @return
 	 * @throws Exception
 	 */
-	public IGetMsgForSend onAfterConnectionEstablished()
+	public IGetMsgForSend onAfterConnectionEstablished(WebSocketSession session)
 			throws Exception {
 		return null;
 	}
