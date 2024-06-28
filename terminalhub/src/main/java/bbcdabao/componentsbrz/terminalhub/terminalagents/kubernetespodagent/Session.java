@@ -103,7 +103,7 @@ public class Session  extends AbstractSessionServer {
     	PipedOutputStream oStream = new PipedOutputStream();
     	arryCloseable.add(oStream);
         PipedInputStream iStream = new PipedInputStream(oStream);
-        arryCloseable.add(oStream);
+        arryCloseable.add(iStream);
         execListenable = client.pods().inNamespace(nameSpace).withName(namePod).inContainer(nameContainer)
                 		.writingOutput(oStream).writingError(oStream).withTTY();
         return new IGetMsgForSend() {
