@@ -16,17 +16,19 @@
  *
  */
 
-package bbcdabao.componentsbrz.websocketbrz.api;
+package bbcdabao.componentsbrz.terminalhub.terminalagents.sshtelnetagent;
 
-/**
- * Interface for obtaining messages sent to the client
- */
-public interface ISessionSenderGeter {
-	/**
-	 * Get the message method sent to the client
-	 * This method is implemented by the framework
-	 * @param complete
-	 * @return
-	 */
-	ISessionSender getSessionSender(ISessionSender.IComplete complete) throws Exception;
+import java.util.Map;
+
+import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
+import bbcdabao.componentsbrz.websocketbrz.api.ISessionFactory;
+import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
+
+@SessionFactoryBrz("sshfactory")
+public class SshSessionFactory implements ISessionFactory {
+
+    @Override
+    public AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception {
+    	return null;
+    }
 }

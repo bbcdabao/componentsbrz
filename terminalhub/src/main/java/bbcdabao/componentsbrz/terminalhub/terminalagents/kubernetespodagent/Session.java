@@ -35,11 +35,10 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
-import bbcdabao.componentsbrz.websocketbrz.api.IGetMsgForSend;
+import bbcdabao.componentsbrz.websocketbrz.api.IRegGetMsgForSend;
 import io.fabric8.kubernetes.client.Config;
 
 import io.fabric8.kubernetes.client.ConfigBuilder;
@@ -97,7 +96,7 @@ public class Session  extends AbstractSessionServer {
     }
 
     @Override
-    public IGetMsgForSend onAfterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
     	KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
     	arryCloseable.add(client);
     	PipedOutputStream oStream = new PipedOutputStream();
@@ -106,20 +105,18 @@ public class Session  extends AbstractSessionServer {
         arryCloseable.add(iStream);
         execListenable = client.pods().inNamespace(nameSpace).withName(namePod).inContainer(nameContainer)
                 		.writingOutput(oStream).writingError(oStream).withTTY();
-        return new IGetMsgForSend() {
-        	private BinaryMessage msg = new BinaryMessage(ByteBuffer.allocate(2048));
-        	public WebSocketMessage<?> getMsg() throws Exception {
-                ByteBuffer byteBuffer = msg.getPayload();
-                byteBuffer.clear();
-                byte[] readBuffer = byteBuffer.array();
-                int readSize = iStream.read(readBuffer, 0, readBuffer.length);
-                if (0 >= readSize) {
-                    throw new Exception("doSendProc read lower 0");
-                }
-                byteBuffer.limit(readSize);
-        		return msg;
-        	}
-        };
+        final BinaryMessage msg = new BinaryMessage(ByteBuffer.allocate(2048));
+        regGetMsgForSend.regGetMsgForSend(() -> {
+            ByteBuffer byteBuffer = msg.getPayload();
+            byteBuffer.clear();
+            byte[] readBuffer = byteBuffer.array();
+            int readSize = iStream.read(readBuffer, 0, readBuffer.length);
+            if (0 >= readSize) {
+                throw new Exception("doSendProc read lower 0");
+            }
+            byteBuffer.limit(readSize);
+    		return msg;
+        });
     }
 
     @Override
@@ -128,7 +125,7 @@ public class Session  extends AbstractSessionServer {
     }
 
     /**
-     * Close the open resource int the onAfterConnectionEstablished function
+     * Close the open resource init the onAfterConnectionEstablished function
      */
     @Override
     public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {

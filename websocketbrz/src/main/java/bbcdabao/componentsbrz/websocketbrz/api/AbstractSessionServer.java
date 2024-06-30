@@ -71,9 +71,8 @@ public abstract class AbstractSessionServer {
 	 * @return
 	 * @throws Exception
 	 */
-	public IGetMsgForSend onAfterConnectionEstablished(WebSocketSession session)
+	public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend)
 			throws Exception {
-		return null;
 	}
 
 	/**

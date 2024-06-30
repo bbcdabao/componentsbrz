@@ -18,8 +18,6 @@
 
 package bbcdabao.componentsbrz.websocketbrz.impl;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.validation.constraints.NotNull;
@@ -32,7 +30,7 @@ import org.springframework.web.socket.WebSocketSession;
 /**
  * This module for send Ping message in time cyc
  */
-public class SessionSenderPing implements Runnable , Closeable {
+public class SessionSenderPing implements Runnable {
 
 	private final Logger logger = LoggerFactory.getLogger(SessionSenderPing.class);
 
@@ -95,10 +93,5 @@ public class SessionSenderPing implements Runnable , Closeable {
 		} catch (Exception e) {
 			logger.error("session id:{} doSend Exception", session.getId(), e);
 		}
-	}
-
-	@Override
-    public void close() throws IOException {
-		session.close();
 	}
 }

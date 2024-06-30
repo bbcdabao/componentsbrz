@@ -16,7 +16,7 @@
  *
  */
 
-package bbcdabao.componentsbrz.websocketbrz.api;
+package bbcdabao.componentsbrz.websocketbrz.impl;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +26,8 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.WebSocketMessage;
+
+import bbcdabao.componentsbrz.websocketbrz.api.IGetMsgForSend;
 
 /**
  * The default message queue for sender module

@@ -19,13 +19,16 @@
 package bbcdabao.componentsbrz.websocketbrz.impl;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -47,8 +50,10 @@ import org.springframework.web.socket.WebSocketSession;
 
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
 import bbcdabao.componentsbrz.websocketbrz.api.IGetMsgForSend;
+import bbcdabao.componentsbrz.websocketbrz.api.IRegGetMsgForSend;
 import bbcdabao.componentsbrz.websocketbrz.api.ISessionFactory;
 import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
+import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionSenderQue;
 import bbcdabao.componentsbrz.websocketbrz.exception.WebsocketbrzException;
 
 /**
@@ -69,6 +74,10 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		private AbstractSessionServer sessionServer = null;
 		private AtomicLong timeSet = new AtomicLong(0);
 		private WebSocketSession session = null;
+		private List<Future<?>> futures = new ArrayList<>();
+		public void addFuture(Future<?> future) {
+			futures.add(future);
+		}
 	}
 
 	@Autowired
@@ -193,6 +202,32 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		return node;
 	}
 
+	@SuppressWarnings("unchecked")
+	private BlockingQueue<WebSocketMessage<?>> getBlockingQueueForSend(AbstractSessionServer sessionServer) throws Exception {
+        Class<?> clazz = sessionServer.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        Object findSub = null;
+        for (Field field : fields) {
+            if (!field.isAnnotationPresent(SessionSenderQue.class)) {
+            	continue;
+            }
+            field.setAccessible(true);
+            if (null == findSub) {
+            	findSub = field.get(sessionServer);
+            } else {
+            	throw new WebsocketbrzException("SessionSenderQue just one make!");
+            }
+        }
+        if (null == findSub) {
+        	return null;
+        }
+        if (!(findSub instanceof BlockingQueue)) {
+        	throw new WebsocketbrzException("SessionSenderQue must be BlockingQueue type!");
+        }
+
+		return (BlockingQueue<WebSocketMessage<?>>) findSub;
+	}
+
 	public BrzWebSocketServer(boolean isPartialMsg, long timeCyc, long stepOut, int maxSessions, long pingCyc) {
 		this.isPartialMsg = isPartialMsg;
 		this.timeCyc = timeCyc;
@@ -244,15 +279,18 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 			session.close();
 			return;
 		}
-		Node node = null;
 		try {
-			node = getNode(session);
-			IGetMsgForSend getMsgForSend = node.sessionServer.onAfterConnectionEstablished(session);
-			if (getMsgForSend != null) {
-				wscThreadPoolExecutor.execute(new SessionSender(node.session, getMsgForSend, node.timeSet));
+			final Node node = getNode(session);
+			BlockingQueue<WebSocketMessage<?>> msgList = getBlockingQueueForSend(node.sessionServer);
+			if (null != msgList) {
+				node.addFuture(wscThreadPoolExecutor.submit(new SessionSender(session, new DefaultMsgQueueForSend(msgList), node.timeSet)));
 			}
+			IRegGetMsgForSend regGetMsgForSend = (IGetMsgForSend getMsgForSend) -> {
+				node.addFuture(wscThreadPoolExecutor.submit(new SessionSender(session, getMsgForSend, node.timeSet)));
+			};
+			node.sessionServer.onAfterConnectionEstablished(session, regGetMsgForSend);
 			if (0 < pingCyc) {
-				wscThreadPoolExecutor.execute(new SessionSenderPing(node.session, node.timeSet, pingCyc));
+				node.addFuture(wscThreadPoolExecutor.submit(new SessionSenderPing(session, node.timeSet, pingCyc)));
 			}
 
 		} catch (Exception e) {
@@ -288,6 +326,9 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		try {
 			Node node = sessionMap.get(session.getId());
 			node.sessionServer.onAfterConnectionClosed(closeStatus);
+			node.futures.forEach(future -> {
+				future.cancel(true);
+			});
 		} catch (Exception e) {
 			session.close();
 		} finally {
