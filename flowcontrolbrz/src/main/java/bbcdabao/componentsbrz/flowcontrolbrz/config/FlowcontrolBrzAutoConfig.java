@@ -13,9 +13,7 @@ import bbcdabao.componentsbrz.flowcontrolbrz.service.ITokencyctl.TokenCfg;
 import bbcdabao.componentsbrz.flowcontrolbrz.service.impl.TokencyctlImpl;
 
 /**
- * -≈‰÷√≤ø∑÷
- * @author bao
- *
+ * Flow controlBrz autoConfig
  */
 @Configuration
 public class FlowcontrolBrzAutoConfig implements WebMvcConfigurer {
@@ -30,8 +28,8 @@ public class FlowcontrolBrzAutoConfig implements WebMvcConfigurer {
 	@Autowired
 	private Environment env;
 
-	@Bean(name="tokencyctl")
-	public ITokencyctl getTokencyctl() {
+    @Bean(name = "tokencyctl")
+    private ITokencyctl getTokencyctl() {
 		return tokencyctlImpl;
 	}
 
