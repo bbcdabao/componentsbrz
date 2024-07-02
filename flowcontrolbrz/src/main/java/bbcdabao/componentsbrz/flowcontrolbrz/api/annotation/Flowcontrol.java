@@ -7,10 +7,8 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-/**
- * -Á÷¿Ø×¢½â
- * @author bao
- *
+/*
+ * Used on api for flowcontrol
  */
 @Retention(RUNTIME)
 @Target(METHOD)
