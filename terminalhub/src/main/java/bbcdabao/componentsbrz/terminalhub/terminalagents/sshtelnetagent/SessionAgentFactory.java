@@ -25,7 +25,7 @@ import bbcdabao.componentsbrz.websocketbrz.api.ISessionFactory;
 import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
 
 @SessionFactoryBrz("sshfactory")
-public class SshSessionFactory implements ISessionFactory {
+public class SessionAgentFactory implements ISessionFactory {
 
     @Override
     public AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception {
