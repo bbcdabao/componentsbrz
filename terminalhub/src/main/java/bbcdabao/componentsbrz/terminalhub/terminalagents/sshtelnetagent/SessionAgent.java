@@ -42,15 +42,15 @@ import net.schmizz.sshj.connection.channel.direct.Session.Shell;
 /**
  * Implementing Remote Login
  */
-public class SshSession  extends AbstractSessionServer {
+public class SessionAgent  extends AbstractSessionServer {
 
-    private final Logger logger = LoggerFactory.getLogger(SshSession.class);
+    private final Logger logger = LoggerFactory.getLogger(SessionAgent.class);
 
     private String addr;
     private String user;
     private String pass;
 
-	public SshSession(@NotNull Map<String, String> queryMap) throws Exception {
+	public SessionAgent(@NotNull Map<String, String> queryMap) throws Exception {
 		addr = queryMap.get("addr");
 		if (ObjectUtils.isEmpty(addr)) {
 			throw new Exception("addr is empty!");
