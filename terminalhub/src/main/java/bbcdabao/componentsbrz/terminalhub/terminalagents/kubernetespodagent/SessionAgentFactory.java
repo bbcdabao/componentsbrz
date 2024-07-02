@@ -23,22 +23,12 @@ import java.util.Map;
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
 import bbcdabao.componentsbrz.websocketbrz.api.ISessionFactory;
 import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
-import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.ConfigBuilder;
 
-@SessionFactoryBrz("k8spodexecfactory")
-public class SessionFactory implements ISessionFactory {
-	
-    Config config = new ConfigBuilder()
-            .withMasterUrl("https://your-k8s-api-server:6443")
-            .withOauthToken("your-oauth-token")
-            .withNamespace("default")
-            .withTrustCerts(true)
-            .build();
+//@SessionFactoryBrz("k8spodexecfactory")
+public class SessionAgentFactory implements ISessionFactory {
 
     @Override
     public AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception {
-    	return null;
-        //return new K8sExecSession(clientGter, k8sexecConfig.getBufCapacity(), k8sexecConfig.getBufRecycles());
+        return new SessionAgent(queryMap);
     }
 }
