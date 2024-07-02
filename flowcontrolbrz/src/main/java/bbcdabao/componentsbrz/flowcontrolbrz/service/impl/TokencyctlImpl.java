@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,44 +14,23 @@ import bbcdabao.componentsbrz.flowcontrolbrz.api.annotation.Flowcontrol;
 import bbcdabao.componentsbrz.flowcontrolbrz.exception.FlowcontrolbrzException;
 import bbcdabao.componentsbrz.flowcontrolbrz.service.ITokencyctl;
 
-/**
- * -实现
- * @author bao
- *
+/*
+ * Tokencyctl impl
  */
 public class TokencyctlImpl implements HandlerInterceptor, ITokencyctl {
 
-	/**
-	 * -addToken:每个周期添加令牌数
-	 * -curToken:当前令牌桶令牌数
-	 * -maxToken:令牌桶最大容量
-	 */
 	private int addToken = 0;
 	private int curToken = 0;
 	private int maxToken = 0;
 
-	/**
-	 * -流浪控制计数器，一秒一次，每秒TPS
-	 */
 	private Timer runTimer = new Timer("TokencyctlCycle");
 
-	/**
-	 * -设置令牌参数
-	 * @param addToken
-	 * @param curToken
-	 * @param maxToken
-	 */
 	private synchronized void setTokenInner(int addToken, int curToken, int maxToken) {
 		this.addToken = addToken;
 		this.curToken = curToken;
 		this.maxToken = maxToken;
 	}
 
-	/**
-	 * -针对需要流控的API，判断是否丢弃请求
-	 * @param useToken
-	 * @return
-	 */
 	private synchronized boolean isDropped(int useToken) {
 		if (curToken < useToken) {
 			return true;
@@ -60,9 +39,6 @@ public class TokencyctlImpl implements HandlerInterceptor, ITokencyctl {
 		return false;
 	}
 
-	/**
-	 * -每秒调度一次
-	 */
 	private synchronized void addTokenStep() {
 		curToken += addToken;
 		if (maxToken < curToken) {
@@ -70,9 +46,6 @@ public class TokencyctlImpl implements HandlerInterceptor, ITokencyctl {
 		}
 	}
 
-	/**
-	 * -每秒一次，固定速度周期
-	 */
 	private void runPerSecond() {
 		addTokenStep();
 	}
