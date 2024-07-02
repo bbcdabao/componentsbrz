@@ -177,7 +177,7 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 		List<NameValuePair> queryPairs = URLEncodedUtils.parse(query, Charset.forName("UTF-8"));
 		for (NameValuePair queryPair : queryPairs) {
 			String queryValue = queryMap.get(queryPair.getName());
-			if (ObjectUtils.isEmpty(queryValue)) {
+			if (!ObjectUtils.isEmpty(queryValue)) {
 				throw new WebsocketbrzException("queryValue is conflict!");
 			}
 			queryMap.put(queryPair.getName(), queryPair.getValue());
