@@ -49,9 +49,9 @@ import io.fabric8.kubernetes.client.dsl.ExecListenable;
 /**
  * Implementing Remote Login Sessions with KUBERNETES
  */
-public class Session  extends AbstractSessionServer {
+public class SessionAgent  extends AbstractSessionServer {
 
-    private final Logger logger = LoggerFactory.getLogger(Session.class);
+    private final Logger logger = LoggerFactory.getLogger(SessionAgent.class);
 
     private String nameSpace;
     private String namePod;
@@ -62,7 +62,7 @@ public class Session  extends AbstractSessionServer {
 
     private List<Closeable> arryCloseable = new ArrayList<>();
 
-	public Session(@NotNull Map<String, String> queryMap) throws Exception {
+	public SessionAgent(@NotNull Map<String, String> queryMap) throws Exception {
 		String masterUrl = queryMap.get("masterUrl");
 		if (ObjectUtils.isEmpty(masterUrl)) {
 			throw new Exception("Session create error no masterUrl");
