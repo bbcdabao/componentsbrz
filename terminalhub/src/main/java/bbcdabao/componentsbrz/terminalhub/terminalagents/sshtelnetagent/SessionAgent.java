@@ -18,8 +18,12 @@
 
 package bbcdabao.componentsbrz.terminalhub.terminalagents.sshtelnetagent;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;
@@ -46,9 +50,13 @@ public class SessionAgent  extends AbstractSessionServer {
 
     private final Logger logger = LoggerFactory.getLogger(SessionAgent.class);
 
+    private String sessionId = "init";
+
     private String addr;
     private String user;
     private String pass;
+
+    private List<Closeable> arryCloseable = new ArrayList<>();
 
 	public SessionAgent(@NotNull Map<String, String> queryMap) throws Exception {
 		addr = queryMap.get("addr");
@@ -71,14 +79,20 @@ public class SessionAgent  extends AbstractSessionServer {
 
     @Override
     public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
+    	sessionId = session.getId();
     	SSHClient ssh = new SSHClient();
-        ssh.addHostKeyVerifier(new PromiscuousVerifier());
+    	arryCloseable.add(ssh);
+    	ssh.addHostKeyVerifier(new PromiscuousVerifier());
         ssh.connect(addr);
         ssh.authPassword(user, pass);
         Session sshSession = ssh.startSession();
+       	arryCloseable.add(sshSession);
         Shell shell =  sshSession.startShell();
+       	arryCloseable.add(shell);
         InputStream inputStream = shell.getInputStream();
+       	arryCloseable.add(inputStream);
         OutputStream outputStream = shell.getOutputStream();
+       	arryCloseable.add(outputStream);
     }
 
     @Override
@@ -91,7 +105,13 @@ public class SessionAgent  extends AbstractSessionServer {
      */
     @Override
     public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
-        logger.info("session hashcode:{} onAfterConnectionClosed", hashCode());
-
+        logger.info("session:{} onAfterConnectionClosed", sessionId);
+        for (Closeable closeable : arryCloseable) {
+            try (closeable) {
+                logger.info("session:{} close:{}", sessionId, closeable.getClass().getSimpleName());
+            } catch (IOException e) {
+                logger.info("session:{} IOException:{}", sessionId, closeable.getClass().getSimpleName());
+            }
+        }
     }
 }
