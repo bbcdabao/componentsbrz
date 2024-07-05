@@ -58,22 +58,18 @@ public class SessionSender implements Runnable {
 
 	@Override
 	public void run() {
-		try {
-			Thread currentThread = Thread.currentThread();
-			boolean isRunning = !currentThread.isInterrupted();
-			while (session.isOpen() && isRunning) {
+		Thread currentThread = Thread.currentThread();
+		while (session.isOpen() && !currentThread.isInterrupted()) {
+			try {
 				WebSocketMessage<?> msg = getMsgForSend.getMsg();
-				if (null != msg) {
-					try {
-						session.sendMessage(msg);
-					} catch(Exception e) {
-						logger.info("session id:{} doSend0 Exception:", session.getId(), e);
-					}
-					timeSet.set(0);
-				}
+				if (null == msg) continue;
+				session.sendMessage(msg);
+				timeSet.set(0);
+			} catch (InterruptedException e) {
+				logger.info("session id:{} doSend Interrupted", session.getId());				
+			} catch (Exception e) {
+				logger.error("session id:{} doSend Exception", session.getId(), e);
 			}
-		} catch (Exception e) {
-			logger.error("session id:{} doSend Exception", session.getId(), e);
 		}
 	}
 }
