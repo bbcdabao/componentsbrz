@@ -78,20 +78,16 @@ public class SessionSenderPing implements Runnable {
 
 	@Override
 	public void run() {
-		try {
-			Thread currentThread = Thread.currentThread();
-			boolean isRunning = !currentThread.isInterrupted();
-			while (session.isOpen() && isRunning) {
-				try {
-					Thread.sleep(1000);
-				} catch(Exception e) {
-					logger.info("session id:{} sleep for ping Exception:{}", session.getId(), e.getMessage());
-					continue;
-				}
+		Thread currentThread = Thread.currentThread();
+		while (session.isOpen() && !currentThread.isInterrupted()) {
+			try {
+				Thread.sleep(1000);
 				checkAndSendPing();
+			} catch (InterruptedException e) {
+				logger.info("session id:{} doSend ping Interrupted", session.getId());				
+			} catch (Exception e) {
+				logger.error("session id:{} doSend ping Exception", session.getId(), e);
 			}
-		} catch (Exception e) {
-			logger.error("session id:{} doSend Exception", session.getId(), e);
 		}
 	}
 }
