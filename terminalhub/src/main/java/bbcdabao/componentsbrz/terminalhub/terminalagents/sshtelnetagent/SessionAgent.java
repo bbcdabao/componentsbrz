@@ -22,6 +22,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -56,6 +59,8 @@ public class SessionAgent  extends AbstractSessionServer {
     private String user;
     private String pass;
 
+    private OutputStream oStream;
+
     private List<Closeable> arryCloseable = new ArrayList<>();
 
 	public SessionAgent(@NotNull Map<String, String> queryMap) throws Exception {
@@ -75,11 +80,16 @@ public class SessionAgent  extends AbstractSessionServer {
 
     @Override
     public void onTextMessage(TextMessage message) throws Exception {
+    	String payloadMessage = message.getPayload();
+        oStream.write(payloadMessage.getBytes(StandardCharsets.UTF_8));
+        oStream.flush();
     }
 
     @Override
     public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
+
     	sessionId = session.getId();
+
     	SSHClient ssh = new SSHClient();
     	arryCloseable.add(ssh);
     	ssh.addHostKeyVerifier(new PromiscuousVerifier());
@@ -89,10 +99,24 @@ public class SessionAgent  extends AbstractSessionServer {
        	arryCloseable.add(sshSession);
         Shell shell =  sshSession.startShell();
        	arryCloseable.add(shell);
-        InputStream inputStream = shell.getInputStream();
-       	arryCloseable.add(inputStream);
-        OutputStream outputStream = shell.getOutputStream();
-       	arryCloseable.add(outputStream);
+
+        InputStream iStream = shell.getInputStream();
+       	arryCloseable.add(iStream);
+        final BinaryMessage msg = new BinaryMessage(ByteBuffer.allocate(2048));
+        regGetMsgForSend.regGetMsgForSend(() -> {
+            ByteBuffer byteBuffer = msg.getPayload();
+            byteBuffer.clear();
+            byte[] readBuffer = byteBuffer.array();
+            int readSize = iStream.read(readBuffer, 0, readBuffer.length);
+            if (0 >= readSize) {
+                throw new Exception("doSendProc read lower 0");
+            }
+            byteBuffer.limit(readSize);
+    		return msg;
+        });
+
+        oStream = shell.getOutputStream();
+       	arryCloseable.add(oStream);
     }
 
     @Override
