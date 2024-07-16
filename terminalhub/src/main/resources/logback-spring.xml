@@ -20,7 +20,7 @@
 
     <property name="APPNAME" value="terminalhub"/>
     <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
-    <property name="LOGPATH" value="${LOG_PATH:- }"/>
+    <property name="LOGPATH" value="${LOG_PATH:.}"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -34,9 +34,9 @@
             <pattern>${PATTERN}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOGPATH}/${APPNAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/${APPNAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
-        </rollingPolicy>
+        </rollingPolicy>y>
     </appender>
 
     <root level="INFO">
