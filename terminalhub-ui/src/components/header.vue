@@ -1,5 +1,22 @@
 <template>
     <div class="header">
+        <el-dialog v-model="isDialogVisible" title="添加终端">
+            <el-form :model="form" :rules="rules" ref="formRef">
+                <el-form-item label="地址" prop="address">
+            <el-input v-model="form.address"></el-input>
+            </el-form-item>
+            <el-form-item label="用户" prop="username">
+                <el-input v-model="form.username"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+                <el-input v-model="form.password" type="password"></el-input>
+            </el-form-item>
+            <span>
+                <el-button @click="closeDialog">取 消</el-button>
+                <el-button type="primary" @click="submitForm">确 定</el-button>
+            </span>
+            </el-form>
+        </el-dialog>
         <!-- 折叠按钮 -->
         <div class="header-left">
             <div class="collapse-btn" @click="collapseChage">
@@ -10,8 +27,13 @@
                     <Fold />
                 </el-icon>
             </div>
-            <div class="web-title" v-if="!sidebar.collapse" >斯塔克工业</div>
-            <img class="logo" v-if="!sidebar.collapse" src="../assets/img/logo.svg" alt="" />
+            <div class="header-left" v-if="!sidebar.collapse">
+            <img class="logo" src="../assets/img/logo.svg" alt="" />
+            <div class="web-title" @click="openDialog">添加终端</div>
+            <el-icon class="addlogo">
+            <component :is="'circle-plus-filled'"></component>
+                            </el-icon>
+            </div>
         </div>
         <div class="header-right">
             <div class="header-user-con">
@@ -50,6 +72,56 @@ import { onMounted } from 'vue';
 import { useSidebarStore } from '../store/sidebar';
 import { useRouter } from 'vue-router';
 import imgurl from '../assets/img/img.jpg';
+import { ref } from 'vue'
+import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus'
+
+
+const isDialogVisible = ref(false)
+
+const formRef = ref(null)
+const form = ref({
+  address: '',
+  username: '',
+  password: ''
+})
+
+const rules = ref({
+  address: [
+    { required: true, message: '请输入地址', trigger: 'blur' },
+    { 
+      validator: (rule: any, value: string, callback: (error?: Error) => void) => {
+        const ipPortPattern = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):([0-9]{1,5})$/
+        if (!ipPortPattern.test(value)) {
+          callback(new Error('地址格式应为 IP:PORT'))
+        } else {
+          callback()
+        }
+      }, 
+      trigger: 'blur' 
+    }
+  ],
+  username: [{ required: true, message: '请输入用户', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+})
+
+const openDialog = () => {
+  isDialogVisible.value = true
+}
+
+const closeDialog = () => {
+  isDialogVisible.value = false
+}
+
+const submitForm = () => {
+  formRef.value.validate((valid: boolean) => {
+    if (valid) {
+      ElMessage.success('表单提交成功')
+      isDialogVisible.value = false
+    } else {
+      ElMessage.error('表单校验失败')
+    }
+  })
+}
 
 const username: string | null = localStorage.getItem('vuems_name');
 
@@ -102,10 +174,15 @@ const setFullScreen = () => {
     height: 100%;
 }
 
+.addlogo {
+    font-size: 32px;
+    fill: rgb(255, 255, 255);
+    animation: rotate 2s linear infinite;
+}
+
 .logo {
     width: 32px;
     fill: rgb(255, 255, 255);
-    animation: rotate 0.5s linear 1;
 }
 
 @keyframes rotate {
@@ -113,13 +190,14 @@ const setFullScreen = () => {
         transform: rotate(0deg);
     }
     100% {
-        transform: rotate(720deg);
+        transform: rotate(360deg);
     }
 }
 
 .web-title {
     margin: 0 40px 0 10px;
     font-size: 16px;
+    font-weight: bold;
     /*animation: bounce 1s ease-in-out forwards;*/
 }
 
@@ -217,4 +295,5 @@ const setFullScreen = () => {
 .el-dropdown-menu__item {
     text-align: center;
 }
+
 </style>
