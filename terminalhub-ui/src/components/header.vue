@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <el-dialog v-model="isDialogVisible" title="添加终端">
+        <el-dialog v-model="isDialogVisible" title="添加终端配置">
             <el-form :model="form" :rules="rules" ref="formRef">
                 <el-form-item label="地址" prop="address">
             <el-input v-model="form.address"></el-input>
@@ -28,11 +28,10 @@
                 </el-icon>
             </div>
             <div class="header-left" v-if="!sidebar.collapse">
-            <img class="logo" src="../assets/img/logo.svg" alt="" />
-            <div class="web-title" @click="openDialog">添加终端</div>
-            <el-icon class="addlogo">
-            <component :is="'circle-plus-filled'"></component>
-                            </el-icon>
+            <div class="web-title">添加终端</div>
+            <el-icon class="addlogo" @click="openDialog">
+                <circle-plus-filled />
+            </el-icon>
             </div>
         </div>
         <div class="header-right">
@@ -73,7 +72,7 @@ import { useSidebarStore } from '../store/sidebar';
 import { useRouter } from 'vue-router';
 import imgurl from '../assets/img/img.jpg';
 import { ref } from 'vue'
-import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus'
+import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus'
 
 
 const isDialogVisible = ref(false)
@@ -85,16 +84,16 @@ const form = ref({
   password: ''
 })
 
-const rules = ref({
+const rules = ref<FormRules>({
   address: [
     { required: true, message: '请输入地址', trigger: 'blur' },
     { 
-      validator: (rule: any, value: string, callback: (error?: Error) => void) => {
-        const ipPortPattern = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):([0-9]{1,5})$/
+      validator: (rule, value, callback) => {
+        const ipPortPattern = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):([0-9]{1,5})$/;
         if (!ipPortPattern.test(value)) {
-          callback(new Error('地址格式应为 IP:PORT'))
+          callback(new Error('地址格式应为 IP:PORT'));
         } else {
-          callback()
+          callback();
         }
       }, 
       trigger: 'blur' 
@@ -102,7 +101,7 @@ const rules = ref({
   ],
   username: [{ required: true, message: '请输入用户', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-})
+});
 
 const openDialog = () => {
   isDialogVisible.value = true
@@ -177,7 +176,8 @@ const setFullScreen = () => {
 .addlogo {
     font-size: 32px;
     fill: rgb(255, 255, 255);
-    animation: rotate 2s linear infinite;
+    animation: rotate 0.5s linear infinite;
+    animation-iteration-count: 1;
 }
 
 .logo {
@@ -187,10 +187,13 @@ const setFullScreen = () => {
 
 @keyframes rotate {
     0% {
-        transform: rotate(0deg);
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.5);
     }
     100% {
-        transform: rotate(360deg);
+        transform: rotate(360deg) scale(1);
     }
 }
 
@@ -198,6 +201,7 @@ const setFullScreen = () => {
     margin: 0 40px 0 10px;
     font-size: 16px;
     font-weight: bold;
+    text-align: right;
     /*animation: bounce 1s ease-in-out forwards;*/
 }
 
