@@ -29,9 +29,12 @@
             </div>
             <div class="header-left" v-if="!sidebar.collapse">
             <div class="web-title">添加终端</div>
-            <el-icon class="addlogo" @click="openDialog">
-                <circle-plus-filled />
-            </el-icon>
+                <el-icon class="addlogopt" @click="openDialog">
+                    <soccer />
+                </el-icon>
+                <el-icon class="addlogo" @click="openDialog">
+                    <circle-plus-filled />
+                </el-icon>
             </div>
         </div>
         <div class="header-right">
@@ -173,10 +176,17 @@ const setFullScreen = () => {
     height: 100%;
 }
 
+.addlogopt {
+    font-size: 32px;
+    fill: rgb(255, 255, 255);
+    animation: swing 1s linear infinite;
+    animation-iteration-count: 1;
+}
+
 .addlogo {
     font-size: 32px;
     fill: rgb(255, 255, 255);
-    animation: rotate 0.5s linear infinite;
+    animation: rotate 1.2s linear infinite;
     animation-iteration-count: 1;
 }
 
@@ -185,23 +195,63 @@ const setFullScreen = () => {
     fill: rgb(255, 255, 255);
 }
 
-@keyframes rotate {
+@keyframes swing {
     0% {
-        transform: rotate(0deg) scale(1);
+        transform: translateX(-250%) rotate(0deg);
     }
-    50% {
-        transform: rotate(180deg) scale(1.5);
+    20% {
+        transform: translateX(-200%) rotate(72deg);
+    }
+    40% {
+        transform: translateX(-150%) rotate(144deg);
+    }
+    60% {
+        transform: translateX(-100%) rotate(216deg);
+    }
+    80% {
+        transform: translateX(-50%) rotate(288deg);
     }
     100% {
-        transform: rotate(360deg) scale(1);
+        transform: translateX(-0%) rotate(360deg);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: scale(1);
+    }
+    15% {
+        transform: scale(1);
+    }
+    30% {
+        transform: scale(1);
+    }
+    45% {
+        transform: scale(1);
+    }
+    60% {
+        transform: scale(1);
+    }
+    75% {
+        transform: scale(1);
+    }
+    90% {
+        transform: scale(1);
+    }
+    95% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
     }
 }
 
 .web-title {
     margin: 0 40px 0 10px;
+    width: 100px;
     font-size: 16px;
     font-weight: bold;
-    text-align: right;
+    text-align: left;
     /*animation: bounce 1s ease-in-out forwards;*/
 }
 
