@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
-import { Menus } from '@/types/menu';
+import { Sshitem } from '@/types/sshitem';
 
 export const useSidebarStore = defineStore('sidebar', {
 	state: () => {
 		return {
 			collapse: false,
-			menuData: JSON.parse(localStorage.getItem('sidebar-items') || '[]') as Menu[],
+			sshitems: JSON.parse(localStorage.getItem('sidebar-sshitems') || '[]') as Sshitem[],
 			bgColor: localStorage.getItem('sidebar-bg-color') || '#000000',
 			textColor: localStorage.getItem('sidebar-text-color') || '#bfcbd9'
 		};
@@ -22,6 +22,18 @@ export const useSidebarStore = defineStore('sidebar', {
 		setTextColor(color: string) {
 			this.textColor = color;
 			localStorage.setItem('sidebar-text-color', color);
-		}
+		},
+		addSshitem(item: Sshitem) {
+			this.sshitems.push(item);
+			localStorage.setItem('sidebar-sshitems', JSON.stringify(this.sshitems));
+		},
+		delSshitem(addr: string) {
+			this.sshitems = this.sshitems.filter(item => item.addr !== addr);
+			localStorage.setItem('sidebar-sshitems', JSON.stringify(this.sshitems));
+		},
+		clsSshitem() {
+			this.sshitems = [];
+			localStorage.setItem('sidebar-sshitems', JSON.stringify(this.sshitems));
+		},
 	}
 });
