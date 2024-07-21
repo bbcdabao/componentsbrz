@@ -2,14 +2,14 @@
     <div class="header">
         <el-dialog v-model="isDialogVisible" title="添加终端配置">
             <el-form :model="form" :rules="rules" ref="formRef">
-                <el-form-item label="地址" prop="address">
-            <el-input v-model="form.address"></el-input>
+                <el-form-item label="地址" prop="addr">
+            <el-input v-model="form.addr"></el-input>
             </el-form-item>
-            <el-form-item label="用户" prop="username">
-                <el-input v-model="form.username"></el-input>
+            <el-form-item label="用户" prop="user">
+                <el-input v-model="form.user"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input v-model="form.password" type="password"></el-input>
+            <el-form-item label="密码" prop="pass">
+                <el-input v-model="form.pass" type="password"></el-input>
             </el-form-item>
             <span>
                 <el-button @click="closeDialog">取 消</el-button>
@@ -82,13 +82,13 @@ const isDialogVisible = ref(false)
 
 const formRef = ref(null)
 const form = ref({
-  address: '',
-  username: '',
-  password: ''
+  addr: '',
+  user: '',
+  pass: ''
 })
 
 const rules = ref<FormRules>({
-  address: [
+  addr: [
     { required: true, message: '请输入地址', trigger: 'blur' },
     { 
       validator: (rule, value, callback) => {
@@ -102,8 +102,8 @@ const rules = ref<FormRules>({
       trigger: 'blur' 
     }
   ],
-  username: [{ required: true, message: '请输入用户', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+  user: [{ required: true, message: '请输入用户', trigger: 'blur' }],
+  pass: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 });
 
 const openDialog = () => {
@@ -117,7 +117,11 @@ const closeDialog = () => {
 const submitForm = () => {
   formRef.value.validate((valid: boolean) => {
     if (valid) {
-      ElMessage.success('表单提交成功')
+      sidebar.addSshitem({
+        addr: form.value.addr,
+        user: form.value.user,
+        pass: form.value.pass
+      }) 
       isDialogVisible.value = false
     } else {
       ElMessage.error('表单校验失败')
@@ -134,7 +138,7 @@ const collapseChage = () => {
 };
 
 onMounted(() => {
-    if (document.body.clientWidth < 1500) {
+    if (document.body.clientWidth < 600) {
         collapseChage();
     }
 });

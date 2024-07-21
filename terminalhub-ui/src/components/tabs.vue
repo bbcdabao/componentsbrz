@@ -24,6 +24,7 @@ const activePath = ref(route.fullPath);
 const tabs = useTabsStore();
 // 设置标签
 const setTags = (route: any) => {
+    console.info("ttttttttt:", route);
     const isExist = tabs.list.some((item) => {
         return item.path === route.fullPath;
     });
@@ -37,6 +38,9 @@ const setTags = (route: any) => {
 };
 setTags(route);
 onBeforeRouteUpdate((to) => {
+    if (to.meta.title === 'param') {
+        to.meta.title = to.params.param;
+    }
     setTags(to);
 });
 

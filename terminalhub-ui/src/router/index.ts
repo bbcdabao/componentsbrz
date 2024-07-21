@@ -6,7 +6,7 @@ import 'nprogress/nprogress.css';
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        redirect: '/page01',
+        redirect: '/welcome',
     },
     {
         path: '/',
@@ -14,58 +14,22 @@ const routes: RouteRecordRaw[] = [
         component: Home,
         children: [
             {
-                path: '/page01',
-                name: 'page01',
+                path: '/welcome',
+                name: 'welcome',
                 meta: {
-                    title: '页面01',
+                    title: '欢迎',
                     noAuth: false,
                 },
-                component: () => import(/* webpackChunkName: "dashboard" */ '../views/pages/page01.vue'),
+                component: () => import(/* webpackChunkName: "dashboard" */ '../views/pages/welcome.vue'),
             },
             {
-                path: '/page02',
-                name: 'page02',
+                path: '/telnet/:param',
+                name: 'telnet',
                 meta: {
-                    title: '页面02',
+                    title: 'param',
                     noAuth: false,
                 },
-                component: () => import(/* webpackChunkName: "system-role" */ '../views/pages/page02.vue'),
-            },
-            {
-                path: '/page03',
-                name: 'page03',
-                meta: {
-                    title: '页面03',
-                    noAuth: false,
-                },
-                component: () => import(/* webpackChunkName: "system-role" */ '../views/pages/page03.vue'),
-            },
-            {
-                path: '/page04',
-                name: 'page04',
-                meta: {
-                    title: '页面04',
-                    noAuth: false,
-                },
-                component: () => import(/* webpackChunkName: "system-role" */ '../views/pages/page04.vue'),
-            },
-            {
-                path: '/page05',
-                name: 'page05',
-                meta: {
-                    title: '页面05',
-                    noAuth: false,
-                },
-                component: () => import(/* webpackChunkName: "system-role" */ '../views/pages/page05.vue'),
-            },
-            {
-                path: '/page06',
-                name: 'page06',
-                meta: {
-                    title: '页面06',
-                    noAuth: false,
-                },
-                component: () => import(/* webpackChunkName: "system-role" */ '../views/pages/page06.vue'),
+                component: () => import(/* webpackChunkName: "system-role" */ '../views/pages/telnet.vue'),
             },
             {
                 path: '/theme',
@@ -75,15 +39,6 @@ const routes: RouteRecordRaw[] = [
                     noAuth: false,
                 },
                 component: () => import(/* webpackChunkName: "theme" */ '../views/pages/theme.vue'),
-            },
-            {
-                path: '/icon',
-                name: 'icon',
-                meta: {
-                    title: '图标使用',
-                    noAuth: false,
-                },
-                component: () => import(/* webpackChunkName: "theme" */ '../views/pages/icon.vue'),
             },
         ],
     },

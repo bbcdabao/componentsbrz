@@ -1,12 +1,25 @@
 <template>
     <div class="this-page">
         <div class="this-box">
-            <div class="this-info">页面02</div>
+            <div class="this-info">登录页面</div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { useSidebarStore } from '@/store/sidebar';
+import { useRoute } from 'vue-router';
+const sidebar = useSidebarStore();
+const route = useRoute();
+const param = route.params.param;
+const fullPath = route.fullPath;
+if (Array.isArray(param)) {
+    const firstParam = param[0];
+    console.info("========:", sidebar.sshitems[firstParam]);
+} else {
+    console.info("========:", sidebar.sshitems[param]);
+}
+console.info("xxxxxxxx:", fullPath);
 </script>
 
 <style scoped>

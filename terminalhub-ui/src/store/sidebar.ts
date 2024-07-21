@@ -5,7 +5,7 @@ export const useSidebarStore = defineStore('sidebar', {
 	state: () => {
 		return {
 			collapse: false,
-			sshitems: JSON.parse(localStorage.getItem('sidebar-sshitems') || '[]') as Sshitem[],
+			sshitems: JSON.parse(localStorage.getItem('sidebar-sshitems') || '{}') as { [key: string]: Sshitem },
 			bgColor: localStorage.getItem('sidebar-bg-color') || '#000000',
 			textColor: localStorage.getItem('sidebar-text-color') || '#bfcbd9'
 		};
@@ -24,15 +24,15 @@ export const useSidebarStore = defineStore('sidebar', {
 			localStorage.setItem('sidebar-text-color', color);
 		},
 		addSshitem(item: Sshitem) {
-			this.sshitems.push(item);
+			this.sshitems[item.addr] = item;
 			localStorage.setItem('sidebar-sshitems', JSON.stringify(this.sshitems));
 		},
 		delSshitem(addr: string) {
-			this.sshitems = this.sshitems.filter(item => item.addr !== addr);
+			delete this.sshitems[addr];
 			localStorage.setItem('sidebar-sshitems', JSON.stringify(this.sshitems));
 		},
 		clsSshitem() {
-			this.sshitems = [];
+			this.sshitems = {};
 			localStorage.setItem('sidebar-sshitems', JSON.stringify(this.sshitems));
 		},
 	}
