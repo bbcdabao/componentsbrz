@@ -41,7 +41,6 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { useTabsStore } from '@/store/tabs';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -91,8 +90,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
     });
 };
 
-const tabs = useTabsStore();
-tabs.clearTabs();
 </script>
 
 <style scoped>

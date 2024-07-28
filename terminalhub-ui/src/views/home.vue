@@ -3,13 +3,10 @@
         <v-header />
         <v-sidebar />
         <div class="content-box" :class="{ 'content-collapse': sidebar.collapse }">
-            <v-tabs></v-tabs>
             <div class="content">
-                <router-view v-slot="{ Component }">
+                <router-view v-slot="{ Component }" :key="$route.fullPath">
                     <transition name="move" mode="out-in">
-                        <keep-alive :include="tabs.nameList">
-                            <component :is="Component"></component>
-                        </keep-alive>
+                        <component :is="Component"></component>
                     </transition>
                 </router-view>
             </div>
@@ -18,13 +15,10 @@
 </template>
 <script setup lang="ts">
 import { useSidebarStore } from '@/store/sidebar';
-import { useTabsStore } from '@/store/tabs';
 import vHeader from '@/components/header.vue';
 import vSidebar from '@/components/sidebar.vue';
-import vTabs from '@/components/tabs.vue';
 
 const sidebar = useSidebarStore();
-const tabs = useTabsStore();
 </script>
 
 <style>
@@ -38,7 +32,7 @@ const tabs = useTabsStore();
     right: 0;
     top: 40px;
     bottom: 0;
-    padding-bottom: 30px;
+    padding-bottom: 0px;
     -webkit-transition: left 0.3s ease-in-out;
     transition: left 0.3s ease-in-out;
     background: #eef0fc;
@@ -48,7 +42,7 @@ const tabs = useTabsStore();
 .content {
     width: auto;
     height: 100%;
-    padding: 20px;
+    padding: 0px;
     overflow-y: scroll;
     box-sizing: border-box;
 }
@@ -58,6 +52,6 @@ const tabs = useTabsStore();
 }
 
 .content-collapse {
-    left: 65px;
+    left: 64px;
 }
 </style>

@@ -34,7 +34,20 @@ export default defineConfig({
 				target: 'http://127.0.0.1:9090/api',
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, '')
+			},
+			'/bbcdabao': {
+				target: 'ws://127.0.0.1:9090/bbcdabao',
+				changeOrigin: true,
+				ws: true,
+				rewrite: (path) => path.replace(/^\/bbcdabao/, ''),
+				configure: (proxy, options) => {
+					proxy.on('proxyReq', (proxyReq, req, res) => {
+						console.log('>>>>>> request to:', req.url);
+					});
+				}
 			}
 		}
 	}
 });
+
+

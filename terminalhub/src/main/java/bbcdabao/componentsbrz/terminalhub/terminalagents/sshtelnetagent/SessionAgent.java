@@ -56,6 +56,7 @@ public class SessionAgent  extends AbstractSessionServer {
     private String sessionId = "init";
 
     private String addr;
+    private int port = 22;
     private String user;
     private String pass;
 
@@ -64,7 +65,9 @@ public class SessionAgent  extends AbstractSessionServer {
     private List<Closeable> arryCloseable = new ArrayList<>();
 
 	public SessionAgent(@NotNull Map<String, String> queryMap) throws Exception {
-		addr = queryMap.get("addr");
+		String addrGet = queryMap.get("addr");
+		String[] addrGetAry = addrGet.split(":");
+		addr = addrGetAry[0];
 		if (ObjectUtils.isEmpty(addr)) {
 			throw new Exception("addr is empty!");
 		}
@@ -87,13 +90,12 @@ public class SessionAgent  extends AbstractSessionServer {
 
     @Override
     public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
-
     	sessionId = session.getId();
 
     	SSHClient ssh = new SSHClient();
     	arryCloseable.add(ssh);
     	ssh.addHostKeyVerifier(new PromiscuousVerifier());
-        ssh.connect(addr);
+        ssh.connect(addr, port);
         ssh.authPassword(user, pass);
         Session sshSession = ssh.startSession();
        	arryCloseable.add(sshSession);

@@ -23,7 +23,7 @@
                     <span>当前终端列表</span>
                 </template>
                 <template v-for="subItem in sidebar.sshitems" :key="subItem.addr">
-                    <el-menu-item :index="`/telnet/${subItem.addr}`">
+                    <el-menu-item :index="`/sshtelnet/${subItem.addr}`">
                         <el-icon>
                             <tickets />
                         </el-icon>

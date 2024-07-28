@@ -23,13 +23,13 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/pages/welcome.vue'),
             },
             {
-                path: '/telnet/:param',
-                name: 'telnet',
+                path: '/sshtelnet/:param',
+                name: 'sshtelnet',
                 meta: {
                     title: 'param',
                     noAuth: false,
                 },
-                component: () => import(/* webpackChunkName: "system-role" */ '../views/pages/telnet.vue'),
+                component: () => import(/* webpackChunkName: "system-role" */ '../views/pages/sshtelnet.vue'),
             },
             {
                 path: '/theme',

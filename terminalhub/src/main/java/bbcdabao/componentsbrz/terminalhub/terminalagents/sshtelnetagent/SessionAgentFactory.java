@@ -29,6 +29,7 @@ public class SessionAgentFactory implements ISessionFactory {
 
     @Override
     public AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception {
-    	return null;
+    	SessionAgent sessionAgent = new SessionAgent(queryMap);
+    	return sessionAgent;
     }
 }
