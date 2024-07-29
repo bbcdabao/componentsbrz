@@ -94,9 +94,11 @@ public class SessionAgent  extends AbstractSessionServer {
 
     	SSHClient ssh = new SSHClient();
     	arryCloseable.add(ssh);
+
     	ssh.addHostKeyVerifier(new PromiscuousVerifier());
         ssh.connect(addr, port);
         ssh.authPassword(user, pass);
+        
         Session sshSession = ssh.startSession();
        	arryCloseable.add(sshSession);
         Shell shell =  sshSession.startShell();
@@ -104,21 +106,20 @@ public class SessionAgent  extends AbstractSessionServer {
 
         InputStream iStream = shell.getInputStream();
        	arryCloseable.add(iStream);
-        final BinaryMessage msg = new BinaryMessage(ByteBuffer.allocate(2048));
+        oStream = shell.getOutputStream();
+       	arryCloseable.add(oStream);
+
+       	byte[] buffer = new byte[1024];
         regGetMsgForSend.regGetMsgForSend(() -> {
-            ByteBuffer byteBuffer = msg.getPayload();
-            byteBuffer.clear();
-            byte[] readBuffer = byteBuffer.array();
-            int readSize = iStream.read(readBuffer, 0, readBuffer.length);
+            int readSize = iStream.read(buffer);
             if (0 >= readSize) {
                 throw new Exception("doSendProc read lower 0");
             }
-            byteBuffer.limit(readSize);
+            String data = new String(buffer, 0, readSize);
+            String formattedData = data.replaceAll("\\r?\\n", "\r\n");
+            TextMessage msg = new TextMessage(formattedData);
     		return msg;
         });
-
-        oStream = shell.getOutputStream();
-       	arryCloseable.add(oStream);
     }
 
     @Override
