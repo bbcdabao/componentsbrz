@@ -22,7 +22,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
+import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,11 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import bbcdabao.componentsbrz.terminalhub.utils.IpAndPortUtil;
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
 import bbcdabao.componentsbrz.websocketbrz.api.IRegGetMsgForSend;
 import net.schmizz.sshj.SSHClient;
@@ -53,24 +53,17 @@ public class SessionAgent  extends AbstractSessionServer {
 
     private final Logger logger = LoggerFactory.getLogger(SessionAgent.class);
 
-    private String sessionId = "init";
+    private String sessionId;
 
-    private String addr;
-    private int port = 22;
+    private InetSocketAddress address;
     private String user;
     private String pass;
 
     private OutputStream oStream;
-
     private List<Closeable> arryCloseable = new ArrayList<>();
 
 	public SessionAgent(@NotNull Map<String, String> queryMap) throws Exception {
-		String addrGet = queryMap.get("addr");
-		String[] addrGetAry = addrGet.split(":");
-		addr = addrGetAry[0];
-		if (ObjectUtils.isEmpty(addr)) {
-			throw new Exception("addr is empty!");
-		}
+	    address = IpAndPortUtil.getInetSocketAddressFromStr(queryMap.get("addr"));
 		user = queryMap.get("user");
 		if (ObjectUtils.isEmpty(user)) {
 			throw new Exception("user is empty!");
@@ -84,7 +77,13 @@ public class SessionAgent  extends AbstractSessionServer {
     @Override
     public void onTextMessage(TextMessage message) throws Exception {
     	String payloadMessage = message.getPayload();
-        oStream.write(payloadMessage.getBytes(StandardCharsets.UTF_8));
+        String processedMessage = payloadMessage
+                .replace("\r\n", "\n")  // 处理 CRLF
+                .replace("\r", "\n")   // 处理 CR
+                .replace("\t", "TAB"); // 打印 Tab 字符（用于调试）
+
+        logger.info("Processed message: {}", processedMessage);
+        oStream.write(processedMessage.getBytes(StandardCharsets.UTF_8));
         oStream.flush();
     }
 
@@ -96,8 +95,8 @@ public class SessionAgent  extends AbstractSessionServer {
     	arryCloseable.add(ssh);
 
     	ssh.addHostKeyVerifier(new PromiscuousVerifier());
-        ssh.connect(addr, port);
-        ssh.authPassword(user, pass);
+        ssh.connect(address.getHostName(), address.getPort());
+        ssh.authPassword(user, "sanya#TIMEJOB58");
         
         Session sshSession = ssh.startSession();
        	arryCloseable.add(sshSession);
@@ -106,12 +105,15 @@ public class SessionAgent  extends AbstractSessionServer {
 
         InputStream iStream = shell.getInputStream();
        	arryCloseable.add(iStream);
+        InputStream iStreamError = shell.getErrorStream();
+        arryCloseable.add(iStreamError);
+       	
         oStream = shell.getOutputStream();
        	arryCloseable.add(oStream);
 
        	byte[] buffer = new byte[1024];
         regGetMsgForSend.regGetMsgForSend(() -> {
-            int readSize = iStream.read(buffer);
+            int readSize = iStream.read(buffer, 0, 1024);
             if (0 >= readSize) {
                 throw new Exception("doSendProc read lower 0");
             }
@@ -120,6 +122,25 @@ public class SessionAgent  extends AbstractSessionServer {
             TextMessage msg = new TextMessage(formattedData);
     		return msg;
         });
+        byte[] erinfo = new byte[1024];
+        regGetMsgForSend.regGetMsgForSend(() -> {
+            int readSize = iStreamError.read(erinfo, 0, 1024);
+            if (0 >= readSize) {
+                throw new Exception("doSendProc read lower 0");
+            }
+            String data = new String(buffer, 0, readSize);
+            String formattedData = data.replaceAll("\\r?\\n", "\r\n");
+            TextMessage msg = new TextMessage(formattedData);
+            return msg;
+        });
+        String command = "ls -l\n"; // 注意：命令末尾的换行符是必要的
+
+        // 将命令转换为字节数组
+        byte[] commandBytes = command.getBytes("UTF-8");
+
+        // 向输出流写入命令
+        oStream.write(commandBytes);
+        oStream.flush(); // 确保命令被发送出去
     }
 
     @Override
