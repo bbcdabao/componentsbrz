@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>messagebrz</artifactId>
 	<packaging>jar</packaging>
 
 	<description>A springboot component used to naturally transfer messages between threads and support delayed processing of messages, etc.</description>
 
-    <parent>
+	<parent>
 		<groupId>bbcdabao.componentsbrz</groupId>
 		<artifactId>common</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-    </parent>
+		<version>${project.version}</version>
+	</parent>
 
 </project>
