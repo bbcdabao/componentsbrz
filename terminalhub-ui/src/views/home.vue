@@ -43,7 +43,6 @@ const sidebar = useSidebarStore();
     width: auto;
     height: 100%;
     padding: 0px;
-    overflow-y: scroll;
     box-sizing: border-box;
 }
 
