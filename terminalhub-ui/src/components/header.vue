@@ -117,8 +117,8 @@ const submitForm = () => {
     if (valid) {
       sidebar.addSshitem({
         addr: form.value.addr,
-        user: form.value.user,
-        pass: form.value.pass
+        user: encodeURIComponent(form.value.user),
+        pass: encodeURIComponent(form.value.pass)
       }) 
       isDialogVisible.value = false
     } else {
