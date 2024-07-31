@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,11 +65,11 @@ public class SessionAgent  extends AbstractSessionServer {
 
 	public SessionAgent(@NotNull Map<String, String> queryMap) throws Exception {
 	    address = IpAndPortUtil.getInetSocketAddressFromStr(queryMap.get("addr"));
-		user = queryMap.get("user");
+		user = URLDecoder.decode(queryMap.get("user"), StandardCharsets.UTF_8.name());
 		if (ObjectUtils.isEmpty(user)) {
 			throw new Exception("user is empty!");
 		}
-		pass = queryMap.get("pass");
+		pass = URLDecoder.decode(queryMap.get("pass"), StandardCharsets.UTF_8.name());
 		if (ObjectUtils.isEmpty(pass)) {
 			throw new Exception("pass is empty!");
 		}
@@ -90,11 +91,13 @@ public class SessionAgent  extends AbstractSessionServer {
 
     	ssh.addHostKeyVerifier(new PromiscuousVerifier());
         ssh.connect(address.getHostName(), address.getPort());
-        ssh.authPassword(user, "");
+        ssh.authPassword(user, pass);
         
         Session sshSession = ssh.startSession();
+        arryCloseable.add(sshSession);
+
         sshSession.allocateDefaultPTY();
-       	arryCloseable.add(sshSession);
+       	
         Shell shell =  sshSession.startShell();
        	arryCloseable.add(shell);
 
