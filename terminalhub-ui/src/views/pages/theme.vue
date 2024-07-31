@@ -6,7 +6,7 @@
             </template>
             <div class="theme-list mgb20">
                 <div class="theme-item" @click="setSystemTheme(item)" v-for="item in system"
-                    :style="{ backgroundColor: item.color, color: '#fff' }">{{ item.name }}
+                    :style="{ backgroundColor: item.color, color: getInverseColor(item.color) }">{{ item.name }}
                 </div>
             </div>
             <div class="flex-center">
@@ -144,37 +144,66 @@ const resetSidebar = () => {
     localStorage.removeItem('sidebar-text-color')
     location.reload()
 }
+const getInverseColor = (color) => {
+    color = color.substring(1)
+    const r = parseInt(color.substring(0, 2), 16)
+    const g = parseInt(color.substring(2, 4), 16)
+    const b = parseInt(color.substring(4, 6), 16)
+    const inverseR = (255 - r).toString(16).padStart(2, '0')
+    const inverseG = (255 - g).toString(16).padStart(2, '0')
+    const inverseB = (255 - b).toString(16).padStart(2, '0')
+    return `#${inverseR}${inverseG}${inverseB}`
+}
 const system = [
     {
         name: '默认',
         color: '#000000'
     },
     {
-        name: '健康',
-        color: '#1ABC9C'
+        name: '灰色',
+        color: '#4B4B4B'
     },
     {
-        name: '优雅',
-        color: '#722ed1'
+        name: '深蓝',
+        color: '#191970'
     },
     {
-        name: '热情',
-        color: '#f44336'
+        name: '温暖',
+        color: '#fafff0'
     },
     {
-        name: '宁静',
-        color: '#00bcd4'
-    }
+        name: '明亮',
+        color: '#ffffff'
+    },
 ]
 const setSystemTheme = (data: any) => {
-    if (data.name === '默认') {
-        resetSystemTheme()
-    } else {
+    if (data.name === '灰色') {
         themeStore.setHeaderBgColor(data.color)
         themeStore.setHeaderTextColor('#fff')
-        sidebar.setBgColor('#fff')
-        sidebar.setTextColor('#5b6e88')
+        sidebar.setBgColor(data.color)
+        sidebar.setTextColor('#fff')
         themeStore.setPropertyColor(data.color, 'primary')
+    } else if (data.name === '深蓝') {
+        themeStore.setHeaderBgColor(data.color)
+        themeStore.setHeaderTextColor('#fff')
+        sidebar.setBgColor(data.color)
+        sidebar.setTextColor('#fff')
+        themeStore.setPropertyColor(data.color, 'primary')
+    } 
+    else if (data.name === '温暖') {
+        themeStore.setHeaderBgColor(data.color)
+        themeStore.setHeaderTextColor('#000')
+        sidebar.setBgColor(data.color)
+        sidebar.setTextColor('#000')
+        themeStore.setPropertyColor(data.color, 'primary')
+    } else if (data.name === '明亮') {
+        themeStore.setHeaderBgColor(data.color)
+        themeStore.setHeaderTextColor('#000')
+        sidebar.setBgColor(data.color)
+        sidebar.setTextColor('#000')
+        themeStore.setPropertyColor(data.color, 'primary')
+    } else {
+        resetSystemTheme()
     }
 }
 const resetSystemTheme = () => {
