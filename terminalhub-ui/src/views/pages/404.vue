@@ -36,7 +36,7 @@ const goBack = () => {
 
 .error-box {
     width: 400px;
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 80px 50px;
     border-radius: 5px;
 }

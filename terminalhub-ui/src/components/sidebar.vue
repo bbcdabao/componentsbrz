@@ -4,8 +4,8 @@
             class="sidebar-el-menu"
             :default-active="onRoutes"
             :collapse="sidebar.collapse"
-            :background-color="sidebar.bgColor"
-            :text-color="sidebar.textColor"
+            :background-color="themeStore.sidebarBgColor"
+            :text-color="themeStore.sidebarTextColor"
             :default-openeds="['1', '2']"
             router
         >
@@ -37,7 +37,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useSidebarStore } from '../store/sidebar';
+import { useSidebarStore } from '@/store/sidebar';
+import { useThemeStore } from '@/store/theme';
 import { useRoute } from 'vue-router';
 import { ElMenu } from 'element-plus';
 
@@ -47,7 +48,7 @@ const onRoutes = computed(() => {
 });
 
 const sidebar = useSidebarStore();
-
+const themeStore = useThemeStore();
 </script>
 
 <style scoped>
@@ -70,6 +71,11 @@ const sidebar = useSidebarStore();
 
 .sidebar-el-menu {
     min-height: 100%;
+}
+
+.sidebar-el-menu .el-menu-item.is-active {
+  background-color: var(--sidebar-index-bg-color) !important;
+  color: var(--sidebar-index-text-color) !important;
 }
 
 </style>

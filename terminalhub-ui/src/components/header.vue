@@ -190,6 +190,7 @@ const setFullScreen = () => {
 
 .addlogo {
     font-size: 16px;
+    font-weight: bold;
     width: 100px;
     animation: rotate 2.2s linear infinite;
     animation-iteration-count: 1;

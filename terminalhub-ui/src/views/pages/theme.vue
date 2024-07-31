@@ -5,8 +5,8 @@
                 <div class="content-title">系统主题</div>
             </template>
             <div class="theme-list mgb20">
-                <div class="theme-item" @click="setSystemTheme(item)" v-for="item in system"
-                    :style="{ backgroundColor: item.color, color: getInverseColor(item.color) }">{{ item.name }}
+                <div class="theme-item" @click="setSystemTheme(value)" v-for="[key, value] in Object.entries(systemmap)"
+                    :style="{ backgroundColor: value.headerBgColor, color: getInverseColor(value.headerBgColor) }">{{ value.name }}
                 </div>
             </div>
             <div class="flex-center">
@@ -28,59 +28,6 @@
                 <el-button @click="resetTheme">重置主题</el-button>
             </div>
         </el-card>
-
-        <el-row :gutter="50">
-            <el-col :span="12">
-                <el-card class="mgb20" shadow="hover">
-                    <template #header>
-                        <div class="content-title">头部主题</div>
-                    </template>
-                    <div class="theme-list mgb20">
-                        <div class="theme-item">
-                            <el-button :color="color.headerBgColor">背景颜色</el-button>
-                            <div class="theme-color">{{ color.headerBgColor }}</div>
-                            <el-color-picker v-model="color.headerBgColor"
-                                @change="themeStore.setHeaderBgColor(color.headerBgColor)" />
-                        </div>
-                        <div class="theme-item">
-                            <el-button :color="color.headerTextColor">文字颜色</el-button>
-                            <div class="theme-color">{{ color.headerTextColor }}</div>
-                            <el-color-picker v-model="color.headerTextColor"
-                                @change="themeStore.setHeaderTextColor(color.headerTextColor)" />
-                        </div>
-                    </div>
-                    <div class="flex-center">
-                        <el-button @click="resetHeader">重置主题</el-button>
-                    </div>
-                </el-card>
-            </el-col>
-
-            <el-col :span="12">
-                <el-card class="mgb20" shadow="hover">
-                    <template #header>
-                        <div class="content-title">菜单主题</div>
-                    </template>
-                    <div class="theme-list mgb20">
-                        <div class="theme-item">
-                            <el-button :color="sidebar.bgColor">背景颜色</el-button>
-                            <div class="theme-color">{{ sidebar.bgColor }}</div>
-                            <el-color-picker v-model="sidebarColor.bgColor"
-                                @change="sidebar.setBgColor(sidebarColor.bgColor)" />
-                        </div>
-                        <div class="theme-item">
-                            <el-button :color="sidebar.textColor">文字颜色</el-button>
-                            <div class="theme-color">{{ sidebar.textColor }}</div>
-                            <el-color-picker v-model="sidebarColor.textColor"
-                                @change="sidebar.setTextColor(sidebarColor.textColor)" />
-                        </div>
-                    </div>
-                    <div class="flex-center">
-                        <el-button @click="resetSidebar">重置主题</el-button>
-                    </div>
-                </el-card>
-            </el-col>
-        </el-row>
-
     </div>
 </template>
 
@@ -100,10 +47,7 @@ const color = reactive({
     headerBgColor: themeStore.headerBgColor,
     headerTextColor: themeStore.headerTextColor,
 })
-const sidebarColor = reactive({
-    bgColor: sidebar.bgColor,
-    textColor: sidebar.textColor
-})
+
 const themes = [
     {
         name: 'primary',
@@ -134,16 +78,6 @@ const changeColor = (name: string) => {
 const resetTheme = () => {
     themeStore.resetTheme()
 }
-const resetHeader = () => {
-    localStorage.removeItem('header-bg-color')
-    localStorage.removeItem('header-text-color')
-    location.reload()
-}
-const resetSidebar = () => {
-    localStorage.removeItem('sidebar-bg-color')
-    localStorage.removeItem('sidebar-text-color')
-    location.reload()
-}
 const getInverseColor = (color) => {
     color = color.substring(1)
     const r = parseInt(color.substring(0, 2), 16)
@@ -154,62 +88,54 @@ const getInverseColor = (color) => {
     const inverseB = (255 - b).toString(16).padStart(2, '0')
     return `#${inverseR}${inverseG}${inverseB}`
 }
-const system = [
-    {
+const systemmap = {
+    '1': {
         name: '默认',
-        color: '#000000'
+        headerBgColor:'#000000',
+        headerTextColor: '#ffffff',
+        sidebarBgColor: '#000000',
+        sidebarTextColor: '#ffffff',
+        sidebarIndexBgColor: '#4B4B4B',
+        sidebarIndexTextColor: '#ffffff',
     },
-    {
+    '2': {
         name: '灰色',
-        color: '#4B4B4B'
+        headerBgColor:'#4B4B4B',
+        headerTextColor: '#ffffff',
+        sidebarBgColor: '#4B4B4B',
+        sidebarTextColor: '#ffffff',
+        sidebarIndexBgColor: '#808080',
+        sidebarIndexTextColor: '#ffffff',
     },
-    {
-        name: '深蓝',
-        color: '#191970'
-    },
-    {
-        name: '温暖',
-        color: '#fafff0'
-    },
-    {
-        name: '明亮',
-        color: '#ffffff'
-    },
-]
-const setSystemTheme = (data: any) => {
-    if (data.name === '灰色') {
-        themeStore.setHeaderBgColor(data.color)
-        themeStore.setHeaderTextColor('#fff')
-        sidebar.setBgColor(data.color)
-        sidebar.setTextColor('#fff')
-        themeStore.setPropertyColor(data.color, 'primary')
-    } else if (data.name === '深蓝') {
-        themeStore.setHeaderBgColor(data.color)
-        themeStore.setHeaderTextColor('#fff')
-        sidebar.setBgColor(data.color)
-        sidebar.setTextColor('#fff')
-        themeStore.setPropertyColor(data.color, 'primary')
-    } 
-    else if (data.name === '温暖') {
-        themeStore.setHeaderBgColor(data.color)
-        themeStore.setHeaderTextColor('#000')
-        sidebar.setBgColor(data.color)
-        sidebar.setTextColor('#000')
-        themeStore.setPropertyColor(data.color, 'primary')
-    } else if (data.name === '明亮') {
-        themeStore.setHeaderBgColor(data.color)
-        themeStore.setHeaderTextColor('#000')
-        sidebar.setBgColor(data.color)
-        sidebar.setTextColor('#000')
-        themeStore.setPropertyColor(data.color, 'primary')
-    } else {
-        resetSystemTheme()
+    '3': {
+        name: '黑灰双拼',
+        headerBgColor:'#000000',
+        headerTextColor: '#ffffff',
+        sidebarBgColor: '#4B4B4B',
+        sidebarTextColor: '#ffffff',
+        sidebarIndexBgColor: '#808080',
+        sidebarIndexTextColor: '#ffffff',
     }
+};
+const setSystemTheme = (data: any) => {
+    console.info("theme:", data);
+    themeStore.setHeaderBgColor(data.headerBgColor);
+    themeStore.setHeaderTextColor(data.headerTextColor);
+    themeStore.setSidebarBgColor(data.sidebarBgColor);
+    themeStore.setSidebarTextColor(data.sidebarTextColor);
+    themeStore.setSidebarIndexBgColor(data.sidebarIndexBgColor);
+    themeStore.setSidebarIndexTextColor(data.sidebarIndexTextColor);
 }
 const resetSystemTheme = () => {
     resetTheme();
-    resetHeader();
-    resetSidebar();
+    localStorage.removeItem('header-bg-color');
+    localStorage.removeItem('header-text-color');
+    localStorage.removeItem('sidebar-bg-color');
+    localStorage.removeItem('sidebar-text-color');
+    localStorage.removeItem('sidebar-bg-color');
+    localStorage.removeItem('sidebar-index-bg-color');
+    localStorage.removeItem('sidebar-index-text-color');
+    location.reload();
 }
 </script>
 

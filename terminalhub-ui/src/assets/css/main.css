@@ -18,7 +18,7 @@ i {
 
 .container {
 	padding: 30px;
-	background: #fff;
+	background: #ffffff;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 }
@@ -82,7 +82,7 @@ i {
 
 :root {
 	--header-bg-color: #000000;
-	--header-text-color: #fff;
+	--header-text-color: #ffffff;
 	--active-color: var(--el-color-primary);
 }
 
