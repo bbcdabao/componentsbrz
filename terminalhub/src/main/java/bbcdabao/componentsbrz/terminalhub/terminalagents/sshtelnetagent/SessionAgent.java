@@ -77,13 +77,7 @@ public class SessionAgent  extends AbstractSessionServer {
     @Override
     public void onTextMessage(TextMessage message) throws Exception {
     	String payloadMessage = message.getPayload();
-        String processedMessage = payloadMessage
-                .replace("\r\n", "\n")  // 处理 CRLF
-                .replace("\r", "\n")   // 处理 CR
-                .replace("\t", "TAB"); // 打印 Tab 字符（用于调试）
-
-        logger.info("Processed message: {}", processedMessage);
-        oStream.write(processedMessage.getBytes(StandardCharsets.UTF_8));
+        oStream.write(payloadMessage.getBytes(StandardCharsets.UTF_8));
         oStream.flush();
     }
 
@@ -96,7 +90,7 @@ public class SessionAgent  extends AbstractSessionServer {
 
     	ssh.addHostKeyVerifier(new PromiscuousVerifier());
         ssh.connect(address.getHostName(), address.getPort());
-        ssh.authPassword(user, "sanya#TIMEJOB58");
+        ssh.authPassword(user, "");
         
         Session sshSession = ssh.startSession();
         sshSession.allocateDefaultPTY();
@@ -119,8 +113,7 @@ public class SessionAgent  extends AbstractSessionServer {
                 throw new Exception("doSendProc read lower 0");
             }
             String data = new String(buffer, 0, readSize);
-            String formattedData = data.replaceAll("\\r?\\n", "\r\n");
-            TextMessage msg = new TextMessage(formattedData);
+            TextMessage msg = new TextMessage(data);
     		return msg;
         });
         byte[] erinfo = new byte[1024];
@@ -130,18 +123,9 @@ public class SessionAgent  extends AbstractSessionServer {
                 throw new Exception("doSendProc read lower 0");
             }
             String data = new String(buffer, 0, readSize);
-            String formattedData = data.replaceAll("\\r?\\n", "\r\n");
-            TextMessage msg = new TextMessage(formattedData);
+            TextMessage msg = new TextMessage(data);
             return msg;
         });
-        String command = "ls -l\n"; // 注意：命令末尾的换行符是必要的
-
-        // 将命令转换为字节数组
-        byte[] commandBytes = command.getBytes("UTF-8");
-
-        // 向输出流写入命令
-        oStream.write(commandBytes);
-        oStream.flush(); // 确保命令被发送出去
     }
 
     @Override
