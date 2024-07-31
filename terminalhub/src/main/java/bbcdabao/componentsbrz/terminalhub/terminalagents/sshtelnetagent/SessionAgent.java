@@ -99,6 +99,7 @@ public class SessionAgent  extends AbstractSessionServer {
         ssh.authPassword(user, "sanya#TIMEJOB58");
         
         Session sshSession = ssh.startSession();
+        sshSession.allocateDefaultPTY();
        	arryCloseable.add(sshSession);
         Shell shell =  sshSession.startShell();
        	arryCloseable.add(shell);
