@@ -10,17 +10,19 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useSidebarStore } from '@/store/sidebar';
-import { useThemeStore } from '@/store/theme'
+import { useThemeStore } from '@/store/theme';
+import { useHeaderStore } from '@/store/header';
 import { useRoute } from 'vue-router';
 import { Sshitem } from '@/types/sshitem';
-import { Terminal } from 'xterm'
-import { FitAddon } from 'xterm-addon-fit'
-import { AttachAddon } from 'xterm-addon-attach'
-import 'xterm/css/xterm.css'
+import { Terminal } from 'xterm';
+import { FitAddon } from 'xterm-addon-fit';
+import { AttachAddon } from 'xterm-addon-attach';
+import 'xterm/css/xterm.css';
 
 const themeStore = useThemeStore();
 const sidebar = useSidebarStore();
 const route = useRoute();
+const header = useHeaderStore();
 const param = route.params.param;
 
 let  nowItem : Sshitem = null;
@@ -88,11 +90,13 @@ const closeWebSocket = () => {
 onMounted(() => {
     console.info("begin:", nowItem);
     connectWebSocket();
+    header.setTitlesp(nowItem.addr);
 });
 
 onBeforeUnmount(() => {
     console.info("end:", nowItem);
     closeWebSocket();
+    header.setTitlesp('');
 });
 
 </script>
@@ -110,6 +114,7 @@ onBeforeUnmount(() => {
 
 .this-box {
     width: 100%;
+    height: 100%;
     background-color: var(--header-bg-color);
     padding: 100px 50px;
     border-radius: 10px;
