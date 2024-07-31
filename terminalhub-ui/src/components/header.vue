@@ -28,15 +28,13 @@
                 </el-icon>
             </div>
             <div class="header-left" v-if="!sidebar.collapse">
-            <div class="web-title">添加终端</div>
-                <el-icon class="addlogopt" @click="openDialog">
-                    <soccer />
-                </el-icon>
-                <el-icon class="addlogo" @click="openDialog">
-                    <circle-plus-filled />
-                </el-icon>
+            <el-icon class="addlogopt">
+                <soccer />
+            </el-icon>
+            <button class="addlogo" @click="openDialog">添加终端</button>
             </div>
         </div>
+        <div>{{ header.titlesp }}</div>
         <div class="header-right">
             <div class="header-user-con">
                 <div class="btn-icon" @click="router.push('/theme')">
@@ -71,21 +69,21 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useSidebarStore } from '../store/sidebar';
+import { useSidebarStore } from '@/store/sidebar';
+import { useHeaderStore } from '@/store/header';
 import { useRouter } from 'vue-router';
 import imgurl from '../assets/img/img.jpg';
-import { ref } from 'vue'
-import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus'
+import { ref } from 'vue';
+import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus';
 
+const isDialogVisible = ref(false);
 
-const isDialogVisible = ref(false)
-
-const formRef = ref(null)
+const formRef = ref(null);
 const form = ref({
   addr: '',
   user: '',
   pass: ''
-})
+});
 
 const rules = ref<FormRules>({
   addr: [
@@ -108,11 +106,11 @@ const rules = ref<FormRules>({
 
 const openDialog = () => {
   isDialogVisible.value = true
-}
+};
 
 const closeDialog = () => {
   isDialogVisible.value = false
-}
+};
 
 const submitForm = () => {
   formRef.value.validate((valid: boolean) => {
@@ -127,21 +125,22 @@ const submitForm = () => {
       ElMessage.error('表单校验失败')
     }
   })
-}
+};
 
 const username: string | null = localStorage.getItem('vuems_name');
 
 const sidebar = useSidebarStore();
+const header = useHeaderStore();
 // 侧边栏折叠
 const collapseChage = () => {
     sidebar.handleCollapse();
-};
+}
 
 onMounted(() => {
     if (document.body.clientWidth < 600) {
         collapseChage();
     }
-});
+})
 
 // 用户名下拉菜单选择事件
 const router = useRouter();
@@ -150,7 +149,7 @@ const handleCommand = (command: string) => {
         localStorage.removeItem('vuems_name');
         router.push('/login');
     }
-};
+}
 
 const setFullScreen = () => {
     if (document.fullscreenElement) {
@@ -158,7 +157,8 @@ const setFullScreen = () => {
     } else {
         document.body.requestFullscreen.call(document.body);
     }
-};
+}
+
 </script>
 <style scoped>
 .header {
@@ -182,15 +182,16 @@ const setFullScreen = () => {
 
 .addlogopt {
     font-size: 32px;
+    margin-left: 154px;
     fill: rgb(255, 255, 255);
-    animation: swing 1s linear infinite;
+    animation: swing 2s linear infinite;
     animation-iteration-count: 1;
 }
 
 .addlogo {
-    font-size: 32px;
-    fill: rgb(255, 255, 255);
-    animation: rotate 1.2s linear infinite;
+    font-size: 16px;
+    width: 100px;
+    animation: rotate 2.2s linear infinite;
     animation-iteration-count: 1;
 }
 
@@ -201,22 +202,37 @@ const setFullScreen = () => {
 
 @keyframes swing {
     0% {
-        transform: translateX(-250%) rotate(0deg);
+        transform: translateX(-500%) rotate(0deg);
+    }
+    10% {
+        transform: translateX(-450%) rotate(60deg);
     }
     20% {
-        transform: translateX(-200%) rotate(72deg);
+        transform: translateX(-400%) rotate(120deg);
+    }
+    30% {
+        transform: translateX(-350%) rotate(180deg);
     }
     40% {
-        transform: translateX(-150%) rotate(144deg);
+        transform: translateX(-300%) rotate(240deg);
+    }
+    50% {
+        transform: translateX(-250%) rotate(300deg);
     }
     60% {
-        transform: translateX(-100%) rotate(216deg);
+        transform: translateX(-200%) rotate(360deg);
+    }
+    70% {
+        transform: translateX(-150%) rotate(420deg);
     }
     80% {
-        transform: translateX(-50%) rotate(288deg);
+        transform: translateX(-100%) rotate(480deg);
+    }
+    90% {
+        transform: translateX(-50%) rotate(540deg);
     }
     100% {
-        transform: translateX(-0%) rotate(360deg);
+        transform: translateX(-0%) rotate(720deg);
     }
 }
 
@@ -243,7 +259,7 @@ const setFullScreen = () => {
         transform: scale(1);
     }
     95% {
-        transform: scale(1.5);
+        transform: scale(2);
     }
     100% {
         transform: scale(1);
@@ -252,7 +268,6 @@ const setFullScreen = () => {
 
 .web-title {
     margin: 0 40px 0 10px;
-    width: 100px;
     font-size: 16px;
     font-weight: bold;
     text-align: left;
