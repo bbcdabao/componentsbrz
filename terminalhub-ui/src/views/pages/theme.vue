@@ -1,160 +1,90 @@
-<template>
-    <div>
-        <el-card class="mgb20" shadow="hover">
-            <template #header>
-                <div class="content-title">系统主题</div>
-            </template>
-            <div class="theme-list mgb20">
-                <div class="theme-item" @click="setSystemTheme(value)" v-for="[key, value] in Object.entries(systemmap)"
-                    :style="{ backgroundColor: value.headerBgColor, color: getInverseColor(value.headerBgColor) }">{{ value.name }}
-                </div>
-            </div>
-            <div class="flex-center">
-                <el-button @click="resetSystemTheme">重置主题</el-button>
-            </div>
-        </el-card>
-        <el-card class="mgb20" shadow="hover">
-            <template #header>
-                <div class="content-title">Element-Plus主题</div>
-            </template>
-            <div class="theme-list mgb20">
-                <div class="theme-item" v-for="theme in themes">
-                    <el-button :type="theme.name">{{ theme.name }}</el-button>
-                    <div class="theme-color">{{ theme.color }}</div>
-                    <el-color-picker v-model="color[theme.name]" @change="changeColor(theme.name)" />
-                </div>
-            </div>
-            <div class="flex-center">
-                <el-button @click="resetTheme">重置主题</el-button>
-            </div>
-        </el-card>
-    </div>
-</template>
+import { mix, setProperty } from '@/utils';
+import { defineStore } from 'pinia';
 
-<script setup lang="ts">
-import { useSidebarStore } from '@/store/sidebar';
-import { useThemeStore } from '@/store/theme'
-import { reactive } from 'vue';
-const themeStore = useThemeStore();
-const sidebar = useSidebarStore();
-
-const color = reactive({
-    primary: localStorage.getItem('theme-primary') || '#409eff',
-    success: localStorage.getItem('theme-success') || '#67c23a',
-    warning: localStorage.getItem('theme-warning') || '#e6a23c',
-    danger: localStorage.getItem('theme-danger') || '#f56c6c',
-    info: localStorage.getItem('theme-info') || '#909399',
-    headerBgColor: themeStore.headerBgColor,
-    headerTextColor: themeStore.headerTextColor,
-})
-
-const themes = [
-    {
-        name: 'primary',
-        color: themeStore.primary || color.primary
+export const useThemeStore = defineStore('theme', {
+    state: () => {
+        return {
+            primary: '',
+            success: '',
+            warning: '',
+            danger: '',
+            info: '',
+            headerBgColor: '#000000',
+            headerTextColor: '#ffffff',
+            sidebarBgColor: '#000000',
+            sidebarTextColor: '#ffffff',
+            sidebarIndexBgColor: '#4B4B4B',
+            sidebarIndexTextColor: '#ffffff',
+        };
     },
-    {
-        name: 'success',
-        color: themeStore.success || color.success
-    },
-    {
-        name: 'warning',
-        color: themeStore.warning || color.warning
-    },
-    {
-        name: 'danger',
-        color: themeStore.danger || color.danger
-    },
-    {
-        name: 'info',
-        color: themeStore.info || color.info
+    getters: {},
+    actions: {
+        initTheme() {
+            ['primary', 'success', 'warning', 'danger', 'info'].forEach((type) => {
+                const color = localStorage.getItem(`theme-${type}`) || '';
+                if (color) {
+                    this.setPropertyColor(color, type);
+                }
+            });
+            const headerBgColor = localStorage.getItem('header-bg-color');
+            headerBgColor && this.setHeaderBgColor(headerBgColor);
+            const headerTextColor = localStorage.getItem('header-text-color');
+            headerTextColor && this.setHeaderTextColor(headerTextColor);
+            const sidebarBgColor = localStorage.getItem('sidebar-bg-color');
+            sidebarBgColor && this.setSidebarBgColor(sidebarBgColor);
+            const sidebarTextColor = localStorage.getItem('sidebar-text-color');
+            sidebarTextColor && this.setSidebarTextColor(sidebarTextColor);
+            const sidebarIndexBgColor = localStorage.getItem('sidebar-index-bg-color');
+            sidebarIndexBgColor && this.setSidebarIndexBgColor(sidebarIndexBgColor);
+            const sidebarIndexTextColor = localStorage.getItem('sidebar-index-text-color');
+            sidebarIndexTextColor && this.setSidebarIndexTextColor(sidebarIndexTextColor);
+        },
+        resetTheme() {
+            ['primary', 'success', 'warning', 'danger', 'info'].forEach((type) => {
+                this.setPropertyColor('', type);
+            });
+        },
+        setPropertyColor(color: string, type: string = 'primary') {
+            this[type] = color;
+            setProperty(`--el-color-${type}`, color);
+            localStorage.setItem(`theme-${type}`, color);
+            this.setThemeLight(type);
+        },
+        setThemeLight(type: string = 'primary') {
+            [3, 5, 7, 8, 9].forEach((v) => {
+                setProperty(`--el-color-${type}-light-${v}`, mix('#ffffff', this[type], v / 10));
+            });
+            setProperty(`--el-color-${type}-dark-2`, mix('#ffffff', this[type], 0.2));
+        },
+        setHeaderBgColor(color: string) {
+            this.headerBgColor = color;
+            setProperty('--header-bg-color', color);
+            localStorage.setItem(`header-bg-color`, color);
+        },
+        setHeaderTextColor(color: string) {
+            this.headerTextColor = color;
+            setProperty('--header-text-color', color);
+            localStorage.setItem(`header-text-color`, color);
+        },
+        setSidebarBgColor(color: string) {
+            this.sidebarBgColor = color;
+            setProperty('--sidebar-bg-color', color);
+            localStorage.setItem(`sidebar-bg-color`, color);
+        },
+        setSidebarTextColor(color: string) {
+            this.sidebarTextColor = color;
+            setProperty('--sidebar-text-color', color);
+            localStorage.setItem(`sidebar-text-color`, color);
+        },
+        setSidebarIndexBgColor(color: string) {
+            this.sidebarIndexBgColor = color;
+            setProperty('--sidebar-index-bg-color', color);
+            localStorage.setItem(`sidebar-index-bg-color`, color);
+        },
+        setSidebarIndexTextColor(color: string) {
+            this.sidebarIndexTextColor = color;
+            setProperty('--sidebar-index-text-color', color);
+            localStorage.setItem(`sidebar-index-text-color`, color);
+        }
     }
-]
-
-const changeColor = (name: string) => {
-    themeStore.setPropertyColor(color[name], name)
-}
-
-const resetTheme = () => {
-    themeStore.resetTheme()
-}
-const getInverseColor = (color) => {
-    color = color.substring(1)
-    const r = parseInt(color.substring(0, 2), 16)
-    const g = parseInt(color.substring(2, 4), 16)
-    const b = parseInt(color.substring(4, 6), 16)
-    const inverseR = (255 - r).toString(16).padStart(2, '0')
-    const inverseG = (255 - g).toString(16).padStart(2, '0')
-    const inverseB = (255 - b).toString(16).padStart(2, '0')
-    return `#${inverseR}${inverseG}${inverseB}`
-}
-const systemmap = {
-    '1': {
-        name: '默认',
-        headerBgColor:'#000000',
-        headerTextColor: '#ffffff',
-        sidebarBgColor: '#000000',
-        sidebarTextColor: '#ffffff',
-        sidebarIndexBgColor: '#4B4B4B',
-        sidebarIndexTextColor: '#ffffff',
-    },
-    '2': {
-        name: '灰色',
-        headerBgColor:'#4B4B4B',
-        headerTextColor: '#ffffff',
-        sidebarBgColor: '#4B4B4B',
-        sidebarTextColor: '#ffffff',
-        sidebarIndexBgColor: '#808080',
-        sidebarIndexTextColor: '#ffffff',
-    },
-    '3': {
-        name: '黑灰双拼',
-        headerBgColor:'#000000',
-        headerTextColor: '#ffffff',
-        sidebarBgColor: '#4B4B4B',
-        sidebarTextColor: '#ffffff',
-        sidebarIndexBgColor: '#808080',
-        sidebarIndexTextColor: '#ffffff',
-    }
-};
-const setSystemTheme = (data: any) => {
-    console.info("theme:", data);
-    themeStore.setHeaderBgColor(data.headerBgColor);
-    themeStore.setHeaderTextColor(data.headerTextColor);
-    themeStore.setSidebarBgColor(data.sidebarBgColor);
-    themeStore.setSidebarTextColor(data.sidebarTextColor);
-    themeStore.setSidebarIndexBgColor(data.sidebarIndexBgColor);
-    themeStore.setSidebarIndexTextColor(data.sidebarIndexTextColor);
-}
-const resetSystemTheme = () => {
-    resetTheme();
-    localStorage.removeItem('header-bg-color');
-    localStorage.removeItem('header-text-color');
-    localStorage.removeItem('sidebar-bg-color');
-    localStorage.removeItem('sidebar-text-color');
-    localStorage.removeItem('sidebar-bg-color');
-    localStorage.removeItem('sidebar-index-bg-color');
-    localStorage.removeItem('sidebar-index-text-color');
-    location.reload();
-}
-</script>
-
-<style scoped>
-.theme-list {
-    display: flex;
-    justify-content: center;
-}
-
-.theme-item {
-    margin-right: 20px;
-    padding: 30px;
-    border: 1px solid #dcdfe6;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.theme-color {
-    color: #787878;
-    margin: 20px 0;
-}
-</style>
+});
