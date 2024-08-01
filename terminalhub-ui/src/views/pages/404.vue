@@ -2,7 +2,7 @@
     <div class="error-page">
         <div class="error-box">
             <div class="error-code">404</div>
-            <div class="error-desc">啊哦~ 你所访问的页面不存在</div>
+            <div class="error-desc">页面不存在</div>
             <div class="error-handle">
                 <router-link to="/">
                     <el-button type="primary" size="large">返回首页</el-button>
@@ -12,16 +12,13 @@
         </div>
     </div>
 </template>
-
 <script setup lang="ts" name="404">
 import { useRouter } from 'vue-router';
-
 const router = useRouter();
 const goBack = () => {
     router.go(-1);
 };
 </script>
-
 <style scoped>
 .error-page {
     display: flex;
