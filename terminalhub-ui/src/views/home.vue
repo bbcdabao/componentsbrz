@@ -17,10 +17,8 @@
 import { useSidebarStore } from '@/store/sidebar';
 import vHeader from '@/components/header.vue';
 import vSidebar from '@/components/sidebar.vue';
-
 const sidebar = useSidebarStore();
 </script>
-
 <style>
 .wrapper {
     height: 100vh;
