@@ -70,6 +70,7 @@ const rules: FormRules = {
     ],
     password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 };
+
 const login = ref<FormInstance>();
 const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
@@ -88,8 +89,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             return false;
         }
     });
-};
-
+}
 </script>
 
 <style scoped>
