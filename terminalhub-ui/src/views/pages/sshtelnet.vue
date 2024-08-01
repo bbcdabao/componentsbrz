@@ -12,8 +12,8 @@ import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useSidebarStore } from '@/store/sidebar';
 import { useThemeStore } from '@/store/theme';
 import { useHeaderStore } from '@/store/header';
-import { useRoute } from 'vue-router';
 import { Sshitem } from '@/types/sshitem';
+import { useRoute } from 'vue-router';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { AttachAddon } from 'xterm-addon-attach';
@@ -54,7 +54,8 @@ const connectWebSocket = () => {
     ws.value.onclose = () => {
         connectInfo.value = 'websocket connection closed';
     };
-};
+}
+
 const terminalRef = ref(null);
 const initTerm = () => {
     const term = new Terminal({
@@ -79,13 +80,13 @@ const initTerm = () => {
     } else {
         connectInfo.value = 'Terminal element not found';
     }
-};
+}
 
 const closeWebSocket = () => {
     if (ws.value) {
         ws.value.close();
     }
-};
+}
 
 onMounted(() => {
     console.info("begin:", nowItem);
