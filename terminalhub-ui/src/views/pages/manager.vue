@@ -1,28 +1,32 @@
 <template>
     <div class="this-page">
         <div style="padding: 10px;">
-        <el-card class="mgb20 custom-shadow" shadow="hover">
-            <template #header>
-                <div class="content-title">添加SSH登录终端</div>
-            </template>
-            <div>
-        <el-form :model="form" :rules="rules" ref="formRef">
-          <el-form-item label="地址" prop="addr">
-            <el-input v-model="form.addr"></el-input>
-          </el-form-item>
-          <el-form-item label="用户" prop="user">
-                <el-input v-model="form.user"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="pass">
-                <el-input v-model="form.pass" type="password"></el-input>
-            </el-form-item>
-            <span>
-                <el-button type="primary" @click="submitForm">添 加</el-button>
-            </span>
-        </el-form>
-    </div>
-      </el-card>
-      </div>
+            <el-card class="mgb20 custom-shadow" shadow="hover">
+                <template #header>
+                    <div class="content-title">斯塔克工业欢迎您</div>
+                </template>
+                <img src="@/assets/img/logo.svg" alt="" />
+            </el-card>
+        </div>
+        <div style="padding: 10px;">
+            <el-card class="mgb20 custom-shadow" shadow="hover">
+                <template #header>
+                    <div class="content-title">添加SSH登录终端</div>
+                </template>
+                <el-form :model="form" :rules="rules" ref="formRef">
+                    <el-form-item label="地址" prop="addr">
+                        <el-input v-model="form.addr"></el-input>
+                    </el-form-item>
+                    <el-form-item label="用户" prop="user">
+                        <el-input v-model="form.user"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="pass">
+                        <el-input v-model="form.pass" type="password"></el-input>
+                    </el-form-item>
+                    <el-button type="primary" @click="submitForm">添 加</el-button>
+                </el-form>
+            </el-card>
+        </div>
     </div>
 </template>
 
@@ -79,6 +83,5 @@ const submitForm = () => {
 .this-page {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
 }
 </style>
