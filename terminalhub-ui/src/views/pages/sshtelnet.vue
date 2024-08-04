@@ -103,16 +103,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.this-page {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background: #eef0fc;
-    box-sizing: border-box;
-}
-
 .this-box {
     width: 100%;
     height: 100%;
@@ -131,8 +121,9 @@ onBeforeUnmount(() => {
 }
 
 .terminal {
-  width: 100%;
+  width: 50%;
   height: 100%;
   background-color: var(--sidebar-bg-color);
 }
+
 </style>

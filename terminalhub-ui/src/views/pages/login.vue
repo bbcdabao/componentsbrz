@@ -2,7 +2,7 @@
     <div class="login-bg">
         <div class="login-container">
             <div class="login-header">
-                <img class="logo mr10" src="../../assets/img/logo.svg" alt="" />
+                <img class="logo mr10" src="@/assets/img/logo.svg" alt="" />
                 <div class="login-title">斯塔克工业</div>
             </div>
             <el-form :model="param" :rules="rules" ref="login" size="large">
@@ -68,7 +68,13 @@ const rules: FormRules = {
             trigger: 'blur',
         },
     ],
-    password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+    password: [
+        {
+            required: true,
+            message: '请输入密码',
+            trigger: 'blur'
+        }
+    ],
 };
 
 const login = ref<FormInstance>();
@@ -89,7 +95,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             return false;
         }
     });
-}
+};
 </script>
 
 <style scoped>
@@ -99,7 +105,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     justify-content: center;
     width: 100%;
     height: 100vh;
-    background: url(../../assets/img/login-bg.jpg) center/cover no-repeat;
+    background: url(@/assets/img/login-bg.jpg) center/cover no-repeat;
 }
 
 .login-header {
@@ -110,7 +116,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 
 .logo {
-    width: 35px;
+    width: 42px;
 }
 
 .login-title {
@@ -121,8 +127,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
 .login-container {
     width: 300px;
-    border-radius: 5px;
-    background: #333;
+    margin-left: 8px;
+    border-radius: 20px;
+    background: var(--sidebar-bg-color);
     padding: 8px 50px 50px;
     box-sizing: border-box;
 }
@@ -133,7 +140,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     align-items: center;
     font-size: 14px;
     margin: -10px 0 10px;
-    color: #787878;
+    color: var(--sidebar-text-color);
 }
 
 .pwd-checkbox {

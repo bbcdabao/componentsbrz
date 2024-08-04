@@ -6,7 +6,7 @@ import 'nprogress/nprogress.css';
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        redirect: '/welcome',
+        redirect: '/manager',
     },
     {
         path: '/',
@@ -21,6 +21,15 @@ const routes: RouteRecordRaw[] = [
                     noAuth: false,
                 },
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/pages/welcome.vue'),
+            },
+            {
+                path: '/manager',
+                name: 'manager',
+                meta: {
+                    title: '终端管理',
+                    noAuth: false,
+                },
+                component: () => import(/* webpackChunkName: "dashboard" */ '../views/pages/manager.vue'),
             },
             {
                 path: '/sshtelnet/:param',

@@ -68,13 +68,12 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useSidebarStore } from '@/store/sidebar';
 import { useHeaderStore } from '@/store/header';
 import { useRouter } from 'vue-router';
-import imgurl from '../assets/img/img.jpg';
-import { ref } from 'vue';
 import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus';
+import imgurl from '../assets/img/img.jpg';
 
 const isDialogVisible = ref(false);
 
@@ -342,17 +341,6 @@ const setFullScreen = () => {
     color: var(--header-text-color);
     margin: 0 5px;
     font-size: 20px;
-}
-
-.btn-bell-badge {
-    position: absolute;
-    right: 4px;
-    top: 0px;
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
-    background: #f56c6c;
-    color: var(--header-text-color);
 }
 
 .user-avator {

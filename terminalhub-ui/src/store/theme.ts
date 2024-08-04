@@ -13,8 +13,9 @@ export const useThemeStore = defineStore('theme', {
             headerTextColor: '#ffffff',
             sidebarBgColor: '#000000',
             sidebarTextColor: '#ffffff',
-            sidebarIndexBgColor: '#4B4B4B',
+            sidebarIndexBgColor: '#333333',
             sidebarIndexTextColor: '#ffffff',
+            shadowColor: '#ff0000',
         };
     },
     getters: {},
@@ -38,6 +39,8 @@ export const useThemeStore = defineStore('theme', {
             sidebarIndexBgColor && this.setSidebarIndexBgColor(sidebarIndexBgColor);
             const sidebarIndexTextColor = localStorage.getItem('sidebar-index-text-color');
             sidebarIndexTextColor && this.setSidebarIndexTextColor(sidebarIndexTextColor);
+            const shadowColor = localStorage.getItem('shadow-color');
+            shadowColor && this.setShadowColor(shadowColor);
         },
         resetTheme() {
             ['primary', 'success', 'warning', 'danger', 'info'].forEach((type) => {
@@ -85,6 +88,11 @@ export const useThemeStore = defineStore('theme', {
             this.sidebarIndexTextColor = color;
             setProperty('--sidebar-index-text-color', color);
             localStorage.setItem(`sidebar-index-text-color`, color);
-        }
+        },
+        setShadowColor(color: string) {
+            this.shadowColor = color;
+            setProperty('--shadow-color', color);
+            localStorage.setItem(`shadow-color`, color);
+        },
     }
 });

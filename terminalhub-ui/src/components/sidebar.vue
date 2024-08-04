@@ -9,11 +9,11 @@
             :default-openeds="['1', '2']"
             router
         >
-            <el-menu-item :index="'/welcome'" :key="'/welcome'">
+            <el-menu-item :index="'/manager'" :key="'/manager'">
                 <el-icon>
                     <eleme-filled />
                 </el-icon>
-                <template #title>欢迎</template>
+                <template #title>终端管理</template>
             </el-menu-item>
             <el-sub-menu :index="'1'" :key="'1'">
                 <template #title>
@@ -76,6 +76,7 @@ const themeStore = useThemeStore();
 .sidebar-el-menu .el-menu-item.is-active {
   background-color: var(--sidebar-index-bg-color) !important;
   color: var(--sidebar-index-text-color) !important;
+  font-weight: bold !important;
 }
 
 </style>
