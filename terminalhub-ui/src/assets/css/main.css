@@ -92,7 +92,12 @@ i {
 }
 
 .el-card__header {
-    height: 50px;
+	font-size: 18px;
+	font-weight: bold;
+	height: 48px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 	color: var(--header-text-color);
 	background: var(--header-bg-color);
 }
