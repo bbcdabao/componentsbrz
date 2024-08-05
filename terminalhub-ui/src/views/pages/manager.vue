@@ -5,7 +5,6 @@
                 <template #header>
                     <div class="content-title">斯塔克工业欢迎您</div>
                 </template>
-                <img src="@/assets/img/logo.svg" alt="" />
             </el-card>
         </div>
         <div style="padding: 10px;">

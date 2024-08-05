@@ -132,6 +132,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     background: var(--sidebar-bg-color);
     padding: 8px 50px 50px;
     box-sizing: border-box;
+    border: 1px solid white;
 }
 
 .pwd-tips {

@@ -96,7 +96,7 @@ i {
 	font-weight: bold;
 	height: 48px;
 	display: flex;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	color: var(--header-text-color);
 	background: var(--header-bg-color);
@@ -107,8 +107,33 @@ i {
 	background: var(--sidebar-bg-color);
 }
 
+.el-card:hover .el-card__header {
+    background-image: url(@/assets/img/logo.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: moveleftact 0.5s linear infinite;
+    animation-iteration-count: 1;
+}
+
+@keyframes moveleftact {
+    0% {
+        background-position: -15% center;
+    }
+    80% {
+        background-position: 2% center;
+    }
+    100% {
+        background-position: 0% center;
+    }
+}
+
+.el-card__body:hover {
+	color: var(--sidebar-index-text-color);
+    background: var(--sidebar-index-bg-color);
+}
+
 .custom-shadow:hover {
-    box-shadow: 0 0px 20px var(--shadow-color) !important;
+    box-shadow: 0 0px 30px var(--shadow-color) !important;
 }
 
 #nprogress .bar { 
