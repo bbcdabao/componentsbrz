@@ -1,5 +1,5 @@
 <template>
-    <div class="this-page">
+    <div class="this-page-ssh">
         <div v-if="connectInfo != 'ok'" class="this-box">
             <div class="this-info">{{ connectInfo }}</div>
         </div>
@@ -103,27 +103,35 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.this-page-ssh {
+    width: 100%;
+    height: 100%;
+	background: var(--sidebar-bg-color);
+}
+
 .this-box {
     width: 100%;
     height: 100%;
-    background-color: var(--sidebar-bg-color);
     padding: 100px 50px;
     border-radius: 10px;
+    background-color: var(--sidebar-bg-color);
 }
 
 .this-info {
     line-height: 1;
     font-size: 40px;
     font-weight: bold;
-    color: var(--sidebar-text-color);
     margin-bottom: 20px;
     text-align: center;
+    color: var(--sidebar-text-color);
 }
 
 .terminal {
-  width: 50%;
-  height: 100%;
-  background-color: var(--sidebar-bg-color);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    background-color: var(--sidebar-bg-color);
 }
-
 </style>
