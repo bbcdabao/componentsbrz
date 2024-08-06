@@ -35,13 +35,16 @@ const connectInfo = ref('begin...');
 const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const host = window.location.hostname;
 const port = window.location.port ? window.location.port : (window.location.protocol === 'https:' ? 443 : 80);
-//const url = `${protocol}://${host}:${port}/bbadabao?sessionfactory=sshfactory`;
-const url = `ws://localhost:9090/bbadabao?sessionfactory=sshfactory&addr=${nowItem.addr}&user=${nowItem.user}&pass=${nowItem.pass}`;
-
+const wspt = `/bbadabao?sessionfactory=sshfactory&addr=${nowItem.addr}&user=${nowItem.user}&pass=${nowItem.pass}`;
+let wbsurl = `${protocol}://${host}:${port}` + wspt;
+if (import.meta.env.MODE === 'development') {
+    wbsurl = `ws://localhost:9090` + wspt;
+}
 const ws = ref<WebSocket | null>(null);
+
 const connectWebSocket = () => {
     connectInfo.value = 'websocket begin connect ...';
-    ws.value = new WebSocket(url);
+    ws.value = new WebSocket(wbsurl);
     ws.value.onopen = () => {
         connectInfo.value = 'ok';
         nextTick(() => {
@@ -54,7 +57,7 @@ const connectWebSocket = () => {
     ws.value.onclose = () => {
         connectInfo.value = 'websocket connection closed';
     };
-}
+};
 
 const terminalRef = ref(null);
 const initTerm = () => {
@@ -80,13 +83,13 @@ const initTerm = () => {
     } else {
         connectInfo.value = 'Terminal element not found';
     }
-}
+};
 
 const closeWebSocket = () => {
     if (ws.value) {
         ws.value.close();
     }
-}
+};
 
 onMounted(() => {
     console.info("begin:", nowItem);
@@ -106,6 +109,9 @@ onBeforeUnmount(() => {
 .this-page-ssh {
     width: 100%;
     height: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
 	background: var(--sidebar-bg-color);
 }
 
@@ -129,7 +135,7 @@ onBeforeUnmount(() => {
 .terminal {
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
+    border: 0;
     padding: 0;
     margin: 0;
     background-color: var(--sidebar-bg-color);
