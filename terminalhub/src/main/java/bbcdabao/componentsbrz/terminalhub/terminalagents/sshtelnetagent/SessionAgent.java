@@ -38,7 +38,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import bbcdabao.componentsbrz.terminalhub.utils.IpAndPortUtil;
+import bbcdabao.componentsbrz.terminalhub.utils.AddrUtil;
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
 import bbcdabao.componentsbrz.websocketbrz.api.IRegGetMsgForSend;
 import net.schmizz.sshj.SSHClient;
@@ -64,7 +64,7 @@ public class SessionAgent  extends AbstractSessionServer {
     private List<Closeable> arryCloseable = new ArrayList<>();
 
 	public SessionAgent(@NotNull Map<String, String> queryMap) throws Exception {
-	    address = IpAndPortUtil.getInetSocketAddressFromStr(queryMap.get("addr"));
+	    address = AddrUtil.parseInetSocketAddress(queryMap.get("addr"));
 		user = URLDecoder.decode(queryMap.get("user"), StandardCharsets.UTF_8.name());
 		if (ObjectUtils.isEmpty(user)) {
 			throw new Exception("user is empty!");
@@ -78,6 +78,7 @@ public class SessionAgent  extends AbstractSessionServer {
     @Override
     public void onTextMessage(TextMessage message) throws Exception {
     	String payloadMessage = message.getPayload();
+    	logger.info(">:{}", payloadMessage);
         oStream.write(payloadMessage.getBytes(StandardCharsets.UTF_8));
         oStream.flush();
     }
