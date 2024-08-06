@@ -3,13 +3,6 @@
         <div style="padding: 10px;">
             <el-card class="mgb20 custom-shadow" shadow="hover">
                 <template #header>
-                    <div class="content-title">斯塔克工业欢迎您</div>
-                </template>
-            </el-card>
-        </div>
-        <div style="padding: 10px;">
-            <el-card class="mgb20 custom-shadow" shadow="hover">
-                <template #header>
                     <div class="content-title">添加SSH登录终端</div>
                 </template>
                 <el-form :model="form" :rules="rules" ref="formRef">
@@ -24,6 +17,13 @@
                     </el-form-item>
                     <el-button type="primary" @click="submitForm">添 加</el-button>
                 </el-form>
+            </el-card>
+        </div>
+        <div style="padding: 10px;">
+            <el-card class="mgb20 custom-shadow" shadow="hover">
+                <template #header>
+                    <div class="content-title">终端管理</div>
+                </template>
             </el-card>
         </div>
     </div>
@@ -75,9 +75,7 @@ const submitForm = () => {
     }
   })
 };
-
 </script>
-
 <style scoped>
 .this-page {
     display: flex;
