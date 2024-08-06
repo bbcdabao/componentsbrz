@@ -108,7 +108,7 @@ i {
 }
 
 .el-card:hover .el-card__header {
-    background-image: url(@/assets/img/logo.svg);
+    background-image: url(@/assets/img/logoex.svg);
     background-size: contain;
     background-repeat: no-repeat;
     animation: moveleftact 0.2s linear infinite;
