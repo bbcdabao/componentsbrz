@@ -111,16 +111,16 @@ i {
     background-image: url(@/assets/img/logo.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    animation: moveleftact 0.5s linear infinite;
+    animation: moveleftact 0.2s linear infinite;
     animation-iteration-count: 1;
 }
 
 @keyframes moveleftact {
     0% {
-        background-position: -15% center;
+        background-position: -8% center;
     }
-    80% {
-        background-position: 2% center;
+    70% {
+        background-position: 1% center;
     }
     100% {
         background-position: 0% center;
