@@ -1,22 +1,5 @@
 <template>
     <div class="header">
-        <el-dialog v-model="isDialogVisible" title="添加终端配置">
-            <el-form :model="form" :rules="rules" ref="formRef">
-                <el-form-item label="地址" prop="addr">
-            <el-input v-model="form.addr"></el-input>
-            </el-form-item>
-            <el-form-item label="用户" prop="user">
-                <el-input v-model="form.user"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="pass">
-                <el-input v-model="form.pass" type="password"></el-input>
-            </el-form-item>
-            <span>
-                <el-button @click="closeDialog">取 消</el-button>
-                <el-button type="primary" @click="submitForm">确 定</el-button>
-            </span>
-            </el-form>
-        </el-dialog>
         <!-- 折叠按钮 -->
         <div class="header-left">
             <div class="collapse-btn" @click="collapseChage">
@@ -28,10 +11,6 @@
                 </el-icon>
             </div>
             <div class="header-left" v-if="!sidebar.collapse">
-            <el-icon class="addlogopt">
-                <soccer />
-            </el-icon>
-            <button class="addlogo" @click="openDialog">添加终端</button>
             </div>
         </div>
         <div>{{ header.titlesp }}</div>
@@ -73,7 +52,7 @@ import { useSidebarStore } from '@/store/sidebar';
 import { useHeaderStore } from '@/store/header';
 import { useRouter } from 'vue-router';
 import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus';
-import imgurl from '../assets/img/img.jpg';
+import imgurl from '@/assets/img/img.jpg';
 
 const isDialogVisible = ref(false);
 
@@ -102,10 +81,6 @@ const rules = ref<FormRules>({
   user: [{ required: true, message: '请输入用户', trigger: 'blur' }],
   pass: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 });
-
-const openDialog = () => {
-  isDialogVisible.value = true
-};
 
 const closeDialog = () => {
   isDialogVisible.value = false
@@ -179,125 +154,6 @@ const setFullScreen = () => {
     height: 100%;
 }
 
-.addlogopt {
-    font-size: 32px;
-    margin-left: 154px;
-    fill: rgb(255, 255, 255);
-    animation: swing 2s linear infinite;
-    animation-iteration-count: 1;
-}
-
-.addlogo {
-    font-size: 16px;
-    font-weight: bold;
-    width: 100px;
-    animation: rotate 2.2s linear infinite;
-    animation-iteration-count: 1;
-}
-
-.logo {
-    width: 32px;
-    fill: rgb(255, 255, 255);
-}
-
-@keyframes swing {
-    0% {
-        transform: translateX(-500%) rotate(0deg);
-    }
-    10% {
-        transform: translateX(-450%) rotate(60deg);
-    }
-    20% {
-        transform: translateX(-400%) rotate(120deg);
-    }
-    30% {
-        transform: translateX(-350%) rotate(180deg);
-    }
-    40% {
-        transform: translateX(-300%) rotate(240deg);
-    }
-    50% {
-        transform: translateX(-250%) rotate(300deg);
-    }
-    60% {
-        transform: translateX(-200%) rotate(360deg);
-    }
-    70% {
-        transform: translateX(-150%) rotate(420deg);
-    }
-    80% {
-        transform: translateX(-100%) rotate(480deg);
-    }
-    90% {
-        transform: translateX(-50%) rotate(540deg);
-    }
-    100% {
-        transform: translateX(-0%) rotate(720deg);
-    }
-}
-
-@keyframes rotate {
-    0% {
-        transform: scale(1);
-    }
-    15% {
-        transform: scale(1);
-    }
-    30% {
-        transform: scale(1);
-    }
-    45% {
-        transform: scale(1);
-    }
-    60% {
-        transform: scale(1);
-    }
-    75% {
-        transform: scale(1);
-    }
-    90% {
-        transform: scale(1);
-    }
-    95% {
-        transform: scale(2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.web-title {
-    margin: 0 40px 0 10px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: left;
-    /*animation: bounce 1s ease-in-out forwards;*/
-}
-
-@keyframes bounce {
-    0% {
-        transform: translateY(-30px);
-    }
-    16.67% {
-        transform: translateY(30px);
-    }
-    33.34% {
-        transform: translateY(-20px);
-    }
-    50% {
-        transform: translateY(20px);
-    }
-    66.67% {
-        transform: translateY(-5px);
-    }
-    83.34% {
-        transform: translateY(5px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
 .collapse-btn {
     display: flex;
     justify-content: center;
@@ -322,12 +178,6 @@ const setFullScreen = () => {
     display: flex;
     height: 40px;
     align-items: center;
-}
-
-.btn-fullscreen {
-    transform: rotate(45deg);
-    margin-right: 5px;
-    font-size: 24px;
 }
 
 .btn-icon {

@@ -3,8 +3,10 @@
         <div style="padding: 10px;">
             <el-card class="mgb20 custom-shadow" shadow="hover">
                 <template #header>
-                    <div class="content-title">添加SSH登录终端</div>
+                    <div class="content-title">欢迎使用斯塔克工业产品</div>
                 </template>
+                <div class="manageradd">
+                <div class="additerm">
                 <el-form :model="form" :rules="rules" ref="formRef">
                     <el-form-item label="地址" prop="addr">
                         <el-input v-model="form.addr"></el-input>
@@ -17,6 +19,11 @@
                     </el-form-item>
                     <el-button type="primary" @click="submitForm">添 加</el-button>
                 </el-form>
+                </div>
+                <el-image style="margin-left: 20px; width: 130px; border-radius:20px" :src="imgurl01" alt="" />
+                <el-image style="margin-left: 20px; width: 130px; border-radius:20px" :src="imgurl02" alt="" />
+                <el-image style="margin-left: 20px; width: 130px; border-radius:20px" :src="imgurl03" alt="" />
+                </div>
             </el-card>
         </div>
         <div style="padding: 10px;">
@@ -33,6 +40,9 @@
 import { ref } from 'vue';
 import { useSidebarStore } from '@/store/sidebar';
 import { ElButton, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus';
+import imgurl01 from '@/assets/img/1.jpg';
+import imgurl02 from '@/assets/img/2.jpg';
+import imgurl03 from '@/assets/img/3.jpg';
 
 const sidebar = useSidebarStore();
 
@@ -80,5 +90,17 @@ const submitForm = () => {
 .this-page {
     display: flex;
     flex-direction: column;
+}
+.manageradd {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+.additerm {
+    width: 400px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: var(--sidebar-index-bg-color);
 }
 </style>
