@@ -141,7 +141,7 @@ const setFullScreen = () => {
     align-items: center;
     box-sizing: border-box;
     width: 100%;
-    height: 40px;
+    height: 48px;
     color: var(--header-text-color);
     background-color: var(--header-bg-color);
     border-bottom: 1px solid #ddd;
@@ -176,7 +176,7 @@ const setFullScreen = () => {
 
 .header-user-con {
     display: flex;
-    height: 40px;
+    height: 48px;
     align-items: center;
 }
 

@@ -56,7 +56,7 @@ const themeStore = useThemeStore();
     display: block;
     position: absolute;
     left: 0;
-    top: 40px;
+    top: 48px;
     bottom: 0;
     overflow-y: scroll;
 }

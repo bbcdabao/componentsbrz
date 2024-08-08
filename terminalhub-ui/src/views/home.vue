@@ -28,7 +28,7 @@ const sidebar = useSidebarStore();
     position: absolute;
     left: 250px;
     right: 0;
-    top: 40px;
+    top: 48px;
     bottom: 0;
     padding-bottom: 0px;
     -webkit-transition: left 0.3s ease-in-out;
