@@ -3,7 +3,7 @@
         <div style="padding: 10px;">
             <el-card class="mgb20 custom-shadow" shadow="hover">
                 <template #header>
-                    <div class="content-title">系统主题</div>
+                    <div class="content-title">{{ $t('sysTheme') }}</div>
                 </template>
                 <div class="theme-list mgb20">
                     <div class="theme-item" @click="setSystemTheme(value)" v-for="[key, value] in Object.entries(systemmap)"
@@ -11,12 +11,12 @@
                     </div>
                 </div>
                 <div class="flex-center">
-                    <el-button type="primary" @click="resetSystemTheme">重置主题</el-button>
+                    <el-button type="primary" @click="resetSystemTheme">{{ $t('resetTheme') }}</el-button>
                 </div>
             </el-card>
             <el-card class="mgb20 custom-shadow" shadow="hover">
                 <template #header>
-                    <div class="content-title">Element-Plus主题</div>
+                    <div class="content-title">Element-Plus</div>
                 </template>
                 <div class="theme-list mgb20">
                     <div class="theme-item" v-for="theme in themes">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="flex-center">
-                    <el-button type="primary" @click="resetTheme">重置主题</el-button>
+                    <el-button type="primary" @click="resetTheme">{{ $t('resetTheme') }}</el-button>
                 </div>
             </el-card>
         </div>
@@ -136,12 +136,12 @@ const systemmap = {
         shadowColor: '#99CCFF',
     },
     '5': {
-        name: '屎黄',
-        headerBgColor:'#333300',
-        headerTextColor: '#ffffff',
-        sidebarBgColor: '#333300',
-        sidebarTextColor: '#ffffff',
-        sidebarIndexBgColor: '#333300',
+        name: '明亮',
+        headerBgColor:'#ffffff',
+        headerTextColor: '#000000',
+        sidebarBgColor: '#ffffff',
+        sidebarTextColor: '#000000',
+        sidebarIndexBgColor: '#ffffff',
         sidebarIndexTextColor: '#ffffff',
         shadowColor: '#ffffff',
     },

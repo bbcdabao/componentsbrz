@@ -3,11 +3,11 @@
         <div class="login-container">
             <div class="login-header">
                 <img class="logo mr10" src="@/assets/img/logo.svg" alt="" />
-                <div class="login-title">斯塔克工业</div>
+                <div class="login-title">{{ $t('starkIndustries') }}</div>
             </div>
             <el-form :model="param" :rules="rules" ref="login" size="large">
                 <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="用户名">
+                    <el-input v-model="param.username" :placeholder="$t('userName')">
                         <template #prepend>
                             <el-icon>
                                 <User />
@@ -18,7 +18,7 @@
                 <el-form-item prop="password">
                     <el-input
                         type="password"
-                        placeholder="密码"
+                        :placeholder="$t('password')"
                         v-model="param.password"
                         @keyup.enter="submitForm(login)"
                     >
@@ -30,15 +30,14 @@
                     </el-input>
                 </el-form-item>
                 <div class="pwd-tips">
-                    <el-checkbox class="pwd-checkbox" v-model="checked" label="记住密码" />
+                    <el-checkbox class="pwd-checkbox" v-model="checked" :label="$t('rememberPassword')" />
                 </div>
-                <el-button class="login-btn" type="primary" size="large" @click="submitForm(login)">登录</el-button>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
+                <el-button class="login-btn" type="primary" size="large" @click="submitForm(login)">{{ $t('rememberPassword')}}</el-button>
+                <p class="login-tips">{{ $t('loginTip') }}</p>
             </el-form>
         </div>
     </div>
 </template>
-
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
@@ -64,14 +63,12 @@ const rules: FormRules = {
     username: [
         {
             required: true,
-            message: '请输入用户名',
             trigger: 'blur',
         },
     ],
     password: [
         {
             required: true,
-            message: '请输入密码',
             trigger: 'blur'
         }
     ],
@@ -82,7 +79,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
     formEl.validate((valid: boolean) => {
         if (valid) {
-            ElMessage.success('登录成功');
+            ElMessage.success('success');
             localStorage.setItem('vuems_name', param.username);
             router.push('/');
             if (checked.value) {
@@ -91,13 +88,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 localStorage.removeItem('login-param');
             }
         } else {
-            ElMessage.error('登录失败');
+            ElMessage.error('fail');
             return false;
         }
     });
 };
 </script>
-
 <style scoped>
 .login-bg {
     display: flex;
@@ -107,24 +103,20 @@ const submitForm = (formEl: FormInstance | undefined) => {
     height: 100vh;
     background: url(@/assets/img/login-bg.jpg) center/cover no-repeat;
 }
-
 .login-header {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 40px;
 }
-
 .logo {
     width: 42px;
 }
-
 .login-title {
     font-size: 22px;
-    color: #ffffff;
+    color: var(--sidebar-text-color);
     font-weight: bold;
 }
-
 .login-container {
     width: 300px;
     margin-left: 8px;
@@ -134,7 +126,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
     box-sizing: border-box;
     border: 1px solid white;
 }
-
 .pwd-tips {
     display: flex;
     justify-content: space-between;
@@ -143,26 +134,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
     margin: -10px 0 10px;
     color: var(--sidebar-text-color);
 }
-
 .pwd-checkbox {
     height: auto;
+    color: var(--sidebar-text-color);
 }
-
 .login-btn {
     display: block;
     width: 100%;
 }
-
 .login-tips {
     font-size: 12px;
-    color: #999;
-}
-
-.login-text {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #787878;
+    color: var(--sidebar-text-color);
 }
 </style>

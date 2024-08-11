@@ -1,0 +1,22 @@
+{
+    "setTheme": "设置主题",
+    "fullScreen": "全屏",
+    "pageNotExist": "页面不存在",
+    "terminalManagement": "终端管理",
+    "terminalList": "终端列表",
+    "starkIndustries": "斯塔克工业",
+    "userName": "用户名",
+    "password": "密码",
+    "rememberPassword": "记住密码",
+    "loginTip": "Tips : 请填写用户名和密码",
+    "login": "登录",
+    "exitLogin": "推出登录",
+    "enterUserName": "请输入用户名",
+    "enterUserPassword": "请输入密码",
+    "loginFail": "登录失败",
+    "loginSuccess": "登录成功",
+    "managerWelcome": "欢迎使用斯塔克工业产品",
+    "addTerminal": "添 加",
+    "sysTheme": "系统主题",
+    "resetTheme": "重置主题"
+}

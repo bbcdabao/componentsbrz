@@ -14,19 +14,10 @@ const routes: RouteRecordRaw[] = [
         component: Home,
         children: [
             {
-                path: '/welcome',
-                name: 'welcome',
-                meta: {
-                    title: '欢迎',
-                    noAuth: false,
-                },
-                component: () => import(/* webpackChunkName: "dashboard" */ '../views/pages/welcome.vue'),
-            },
-            {
                 path: '/manager',
                 name: 'manager',
                 meta: {
-                    title: '终端管理',
+                    title: 'terminalmanager',
                     noAuth: false,
                 },
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/pages/manager.vue'),
@@ -44,7 +35,7 @@ const routes: RouteRecordRaw[] = [
                 path: '/theme',
                 name: 'theme',
                 meta: {
-                    title: '主题设置',
+                    title: 'themesetup',
                     noAuth: false,
                 },
                 component: () => import(/* webpackChunkName: "theme" */ '../views/pages/theme.vue'),
@@ -54,7 +45,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/login',
         meta: {
-            title: '登录',
+            title: 'login',
             noAuth: true,
         },
         component: () => import(/* webpackChunkName: "login" */ '../views/pages/login.vue'),
@@ -62,7 +53,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/404',
         meta: {
-            title: '找不到页面',
+            title: 'cannotfound',
             noAuth: true,
         },
         component: () => import(/* webpackChunkName: "404" */ '../views/pages/404.vue'),

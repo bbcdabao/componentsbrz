@@ -4,6 +4,10 @@
 	outline: 0 !important;
 }
 
+div[aria-hidden="true"] {
+    display: none !important;
+}
+
 body {
 	font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'microsoft yahei', arial, STHeiTi, sans-serif;
 }
@@ -96,10 +100,14 @@ i {
 	font-weight: bold;
 	height: 48px;
 	display: flex;
-	justify-content: center;
+    justify-content: flex-start;
 	align-items: center;
 	color: var(--header-text-color);
 	background: var(--header-bg-color);
+}
+
+.el-card__header > :first-child {
+    margin-left: 60px;
 }
 
 .el-card__body {
@@ -108,10 +116,11 @@ i {
 }
 
 .el-card:hover .el-card__header {
-    background-image: url(@/assets/img/cardtip.svg);
-    background-size: contain;
+    background-image: url(@/assets/img/card-header.png);
+    background-size: 80px;
+    background-position: left;
     background-repeat: no-repeat;
-    animation: moveleftact 0.2s linear infinite;
+    animation: moveleftact 0.5s linear infinite;
     animation-iteration-count: 1;
 }
 
