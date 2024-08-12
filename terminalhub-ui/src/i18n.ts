@@ -8,9 +8,11 @@ const messages = {
 };
 
 const i18n = createI18n({
+  legacy: false,
   locale: 'en',
   fallbackLocale: 'zh',
   messages,
 });
+
 
 export default i18n;
