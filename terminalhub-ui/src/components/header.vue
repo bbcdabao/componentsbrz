@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <!-- 折叠按钮 -->
+        <!-- Collapse button -->
         <div class="header-left">
             <div class="collapse-btn" @click="collapseChage">
                 <el-icon v-if="sidebar.collapse">
@@ -28,21 +28,7 @@
                     </el-tooltip>
                 </div>
                 <!-- Language selection -->
-                <el-dropdown trigger="click" @command="handleLangCommand">
-                    <span class="el-dropdown-link">
-                        {{ header.getNowShowLang }}
-                        <el-icon class="el-icon--right">
-                            <arrow-down />
-                        </el-icon>
-                    </span>
-                    <template #dropdown>
-                        <el-dropdown-menu>
-                            <el-dropdown-item v-for="(item, index) in shwoLangs" divided :command="index">
-                                {{ item }}
-                            </el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
+                <vLanguage style="margin-top: 5px;"/>
                 <!-- User avatar -->
                 <el-avatar class="user-avator" :size="32" :src="imgurl" />
                 <!-- Username drop-down menu -->
@@ -66,8 +52,9 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useSidebarStore } from '@/store/sidebar';
-import { useHeaderStore, shwoLangs } from '@/store/header';
+import { useHeaderStore } from '@/store/header';
 import { useRouter } from 'vue-router';
+import vLanguage from '@/components/language.vue';
 import imgurl from '@/assets/img/user-logo.jpg';
 import cmdTerminal from '@/assets/img/cmd-termianl.png';
 
@@ -84,10 +71,6 @@ onMounted(() => {
         collapseChage();
     }
 })
-
-const handleLangCommand = (command: string) => {
-    header.setLocale(command);
-}
 
 const router = useRouter();
 const handleCommand = (command: string) => {
@@ -115,7 +98,7 @@ const setFullScreen = () => {
     align-items: center;
     box-sizing: border-box;
     width: 100%;
-    height: 48px;
+    height: var(--header-height);
     color: var(--header-text-color);
     background-color: var(--header-bg-color);
     border-bottom: 1px solid #ddd;
@@ -145,7 +128,7 @@ const setFullScreen = () => {
 }
 .header-user-con {
     display: flex;
-    height: 48px;
+    height: var(--header-height);
     align-items: center;
 }
 .btn-icon {

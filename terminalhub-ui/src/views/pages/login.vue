@@ -6,6 +6,9 @@
                 <div class="login-title">{{ $t('starkIndustries') }}</div>
             </div>
             <el-form :model="param" :rules="rules" ref="login" size="large">
+                <el-form-item prop="language">
+                    <vLanguage />
+                </el-form-item>
                 <el-form-item prop="username">
                     <el-input v-model="param.username" :placeholder="$t('userName')">
                         <template #prepend>
@@ -32,7 +35,7 @@
                 <div class="pwd-tips">
                     <el-checkbox class="pwd-checkbox" v-model="checked" :label="$t('rememberPassword')" />
                 </div>
-                <el-button class="login-btn" type="primary" size="large" @click="submitForm(login)">{{ $t('rememberPassword')}}</el-button>
+                <el-button class="login-btn" type="primary" size="large" @click="submitForm(login)">{{ $t('login')}}</el-button>
                 <p class="login-tips">{{ $t('loginTip') }}</p>
             </el-form>
         </div>
@@ -42,7 +45,11 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
+import vLanguage from '@/components/language.vue';
 import type { FormInstance, FormRules } from 'element-plus';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface LoginInfo {
     username: string;
@@ -63,12 +70,14 @@ const rules: FormRules = {
     username: [
         {
             required: true,
+            message: t('enterUserName'),
             trigger: 'blur',
         },
     ],
     password: [
         {
             required: true,
+            message: t('enterUserPassword'),
             trigger: 'blur'
         }
     ],
@@ -79,7 +88,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
     formEl.validate((valid: boolean) => {
         if (valid) {
-            ElMessage.success('success');
+            ElMessage.success(t('loginSuccess'));
             localStorage.setItem('vuems_name', param.username);
             router.push('/');
             if (checked.value) {
@@ -88,7 +97,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 localStorage.removeItem('login-param');
             }
         } else {
-            ElMessage.error('fail');
+            ElMessage.error(t('loginFail'));
             return false;
         }
     });
@@ -107,7 +116,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 .logo {
     width: 42px;
@@ -118,7 +127,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     font-weight: bold;
 }
 .login-container {
-    width: 300px;
+    width: 340px;
     margin-left: 8px;
     border-radius: 20px;
     background: var(--sidebar-bg-color);

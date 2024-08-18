@@ -54,7 +54,7 @@ const themeStore = useThemeStore();
     display: block;
     position: absolute;
     left: 0;
-    top: 48px;
+    top: var(--header-height);
     bottom: 0;
     overflow-y: scroll;
 }

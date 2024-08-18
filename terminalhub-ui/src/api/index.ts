@@ -1,4 +1,4 @@
-import request from '../utils/request';
+import request from '@/utils/request';
 
 /*
 url: The requested server URL. Just need to be specified in a separate request.
@@ -22,9 +22,3 @@ export const loginpost = (body : any = {}) => {
     });
 };
 
-export const fetchData = () => {
-    return request({
-        url: './mock/table.json',
-        method: 'get'
-    });
-};
