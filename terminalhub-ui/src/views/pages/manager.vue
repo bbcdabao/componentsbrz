@@ -12,12 +12,18 @@
                                 <el-input v-model="form.addr"></el-input>
                             </el-form-item>
                             <el-form-item label="用户" prop="user">
-                                <el-input v-model="form.user" autocomplete="off"></el-input>
+                                <el-input v-model="form.user" autocomplete="new-username"></el-input>
                             </el-form-item>
                             <el-form-item label="密码" prop="pass">
-                                <el-input v-model="form.pass" type="password" autocomplete="off"></el-input>
+                                <el-input v-model="form.pass" type="password" autocomplete="new-password"></el-input>
                             </el-form-item>
-                            <el-button type="primary" @click="submitForm">{{ $t('addTerminal') }}</el-button>
+                            <el-input
+                                type="textarea"
+                                :autosize="{ minRows: 2, maxRows: 4}"
+                                :placeholder="$t('pleaseEnterCmd')"
+                                v-model="runcmds">
+                            </el-input>
+                            <el-button style="margin-top: 10px;" type="primary" @click="submitForm">{{ $t('addTerminal') }}</el-button>
                         </el-form>
                     </div>
                 </div>
@@ -30,7 +36,7 @@
                 </template>
                 <div class="manager-nodeitems">
                     <div class="manager-nodeitem" v-for="(item, index) in sidebar.sshitems" :key="index">
-                        <el-button style="font-size: 16px; margin-left: 6px;" size="small" type="danger" @click="deleteItem(index)" icon="delete-filled" circle />
+                        <el-button style="font-size: 16px;" size="small" type="danger" @click="deleteItem(index)" icon="delete-filled" circle />
                         {{ item.addr }}
                     </div>
                 </div>
@@ -44,6 +50,8 @@ import { useSidebarStore } from '@/store/sidebar';
 import { ElButton, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus';
 
 const sidebar = useSidebarStore();
+
+const runcmds = ref("");
 
 const formRef = ref(null);
 const form = ref({
@@ -77,7 +85,8 @@ const submitForm = () => {
       sidebar.addSshitem({
         addr: form.value.addr,
         user: encodeURIComponent(form.value.user),
-        pass: encodeURIComponent(form.value.pass)
+        pass: encodeURIComponent(form.value.pass),
+        cmds: runcmds.value
       }) 
     } else {
       ElMessage.error('fail')
@@ -90,6 +99,15 @@ const deleteItem = (index: string | number) => {
         sidebar.delSshitem(index);
     }
 };
+
+const setItem = (index: string | number) => {
+    if (typeof index === 'string') {
+        let sshitem = sidebar.sshitems[index];
+        form.value = sshitem;
+        runcmds.value = sshitem.cmds;
+    }
+};
+
 </script>
 <style scoped>
 .this-page {
@@ -118,13 +136,17 @@ const deleteItem = (index: string | number) => {
     flex-wrap: wrap;
 }
 .manager-nodeitem {
-    padding: 6px;
-    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+    color: var(--nodept-text-color);
+    width: 215x;
     margin: 4px;
     border-radius: 5px;
     font-weight: bold;
     flex-shrink: 0;
-    background-color: var(--el-color-primary);
+    background-color: var(--nodept-bg-color);
 }
 .el-image {
   margin-left: 20px;

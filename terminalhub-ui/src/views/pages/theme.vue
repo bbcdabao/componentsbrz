@@ -104,6 +104,8 @@ const systemmap = {
         sidebarIndexBgColor: '#4B4B4B',
         sidebarIndexTextColor: '#ffffff',
         shadowColor: '#ff0000',
+        nodeptBgColor: '#ffffff',
+        nodeptTextColor: '#000000',
     },
     '2': {
         name: '灰色',
@@ -114,16 +116,20 @@ const systemmap = {
         sidebarIndexBgColor: '#808080',
         sidebarIndexTextColor: '#ffffff',
         shadowColor: '#00ff00',
+        nodeptBgColor: '#ffffff',
+        nodeptTextColor: '#000000',
     },
     '3': {
-        name: '黑灰',
-        headerBgColor:'#000000',
+        name: '灰黑',
+        headerBgColor:'#4B4B4B',
         headerTextColor: '#ffffff',
-        sidebarBgColor: '#4B4B4B',
+        sidebarBgColor: '#000000',
         sidebarTextColor: '#ffffff',
-        sidebarIndexBgColor: '#808080',
+        sidebarIndexBgColor: '#4B4B4B',
         sidebarIndexTextColor: '#ffffff',
-        shadowColor: '#0000ff',
+        shadowColor: '#ff0000',
+        nodeptBgColor: '#ffffff',
+        nodeptTextColor: '#000000',
     },
     '4': {
         name: '绿宝石',
@@ -134,6 +140,8 @@ const systemmap = {
         sidebarIndexBgColor: '#336633',
         sidebarIndexTextColor: '#ffffff',
         shadowColor: '#99CCFF',
+        nodeptBgColor: '#ffffff',
+        nodeptTextColor: '#000000',
     },
     '5': {
         name: '明亮',
@@ -142,18 +150,10 @@ const systemmap = {
         sidebarBgColor: '#ffffff',
         sidebarTextColor: '#000000',
         sidebarIndexBgColor: '#ffffff',
-        sidebarIndexTextColor: '#ffffff',
+        sidebarIndexTextColor: '#0000ff',
         shadowColor: '#ffffff',
-    },
-    '6': {
-        name: '绿屎',
-        headerBgColor:'#003300',
-        headerTextColor: '#ffffff',
-        sidebarBgColor: '#333300',
-        sidebarTextColor: '#ffffff',
-        sidebarIndexBgColor: '#333300',
-        sidebarIndexTextColor: '#ffffff',
-        shadowColor: '#ffffff',
+        nodeptBgColor: '#000000',
+        nodeptTextColor: '#ffffff',
     }
 };
 
@@ -166,6 +166,8 @@ const setSystemTheme = (data: any) => {
     themeStore.setSidebarIndexBgColor(data.sidebarIndexBgColor);
     themeStore.setSidebarIndexTextColor(data.sidebarIndexTextColor);
     themeStore.setShadowColor(data.shadowColor);
+    themeStore.setNodeptBgColor(data.nodeptBgColor);
+    themeStore.setNodeptTextColor(data.nodeptTextColor);
 };
 
 const resetSystemTheme = () => {

@@ -5,9 +5,9 @@
             <div class="error-desc">{{ $t('pageNotExist') }}</div>
             <div class="error-handle">
                 <router-link to="/">
-                    <el-button type="primary" size="large">返回首页</el-button>
+                    <el-button type="primary" size="large">{{ $t('backToMain') }}</el-button>
                 </router-link>
-                <el-button class="error-btn" size="large" @click="goBack">返回上一页</el-button>
+                <el-button class="error-btn" size="large" @click="goBack">{{ $t('backToPrev') }}</el-button>
             </div>
         </div>
     </div>

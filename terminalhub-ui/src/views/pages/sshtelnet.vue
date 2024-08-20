@@ -114,7 +114,6 @@ onBeforeUnmount(() => {
     margin: 0;
 	background: var(--sidebar-bg-color);
 }
-
 .this-box {
     width: 100%;
     height: 100%;
@@ -122,7 +121,6 @@ onBeforeUnmount(() => {
     border-radius: 10px;
     background-color: var(--sidebar-bg-color);
 }
-
 .this-info {
     line-height: 1;
     font-size: 40px;
@@ -131,7 +129,6 @@ onBeforeUnmount(() => {
     text-align: center;
     color: var(--sidebar-text-color);
 }
-
 .terminal {
     width: 100%;
     height: 100%;

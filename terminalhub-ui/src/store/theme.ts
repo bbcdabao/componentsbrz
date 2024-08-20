@@ -16,6 +16,8 @@ export const useThemeStore = defineStore('theme', {
             sidebarIndexBgColor: '#333333',
             sidebarIndexTextColor: '#ffffff',
             shadowColor: '#ff0000',
+            nodeptBgColor: '#ffffff',
+            nodeptTextColor: '#000000',
         };
     },
     getters: {},
@@ -41,6 +43,10 @@ export const useThemeStore = defineStore('theme', {
             sidebarIndexTextColor && this.setSidebarIndexTextColor(sidebarIndexTextColor);
             const shadowColor = localStorage.getItem('shadow-color');
             shadowColor && this.setShadowColor(shadowColor);
+            const nodeptBgColor = localStorage.getItem('nodept-bg-color');
+            nodeptBgColor && this.setNodeptBgColor(nodeptBgColor);
+            const nodeptTextColor = localStorage.getItem('nodept-text-color');
+            nodeptTextColor && this.setNodeptTextColor(nodeptTextColor);
         },
         resetTheme() {
             ['primary', 'success', 'warning', 'danger', 'info'].forEach((type) => {
@@ -94,5 +100,15 @@ export const useThemeStore = defineStore('theme', {
             setProperty('--shadow-color', color);
             localStorage.setItem(`shadow-color`, color);
         },
+        setNodeptBgColor(color: string) {
+            this.nodeptBgColor = color;
+            setProperty('--nodept-bg-color', color);
+            localStorage.setItem(`nodept-bg-color`, color);
+        },
+        setNodeptTextColor(color: string) {
+            this.nodeptTextColor = color;
+            setProperty('--nodept-text-color', color);
+            localStorage.setItem(`nodept-text-color`, color);
+        }
     }
 });

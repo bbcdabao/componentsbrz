@@ -78,6 +78,8 @@ i {
 	--sidebar-index-bg-color: #333333;
 	--sidebar-index-text-color: #ffffff;
     --shadow-color: #ff0000;
+    --nodept-bg-color: #ffffff;
+    --nodept-text-color: #000000;
 	--active-color: var(--el-color-primary);
 }
 

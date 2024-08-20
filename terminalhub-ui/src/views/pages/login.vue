@@ -2,13 +2,11 @@
     <div class="login-bg">
         <div class="login-container">
             <div class="login-header">
+                <vLanguage style="margin-top: 10px;" />
                 <img class="logo mr10" src="@/assets/img/logo.svg" alt="" />
                 <div class="login-title">{{ $t('starkIndustries') }}</div>
             </div>
             <el-form :model="param" :rules="rules" ref="login" size="large">
-                <el-form-item prop="language">
-                    <vLanguage />
-                </el-form-item>
                 <el-form-item prop="username">
                     <el-input v-model="param.username" :placeholder="$t('userName')">
                         <template #prepend>
@@ -115,8 +113,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
 .login-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
+    justify-content: left;
+    margin-bottom: 20px;
 }
 .logo {
     width: 42px;
@@ -127,11 +125,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     font-weight: bold;
 }
 .login-container {
-    width: 340px;
+    width: 360px;
     margin-left: 8px;
-    border-radius: 20px;
+    border-radius: 10px;
     background: var(--sidebar-bg-color);
-    padding: 8px 50px 50px;
+    padding: 20px 50px 20px;
     box-sizing: border-box;
     border: 1px solid white;
 }
@@ -144,6 +142,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     color: var(--sidebar-text-color);
 }
 .pwd-checkbox {
+    margin-top: 15px;
     height: auto;
     color: var(--sidebar-text-color);
 }
@@ -152,6 +151,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     width: 100%;
 }
 .login-tips {
+    margin-top: 4px;
     font-size: 12px;
     color: var(--sidebar-text-color);
 }

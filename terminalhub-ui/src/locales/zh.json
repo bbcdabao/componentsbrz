@@ -16,7 +16,10 @@
     "loginFail": "登录失败",
     "loginSuccess": "登录成功",
     "managerWelcome": "欢迎使用斯塔克工业产品",
-    "addTerminal": "添 加",
+    "addTerminal": "添加 / 修改",
     "sysTheme": "系统主题",
-    "resetTheme": "重置主题"
+    "resetTheme": "重置主题",
+    "backToMain": "返回首页",
+    "backToPrev": "返回上一页",
+    "pleaseEnterCmd": "请输入登录终端后立刻执行的命令"
 }
