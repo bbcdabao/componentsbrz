@@ -1,174 +1,143 @@
 <template>
-    <div class="header">
-        <!-- Collapse button -->
-        <div class="header-left">
-            <div class="collapse-btn" @click="collapseChage">
-                <el-icon v-if="sidebar.collapse">
-                    <Expand />
-                </el-icon>
-                <el-icon v-else>
-                    <Fold />
-                </el-icon>
-            </div>
-            <div class="collapse-img" v-if="!sidebar.collapse">
-                <img :src="cmdTerminal" alt="CMD.terminal" class="cmd-terminal">
-            </div>
+    <div class="this-page">
+        <div style="padding: 10px;">
+            <el-card class="mgb20 custom-shadow" shadow="hover">
+                <template #header>
+                    <div class="content-title">{{ $t('managerWelcome') }}</div>
+                </template>
+                <div class="manager-form-items">
+                    <div class="manager-form-item">
+                        <el-form :model="form" :rules="rules" ref="formRef" autocomplete="off">
+                            <el-form-item :label="$t('addr')" prop="addr">
+                                <el-input v-model="form.addr"></el-input>
+                            </el-form-item>
+                            <el-form-item :label="$t('user')" prop="user">
+                                <el-input v-model="form.user" autocomplete="new-username"></el-input>
+                            </el-form-item>
+                            <el-form-item :label="$t('pass')" prop="pass">
+                                <el-input v-model="form.pass" autocomplete="new-password"></el-input>
+                            </el-form-item>
+                            <el-button style="margin-top: 0px;" type="primary" @click="submitForm">{{ $t('addTerminal') }}</el-button>
+                        </el-form>
+                    </div>
+                </div>
+            </el-card>
         </div>
-        <div>{{ header.titlesp }}</div>
-        <div class="header-right">
-            <div class="header-user-con">
-                <div class="btn-icon" @click="router.push('/theme')">
-                    <el-tooltip effect="dark" :content="$t('setTheme')" placement="bottom">
-                        <i class="el-icon-lx-skin"></i>
-                    </el-tooltip>
+        <div style="padding: 10px;">
+            <el-card class="mgb20 custom-shadow" shadow="hover">
+                <template #header>
+                    <div class="content-title">{{ $t('terminalManagement') }}</div>
+                </template>
+                <div class="manager-node-items">
+                    <div class="manager-node-item" v-for="(item, index) in sidebar.sshitems" :key="index">
+                        <el-button style="font-size: 16px;" size="small" type="danger" @click="deleteItem(index)" icon="delete-filled" circle />
+                        {{ item.addr }}
+                    </div>
                 </div>
-                <div class="btn-icon" @click="setFullScreen">
-                    <el-tooltip effect="dark" :content="$t('fullScreen')" placement="bottom">
-                        <i class="el-icon-lx-full"></i>
-                    </el-tooltip>
-                </div>
-                <!-- Language selection -->
-                <vLanguage style="margin-top: 8px;"/>
-                <!-- User avatar -->
-                <el-avatar class="user-avator" :size="32" :src="imgurl" />
-                <!-- Username drop-down menu -->
-                <el-dropdown trigger="click" @command="handleCommand">
-                    <span class="el-dropdown-link">
-                        {{ username }}
-                        <el-icon class="el-icon--right">
-                            <arrow-down />
-                        </el-icon>
-                    </span>
-                    <template #dropdown>
-                        <el-dropdown-menu>
-                            <el-dropdown-item divided command="loginout">{{ $t('exitLogin') }}</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
-            </div>
+            </el-card>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useSidebarStore } from '@/store/sidebar';
-import { useHeaderStore } from '@/store/header';
-import { useRouter } from 'vue-router';
-import vLanguage from '@/components/language.vue';
-import imgurl from '@/assets/img/user-logo.jpg';
-import cmdTerminal from '@/assets/img/cmd-termianl.png';
+import { ElButton, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus';
+import { Sshitem } from '@/types/sshitem';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const sidebar = useSidebarStore();
-const header = useHeaderStore();
-const username: string | null = localStorage.getItem('vuems_name');
 
-const collapseChage = () => {
-    sidebar.handleCollapse();
-}
+const formRef = ref(null);
+const form = ref({
+  addr: '',
+  user: '',
+  pass: ''
+});
 
-onMounted(() => {
-    if (document.body.clientWidth < 600) {
-        collapseChage();
+const rules = ref<FormRules>({
+  addr: [
+    { required: true, message: '', trigger: 'blur' },
+    { 
+      validator: (rule, value, callback) => {
+        const ipPortPattern = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):([0-9]{1,5})$/;
+        if (!ipPortPattern.test(value)) {
+          callback(new Error('IP:PORT'));
+        } else {
+          callback();
+        }
+      }, 
+      trigger: 'blur' 
     }
-})
+  ],
+  user: [{ required: true, message: '', trigger: 'blur' }],
+  pass: [{ required: true, message: '', trigger: 'blur' }]
+});
 
-const router = useRouter();
-const handleCommand = (command: string) => {
-    if (command == 'loginout') {
-        localStorage.removeItem('vuems_name');
-        router.push('/login');
-    }
-}
-
-/**
- * Set full screen
- */
-const setFullScreen = () => {
-    if (document.fullscreenElement) {
-        document.exitFullscreen();
+const submitForm = () => {
+  formRef.value.validate((valid: boolean) => {
+    if (valid) {
+      sidebar.addSshitem({
+        addr: form.value.addr,
+        user: encodeURIComponent(form.value.user),
+        pass: encodeURIComponent(form.value.pass)
+      })
+        ElMessage.success(t('addSuccess'))
     } else {
-        document.body.requestFullscreen.call(document.body);
+        ElMessage.error(t('addFail'))
     }
-}
+  })
+};
+
+const deleteItem = (index: string | number) => {
+    if (typeof index === 'string') {
+        let sshitem = sidebar.sshitems[index];
+        sidebar.delSshitem(index);
+        ElMessage.success(t('deleteTerminal') + sshitem.addr);
+    }
+};
+
 </script>
 <style scoped>
-.header {
+.this-page {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    width: 100%;
-    height: var(--header-height);
-    color: var(--header-text-color);
-    background-color: var(--header-bg-color);
-    border-bottom: 1px solid #ddd;
+    flex-direction: column;
 }
-.header-left {
+.manager-form-items {
     display: flex;
-    align-items: center;
-    padding-left: 10px;
-    height: 100%;
+    align-items: flex-start;
 }
-.collapse-btn {
+.manager-form-item {
+    flex-grow: 1;
+    border-radius: 5px;
+    background-color: transparent;
+}
+.manager-node-items {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 0 10px;
-    cursor: pointer;
-    opacity: 0.8;
-    font-size: 22px;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
-.collapse-btn:hover {
-    opacity: 1;
-}
-.collapse-img {
-    margin-top: 5px;
-    align-items: center;
-}
-@keyframes graduallyShow {
+@keyframes expandWidth {
     0% {
-        opacity: 0;
+        width: 0px;
     }
     100% {
-        opacity: 1;
+        width: 250px;
     }
 }
-.cmd-terminal {
-    height: 40px;
-    animation: graduallyShow 1.5s ease-in-out; 
-}
-.header-right {
-    float: right;
-    padding-right: 50px;
-}
-.header-user-con {
-    display: flex;
-    height: var(--header-height);
-    align-items: center;
-}
-.btn-icon {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    color: var(--header-text-color);
-    margin: 0 5px;
-    font-size: 20px;
-}
-.user-avator {
-    margin: 0 10px 0 20px;
-}
-.el-dropdown-link {
-    color: var(--header-text-color);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-.el-dropdown-menu__item {
-    text-align: center;
+.manager-node-item {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 4px;
+    width: 250px;
+    margin: 4px;
+    border-radius: 5px;
+    font-weight: bold;
+    flex-shrink: 0;
+    color: var(--nodept-text-color);
+    background-color: var(--nodept-bg-color);
+    animation: expandWidth 0.5s ease-in-out;
 }
 </style>
