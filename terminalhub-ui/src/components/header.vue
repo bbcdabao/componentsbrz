@@ -28,7 +28,7 @@
                     </el-tooltip>
                 </div>
                 <!-- Language selection -->
-                <vLanguage style="margin-top: 5px;"/>
+                <vLanguage style="margin-top: 8px;"/>
                 <!-- User avatar -->
                 <el-avatar class="user-avator" :size="32" :src="imgurl" />
                 <!-- Username drop-down menu -->
