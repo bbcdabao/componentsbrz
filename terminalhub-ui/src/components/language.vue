@@ -10,7 +10,7 @@
             </span>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item v-for="(item, index) in shwoLangs" divided :command="index">
+                    <el-dropdown-item v-for="(item, index) in shwoLangs" divided :command="index" :key="index">
                         {{ item }}
                     </el-dropdown-item>
                 </el-dropdown-menu>
