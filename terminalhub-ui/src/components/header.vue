@@ -10,7 +10,7 @@
                     <Fold />
                 </el-icon>
             </div>
-            <div class="header-left" v-if="!sidebar.collapse">
+            <div class="collapse-img" v-if="!sidebar.collapse">
                 <img :src="cmdTerminal" alt="CMD.terminal" class="cmd-terminal">
             </div>
         </div>
@@ -122,6 +122,22 @@ const setFullScreen = () => {
 .collapse-btn:hover {
     opacity: 1;
 }
+.collapse-img {
+    margin-top: 5px;
+    align-items: center;
+}
+@keyframes graduallyShow {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.cmd-terminal {
+    height: 40px;
+    animation: graduallyShow 1.5s ease-in-out; 
+}
 .header-right {
     float: right;
     padding-right: 50px;
@@ -154,17 +170,5 @@ const setFullScreen = () => {
 }
 .el-dropdown-menu__item {
     text-align: center;
-}
-@keyframes slideInRight {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-.cmd-terminal {
-  height: 40px;
-  animation: slideInRight 0.2s ease-in-out;
 }
 </style>
