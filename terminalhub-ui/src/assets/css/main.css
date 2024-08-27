@@ -70,16 +70,16 @@ i {
 }
 
 :root {
-    --header-height: 40px;
+	--header-height: 40px;
 	--header-bg-color: #000000;
 	--header-text-color: #ffffff;
 	--sidebar-bg-color: #000000;
 	--sidebar-text-color: #ffffff;
 	--sidebar-index-bg-color: #333333;
 	--sidebar-index-text-color: #ffffff;
-    --shadow-color: #ff0000;
-    --nodept-bg-color: #ffffff;
-    --nodept-text-color: #000000;
+	--shadow-color: #ff0000;
+	--nodept-bg-color: #ffffff;
+	--nodept-text-color: #000000;
 	--active-color: var(--el-color-primary);
 }
 
