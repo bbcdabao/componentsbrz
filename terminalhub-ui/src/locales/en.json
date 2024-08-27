@@ -16,10 +16,16 @@
     "loginFail": "Login fail",
     "loginSuccess": "Login success",
     "managerWelcome": "Welcome to Stark Industrial Products",
-    "addTerminal": "Add terminal / Modify",
+    "addTerminal": "Add terminal",
     "sysTheme": "Sys theme",
     "resetTheme": "Reset theme",
     "backToMain": "Back to main",
     "backToPrev": "Back to prev",
-    "pleaseEnterCmd": "Please your cmd when telnet terminal"
+    "pleaseEnterCmd": "Please your cmd when telnet terminal",
+    "addr": "addr",
+    "user": "user",
+    "pass": "pass",
+    "addSuccess": "Add success",
+    "addFail": "Add fail",
+    "deleteTerminal": "Delete terminal:"
 }
