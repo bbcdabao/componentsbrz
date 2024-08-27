@@ -70,7 +70,7 @@ i {
 }
 
 :root {
-    --header-height: 48px;
+    --header-height: 40px;
 	--header-bg-color: #000000;
 	--header-text-color: #ffffff;
 	--sidebar-bg-color: #000000;
