@@ -4,8 +4,9 @@
             <el-card class="mgb20 custom-shadow" shadow="hover">
                 <template #header>
                     <div class="content-title">{{ $t('managerWelcome') }}</div>
+                    <el-switch style="margin-left: auto;" v-model="addForm" />
                 </template>
-                <div class="manager-form-items">
+                <div class="manager-form-items" v-if="addForm">
                     <div class="manager-form-item">
                         <el-form :model="form" :rules="rules" ref="formRef" autocomplete="off">
                             <el-form-item :label="$t('addr')" prop="addr">
@@ -39,17 +40,15 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useSidebarStore } from '@/store/sidebar';
 import { ElButton, ElForm, ElFormItem, ElInput, ElMessage, FormRules } from 'element-plus';
-import { Sshitem } from '@/types/sshitem';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
-const sidebar = useSidebarStore();
+const addForm = ref(false);
 
-const formRef = ref(null);
 const form = ref({
   addr: '',
   user: '',
@@ -75,14 +74,17 @@ const rules = ref<FormRules>({
   pass: [{ required: true, message: '', trigger: 'blur' }]
 });
 
+const formRef = ref(null);
+const sidebar = useSidebarStore();
 const submitForm = () => {
   formRef.value.validate((valid: boolean) => {
     if (valid) {
-      sidebar.addSshitem({
-        addr: form.value.addr,
-        user: encodeURIComponent(form.value.user),
-        pass: encodeURIComponent(form.value.pass)
-      })
+        sidebar.addSshitem({
+            addr: form.value.addr,
+            user: encodeURIComponent(form.value.user),
+            pass: encodeURIComponent(form.value.pass),
+            cmds: ''
+        })
         ElMessage.success(t('addSuccess'))
     } else {
         ElMessage.error(t('addFail'))
@@ -131,7 +133,7 @@ const deleteItem = (index: string | number) => {
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: 4px;
-    width: 250px;
+    width: 200px;
     margin: 4px;
     border-radius: 5px;
     font-weight: bold;
