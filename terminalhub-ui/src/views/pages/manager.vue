@@ -133,7 +133,7 @@ const deleteItem = (index: string | number) => {
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: 4px;
-    width: 200px;
+    width: 240px;
     margin: 4px;
     border-radius: 5px;
     font-weight: bold;
