@@ -8,7 +8,7 @@ I call it the component experimental field, which contains an interesting exampl
 
 The following introduces the naming rules and content overview. And make it easier for you to view this project.
 
-Naming rules:
+Naming rules:<br>
 (1) Directories ending in "brz" are springboot components. brz comes from "Subaru BRZ" which is a great car. And i like the letter ending "brz".
 (2) 
 
