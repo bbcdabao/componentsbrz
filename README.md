@@ -6,7 +6,8 @@ Under construction and not open yet
 
 I call it the component experimental field, which contains an interesting example and springboot component, which will continue to be added later.
 
-The following introduces the naming rules and content overview. And make it easier for you to view this project.<br>
+The following introduces the naming rules and content overview. And make it easier for you to view this project.
+
 __Naming rules:__<br>
 (1) Directories ending in "brz" are springboot components. brz comes from "Subaru BRZ" which is a great car. And i like the letter ending "brz".
 (2) 
