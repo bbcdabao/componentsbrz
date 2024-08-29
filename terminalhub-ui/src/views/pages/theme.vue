@@ -104,8 +104,8 @@ const systemmap = {
         sidebarIndexBgColor: '#4B4B4B',
         sidebarIndexTextColor: '#ffffff',
         shadowColor: '#ff0000',
-        nodeptBgColor: '#ffffff',
-        nodeptTextColor: '#000000',
+        nodeptBgColor: '#99CCCC',
+        nodeptTextColor: '#663333',
     },
     '2': {
         name: '灰色',
@@ -120,38 +120,50 @@ const systemmap = {
         nodeptTextColor: '#000000',
     },
     '3': {
-        name: '灰黑',
-        headerBgColor:'#4B4B4B',
+        name: '双拼',
+        headerBgColor:'#000000',
         headerTextColor: '#ffffff',
-        sidebarBgColor: '#000000',
+        sidebarBgColor: '#4B4B4B',
         sidebarTextColor: '#ffffff',
-        sidebarIndexBgColor: '#4B4B4B',
+        sidebarIndexBgColor: '#808080',
         sidebarIndexTextColor: '#ffffff',
         shadowColor: '#ff0000',
         nodeptBgColor: '#ffffff',
         nodeptTextColor: '#000000',
     },
     '4': {
-        name: '绿宝石',
-        headerBgColor:'#003300',
+        name: '洁净',
+        headerBgColor:'#003366',
         headerTextColor: '#ffffff',
-        sidebarBgColor: '#003300',
+        sidebarBgColor: '#003366',
         sidebarTextColor: '#ffffff',
-        sidebarIndexBgColor: '#336633',
+        sidebarIndexBgColor: '#666699',
         sidebarIndexTextColor: '#ffffff',
-        shadowColor: '#99CCFF',
-        nodeptBgColor: '#ffffff',
-        nodeptTextColor: '#000000',
+        shadowColor: '#0099FF',
+        nodeptBgColor: '#FFCC99',
+        nodeptTextColor: '#003366',
     },
     '5': {
+        name: '小粉红',
+        headerBgColor:'#FF99CC',
+        headerTextColor: '#000000',
+        sidebarBgColor: '#FF99CC',
+        sidebarTextColor: '#000000',
+        sidebarIndexBgColor: '#CCCCFF',
+        sidebarIndexTextColor: '#000000',
+        shadowColor: '#663366',
+        nodeptBgColor: '#006633',
+        nodeptTextColor: '#FF99CC',
+    },
+    '6': {
         name: '明亮',
         headerBgColor:'#ffffff',
         headerTextColor: '#000000',
         sidebarBgColor: '#ffffff',
         sidebarTextColor: '#000000',
-        sidebarIndexBgColor: '#ffffff',
-        sidebarIndexTextColor: '#0000ff',
-        shadowColor: '#ffffff',
+        sidebarIndexBgColor: '#CCCCCC',
+        sidebarIndexTextColor: '#000000',
+        shadowColor: '#CCCCCC',
         nodeptBgColor: '#000000',
         nodeptTextColor: '#ffffff',
     }
@@ -193,6 +205,7 @@ const resetSystemTheme = () => {
 
 .theme-item {
     margin-right: 10px;
+    margin-top: 10px;
     padding: 30px;
     width: 70px;
     border: 1px solid #dcdfe6;
