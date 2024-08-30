@@ -22,3 +22,4 @@ Componentsbrz is a collection of useful software. Some sub-projects of Component
 
 
 
+${project.parent.basedir}
