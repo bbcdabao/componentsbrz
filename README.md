@@ -19,6 +19,9 @@ __Below is an introduction to all current components:__<br>
 
 Componentsbrz is a collection of useful software. Some sub-projects of Componentsbrz are independent Springboot components, such as:
 
+80个字符解决方案
+https://blog.csdn.net/qq_41840688/article/details/108636267
+
 
 
 
