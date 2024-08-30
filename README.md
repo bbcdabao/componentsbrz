@@ -6,7 +6,7 @@ But now that I'm about to start writing code, where's my coffee? :expressionless
 
 # Componentsbrz Background
 
-I call it the component experimental field, which contains an interesting example and springboot component, which will continue to be added later.
+I call it the component experimental field, which contains some interesting example and springboot component, which will continue to be added later.
 
 The following introduces the naming rules and content overview. And make it easier for you to view this project.
 
