@@ -77,7 +77,15 @@ const initTerm = () => {
     if (terminalElement) {
         term.open(terminalElement);
         fitAddon.fit();
-        window.addEventListener('resize', () => fitAddon.fit());
+        console.log('Initial size - Cols:', term.cols, 'Rows:', term.rows);
+        const handleResize = () => {
+            fitAddon.fit();
+            console.log('Resized - Cols:', term.cols, 'Rows:', term.rows);
+        };
+        window.addEventListener('resize', handleResize);
+        onBeforeUnmount(() => {
+            window.removeEventListener('resize', handleResize);
+        });
         term.focus();
         terminalRef.value = term;
     } else {
