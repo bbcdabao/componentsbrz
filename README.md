@@ -1,6 +1,6 @@
 # <img src="https://github.com/bbcdabao/componentsbrz/blob/main/terminalhub-ui/src/assets/img/logo.svg" alt="A" width="60" height="60" title="Stark Industries" >Stark Industries</img>
 # Notice
-![:)](https://github.com/bbcdabao/componentsbrz/blob/main/terminalhub-ui/src/assets/img/user-logo.jpg)  I am Iron Man......<br>
+<img src="https://github.com/bbcdabao/componentsbrz/blob/main/terminalhub-ui/src/assets/img/user-logo.jpg" alt=":)" width="60" height="60" title="Stark Industries" >I am Iron Man......</img>
 But now that I'm about to start writing code, where's my coffee?
 
 
