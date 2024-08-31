@@ -27,5 +27,6 @@
     "pass": "密码",
     "addSuccess": "添加终端成功",
     "addFail": "添加终端失败",
-    "deleteTerminal": "删除终端:"
+    "deleteTerminal": "删除终端:",
+    "update": "刷新"
 }

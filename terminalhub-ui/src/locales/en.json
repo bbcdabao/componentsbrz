@@ -27,5 +27,6 @@
     "pass": "pass",
     "addSuccess": "Add success",
     "addFail": "Add fail",
-    "deleteTerminal": "Delete terminal:"
+    "deleteTerminal": "Delete terminal:",
+    "update": "Update"
 }

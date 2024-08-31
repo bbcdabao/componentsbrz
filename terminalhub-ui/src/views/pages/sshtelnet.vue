@@ -1,7 +1,9 @@
 <template>
     <div class="this-page-ssh">
         <div v-if="connectInfo != 'ok'" class="this-box">
-            <div class="this-info">{{ connectInfo }}</div>
+            <div class="this-info">{{ connectInfo }}
+                <el-button v-if="!isWsConnecting" type="primary" @click="connectWebSocket">{{ $t('update') }}</el-button>
+            </div>
         </div>
         <div v-else id="xterm" class="terminal" />
     </div>
@@ -42,7 +44,9 @@ if (import.meta.env.MODE === 'development') {
 }
 const ws = ref<WebSocket | null>(null);
 
+const isWsConnecting = ref(false);
 const connectWebSocket = () => {
+    isWsConnecting.value = true;
     connectInfo.value = 'websocket begin connect ...';
     ws.value = new WebSocket(wbsurl);
     ws.value.onopen = () => {
@@ -52,9 +56,11 @@ const connectWebSocket = () => {
         });
     };
     ws.value.onerror = () => {
+        isWsConnecting.value = false;
         connectInfo.value = 'websocket error';
     };
     ws.value.onclose = () => {
+        isWsConnecting.value = false;
         connectInfo.value = 'websocket connection closed';
     };
 };

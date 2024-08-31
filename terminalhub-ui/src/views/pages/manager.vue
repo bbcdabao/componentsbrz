@@ -47,7 +47,7 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
-const addForm = ref(false);
+const addForm = ref(true);
 
 const form = ref({
   addr: '',

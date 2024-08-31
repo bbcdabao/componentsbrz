@@ -26,6 +26,7 @@ import java.net.InetSocketAddress;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
 import bbcdabao.componentsbrz.websocketbrz.api.IRegGetMsgForSend;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
-
+import net.schmizz.sshj.connection.channel.direct.PTYMode;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.connection.channel.direct.Session.Shell;
 
@@ -78,7 +79,6 @@ public class SessionAgent  extends AbstractSessionServer {
     @Override
     public void onTextMessage(TextMessage message) throws Exception {
     	String payloadMessage = message.getPayload();
-    	logger.info(">:{}", payloadMessage);
         oStream.write(payloadMessage.getBytes(StandardCharsets.UTF_8));
         oStream.flush();
     }
@@ -97,7 +97,7 @@ public class SessionAgent  extends AbstractSessionServer {
         Session sshSession = ssh.startSession();
         arryCloseable.add(sshSession);
 
-        sshSession.allocateDefaultPTY();
+        sshSession.allocatePTY("vt100", 20000, 24, 0, 0, Collections.<PTYMode, Integer>emptyMap());
        	
         Shell shell =  sshSession.startShell();
        	arryCloseable.add(shell);
