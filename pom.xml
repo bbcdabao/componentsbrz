@@ -13,7 +13,7 @@
 
 	<groupId>bbcdabao.componentsbrz</groupId>
 	<artifactId>common</artifactId>
-    	<version>${project.version}</version>
+    <version>${project.version}</version>
 	<packaging>pom</packaging>
 
 	<description>the componentsbrz common part</description>
