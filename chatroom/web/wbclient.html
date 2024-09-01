@@ -15,7 +15,7 @@
       <button onclick="sendMessage()">发送</button>
     </p>
     <script>
-      let socket = new WebSocket("ws://127.0.0.1:9090/bbadabao?sessionfactory=sshfactory&addr=10.54.146.69:21&user=root&pass=123");
+      let socket = new WebSocket("ws://localhost:8888/bbcdabao?sessionfactory=chatroom");
 	  document.getElementById("sowline").append("# linking ...\n");
       socket.onerror = err => {
 	    document.getElementById("sowline").append("# linking err\n");
@@ -52,14 +52,14 @@
     </script>
 	<style>
 	  .textaStyle{
-	    width: 500px;
-        height:300px;
+	    width: 100%;
+        height: calc(100% - 90px);
         overflow-x:hidden;
         background-color: #000000;
 		color: #FFFFFF;
 	  }
       .inputStyle{
-	    width: 500px;	
+	    width: 100%;
 	  }
 	</style>
   </body>

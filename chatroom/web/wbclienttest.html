@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <title>远程登录测试</title>
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <p>
+      <textarea id="sowline" class="textaStyle" readonly></textarea>
+    </p>
+    <p>
+      <input type="text" id="wsUrl" placeholder="ws://127.0.0.1:9090" class="inputStyle">
+    </p>
+    <p>
+      <input type="text" id="sessionFactory" placeholder="sessionfactory=sshfactory" class="inputStyle">
+    </p>
+    <p>
+      <input type="text" id="address" placeholder="addr=10.54.146.69:21" class="inputStyle">
+    </p>
+    <p>
+      <input type="text" id="user" placeholder="user=root" class="inputStyle">
+    </p>
+    <p>
+      <input type="text" id="pass" placeholder="pass=123" class="inputStyle">
+    </p>
+    <p>
+      <button onclick="connectWebSocket()">链接</button>
+    </p>
+    <p>
+      <input type="text" id="cmdline" value="" onkeydown="enterPress(event);" class="inputStyle">
+    </p>  
+    <p>
+      <button onclick="sendMessage()">发送</button>
+    </p>
+
+    <script>
+      let socket;
+
+      function connectWebSocket() {
+        const wsUrl = document.getElementById("wsUrl").value;
+        const sessionFactory = document.getElementById("sessionFactory").value;
+        const address = document.getElementById("address").value;
+        const user = document.getElementById("user").value;
+        const pass = document.getElementById("pass").value;
+
+        const fullUrl = `${wsUrl}/bbadabao?${sessionFactory}&${address}&${user}&${pass}`;
+        
+        socket = new WebSocket(fullUrl);
+        
+        document.getElementById("sowline").append("# linking ...\n");
+
+        socket.onerror = err => {
+          document.getElementById("sowline").append("# linking err\n");
+          console.log(err);
+        };
+
+        socket.onopen = event => {
+          document.getElementById("sowline").append("# linking ok you can enter cmd\n");
+          console.log(event);
+        };
+
+        socket.onmessage = mess => {
+          document.getElementById("sowline").append("# " + mess.data + "\n");
+        };
+
+        socket.onclose = () => {
+          document.getElementById("sowline").append("# linking closed\n");
+        };
+      }
+      
+      function enterPress(e) {
+        if (e.keyCode == 13) {
+          sendMessage();
+        }
+      }
+      
+      function sendMessage() {
+        if (socket && socket.readyState === 1) {
+          document.getElementById("sowline").append("# " + document.getElementById("cmdline").value + "\n");
+          
+          socket.send(document.getElementById("cmdline").value);
+          
+          document.getElementById("cmdline").value = "";
+        } else {
+          alert("尚未建立 WebSocket 连接");
+        }
+      }
+    </script>
+
+    <style>
+      .textaStyle {
+        width: 100%;
+        height: calc(100% - 290px); /* 根据上面的输入框和按钮调整 */
+        overflow-x: hidden;
+        background-color: #000000;
+        color: #FFFFFF;
+      }
+      .inputStyle {
+        width: 100%;
+      }
+    </style>
+  </body>
+</html>

@@ -37,7 +37,7 @@ const connectInfo = ref('begin...');
 const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const host = window.location.hostname;
 const port = window.location.port ? window.location.port : (window.location.protocol === 'https:' ? 443 : 80);
-const wspt = `/bbadabao?sessionfactory=sshfactory&addr=${nowItem.addr}&user=${nowItem.user}&pass=${nowItem.pass}`;
+const wspt = `/bbcdabao?sessionfactory=sshfactory&addr=${nowItem.addr}&user=${nowItem.user}&pass=${nowItem.pass}`;
 let wbsurl = `${protocol}://${host}:${port}` + wspt;
 if (import.meta.env.MODE === 'development') {
     wbsurl = `ws://localhost:9090` + wspt;

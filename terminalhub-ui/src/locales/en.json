@@ -28,5 +28,11 @@
     "addSuccess": "Add success",
     "addFail": "Add fail",
     "deleteTerminal": "Delete terminal:",
-    "update": "Update"
+    "update": "Update",
+    "default": "Default",
+    "grey": "Grey",
+    "doubleFight": "Double fight",
+    "clean": "Clean",
+    "littlePink": "Little pink",
+    "bright": "Bright"
 }

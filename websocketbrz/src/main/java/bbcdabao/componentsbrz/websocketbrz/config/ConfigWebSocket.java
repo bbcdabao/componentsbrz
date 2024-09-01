@@ -14,7 +14,7 @@ import bbcdabao.componentsbrz.websocketbrz.impl.BrzWebSocketServer;
 @EnableWebSocket
 public class ConfigWebSocket implements WebSocketConfigurer {
 
-	@Value("${wscfg.paths:bbadabao}")
+	@Value("${wscfg.paths:bbcdabao}")
 	private String paths;
 
 	@Value("${wscfg.allowedOrigins:*}")

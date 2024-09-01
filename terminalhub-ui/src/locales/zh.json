@@ -28,5 +28,11 @@
     "addSuccess": "添加终端成功",
     "addFail": "添加终端失败",
     "deleteTerminal": "删除终端:",
-    "update": "刷新"
+    "update": "刷新",
+    "default": "默认",
+    "grey": "灰色",
+    "doubleFight": "双拼",
+    "clean": "洁净",
+    "littlePink": "小粉红",
+    "bright": "明亮"
 }

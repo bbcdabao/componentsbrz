@@ -35,6 +35,8 @@
 		<module>messagebrz</module>
 		<!-- A springboot component for esay to used websocket. -->
 		<module>websocketbrz</module>
+		<!-- A chatroom test. -->
+		<module>chatroom</module>
 		<!-- A web application with front and back ends for remote login, which
 		uses the websocketbrz component -->
 		<module>terminalhub</module>

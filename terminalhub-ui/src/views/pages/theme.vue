@@ -36,6 +36,10 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/store/theme'
 import { reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
 const themeStore = useThemeStore();
 
 const color = reactive({
@@ -96,7 +100,7 @@ const getGradientBackground = (color1: string, color2: string) => {
 
 const systemmap = {
     '1': {
-        name: '默认',
+        name: t('default'),
         headerBgColor:'#000000',
         headerTextColor: '#ffffff',
         sidebarBgColor: '#000000',
@@ -108,7 +112,7 @@ const systemmap = {
         nodeptTextColor: '#663333',
     },
     '2': {
-        name: '灰色',
+        name: t('grey'),
         headerBgColor:'#4B4B4B',
         headerTextColor: '#ffffff',
         sidebarBgColor: '#4B4B4B',
@@ -120,7 +124,7 @@ const systemmap = {
         nodeptTextColor: '#000000',
     },
     '3': {
-        name: '双拼',
+        name: t('doubleFight'),
         headerBgColor:'#000000',
         headerTextColor: '#ffffff',
         sidebarBgColor: '#4B4B4B',
@@ -132,7 +136,7 @@ const systemmap = {
         nodeptTextColor: '#000000',
     },
     '4': {
-        name: '洁净',
+        name: t('clean'),
         headerBgColor:'#003366',
         headerTextColor: '#ffffff',
         sidebarBgColor: '#003366',
@@ -144,7 +148,7 @@ const systemmap = {
         nodeptTextColor: '#003366',
     },
     '5': {
-        name: '小粉红',
+        name: t('littlePink'),
         headerBgColor:'#FF99CC',
         headerTextColor: '#000000',
         sidebarBgColor: '#FF99CC',
@@ -156,7 +160,7 @@ const systemmap = {
         nodeptTextColor: '#FF99CC',
     },
     '6': {
-        name: '明亮',
+        name: t('bright'),
         headerBgColor:'#ffffff',
         headerTextColor: '#000000',
         sidebarBgColor: '#ffffff',
