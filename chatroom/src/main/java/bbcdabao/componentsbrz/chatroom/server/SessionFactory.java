@@ -20,6 +20,8 @@ package bbcdabao.componentsbrz.chatroom.server;
 
 import java.util.Map;
 
+import org.springframework.util.ObjectUtils;
+
 import bbcdabao.componentsbrz.websocketbrz.api.AbstractSessionServer;
 import bbcdabao.componentsbrz.websocketbrz.api.ISessionFactory;
 import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionFactoryBrz;
@@ -29,6 +31,10 @@ public class SessionFactory implements ISessionFactory {
 
 	@Override
 	public AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception {
-		return new Session();
+		String name = queryMap.get("name");
+		if (ObjectUtils.isEmpty(name)) {
+			throw new Exception("no name!!!");
+		}
+ 		return new Session(name);
 	}
 }
