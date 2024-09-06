@@ -62,7 +62,9 @@ public class Session  extends AbstractSessionServer {
         private synchronized void register(String name, SendNode sendNode) {
         	Optional.ofNullable(mgr.put(name, sendNode)).ifPresent(sendNodeOld -> {
         		try (sendNodeOld.session) {
-        			LOGGER.info("SendChanlMgr: tick out  %s:%s", name, sendNodeOld.session.getId());
+        	        TextMessage messageSend = new TextMessage("您被踢掉了! / you are fire!");
+        			sendNodeOld.sendChanlIndex.offer(messageSend);
+        			LOGGER.info("SendChanlMgr: tick out  {}:{}", name, sendNodeOld.session.getId());
         		} catch (IOException e) {
         			LOGGER.info("SendChanlMgr: tick out  IOException:%s:%s", name, sendNodeOld.session.getId());
         		}
@@ -73,6 +75,7 @@ public class Session  extends AbstractSessionServer {
         	if (ObjectUtils.isEmpty(names)) {
         		mgr.values().forEach(sendNodeNow -> {
         			sendNodeNow.sendChanlIndex.offer(message);
+          			LOGGER.info("SendChanlMgr:id{}:{}", sendNodeNow.session.getId(), message.getPayload());
         		});
         		return;
         	}
@@ -110,13 +113,19 @@ public class Session  extends AbstractSessionServer {
     @Override
     public void onTextMessage(TextMessage message) throws Exception {
     	String msg = message.getPayload();
-    	List<String> matches = new ArrayList<>();
+    	List<String> matches = null;
         Matcher matcher = PATTERN.matcher(msg);
         while (matcher.find()) {
             String match = matcher.group();
-            matches.add(match);
+            String nameNatch = match.trim().substring(1);
+            if (null == matches) {
+            	matches = new ArrayList<>();
+            	matches.add(name);
+            }
+            matches.add(nameNatch);
         }
-        SENDCHANLMGR.sendsmsg(matches, message);
+        TextMessage messageSend = new TextMessage(name + ":" + msg);
+        SENDCHANLMGR.sendsmsg(matches, messageSend);
     }
 
     @Override
@@ -126,6 +135,8 @@ public class Session  extends AbstractSessionServer {
     	sendNode.sendChanlIndex = sendChanl;
     	sendNode.session = session;
     	SENDCHANLMGR.register(name, sendNode);
+        TextMessage messageSend = new TextMessage("*** " + name + ", 加入聊天室 / Join chat room ***");
+        SENDCHANLMGR.sendsmsg(null, messageSend);
     }
 
     @Override
