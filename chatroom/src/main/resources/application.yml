@@ -15,3 +15,6 @@
 
 server:
   port: 8888
+
+wscfg:
+  pingCyc: 10000

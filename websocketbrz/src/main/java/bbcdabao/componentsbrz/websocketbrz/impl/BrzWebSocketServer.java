@@ -20,7 +20,6 @@ package bbcdabao.componentsbrz.websocketbrz.impl;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +31,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -174,13 +171,13 @@ public class BrzWebSocketServer extends Thread implements InitializingBean, Disp
 			throw new WebsocketbrzException("query is empty!");
 		}
 		Map<String, String> queryMap = new HashMap<>(20);
-		List<NameValuePair> queryPairs = URLEncodedUtils.parse(query, Charset.forName("UTF-8"));
-		for (NameValuePair queryPair : queryPairs) {
-			String queryValue = queryMap.get(queryPair.getName());
-			if (!ObjectUtils.isEmpty(queryValue)) {
-				throw new WebsocketbrzException("queryValue is conflict!");
+		String[] queryPairs = query.split("&");
+		for (String queryPair : queryPairs) {
+			String[] queryParam = queryPair.split("=");
+			if (2 != queryParam.length) {
+				continue;
 			}
-			queryMap.put(queryPair.getName(), queryPair.getValue());
+		    queryMap.put(queryParam[0], queryParam[1]);
 		}
 		String sessionfactory = queryMap.get("sessionfactory");
 		if (ObjectUtils.isEmpty(sessionfactory)) {

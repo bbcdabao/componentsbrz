@@ -41,78 +41,126 @@ import bbcdabao.componentsbrz.websocketbrz.api.IRegGetMsgForSend;
 import bbcdabao.componentsbrz.websocketbrz.api.annotation.SessionSenderQue;
 
 /**
- * Implementing Remote Login
+ * Implementing the chat room function
  */
 public class Session  extends AbstractSessionServer {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(Session.class);
 
+    /**
+     * Extract @xxx from the sent string, and then send it in a targeted manner.
+     * This is the extraction template
+     */
     private static String AREGEX = "@\\S+\\b";
     private static Pattern PATTERN = Pattern.compile(AREGEX);
 
-    private static class SendNode {
-    	private BlockingQueue<TextMessage> sendChanlIndex;
-    	private WebSocketSession session;
-    }
-
+    /**
+     * The send information
+     * Add to the queue(sendChanlIndex) and it will be sent automatically
+     */
     private static class SendChanlMgr {
-
-        private Map<String, SendNode> mgr = new HashMap<>(100);
-
-        private synchronized void register(String name, SendNode sendNode) {
-        	Optional.ofNullable(mgr.put(name, sendNode)).ifPresent(sendNodeOld -> {
-        		try (sendNodeOld.session) {
-        	        TextMessage messageSend = new TextMessage("您被踢掉了! / you are fire!");
-        			sendNodeOld.sendChanlIndex.offer(messageSend);
-        			LOGGER.info("SendChanlMgr: tick out  {}:{}", name, sendNodeOld.session.getId());
+    	/**
+    	 * Send information corresponding to the registered name
+    	 */
+        private Map<String, Session> sessionMap = new HashMap<>(100);
+        private synchronized void register(Session session) {
+        	Optional.ofNullable(sessionMap.put(session.name, session)).ifPresent(sessionOld -> {
+        		try (sessionOld.session) {
+        	        TextMessage messageSend = new TextMessage("有其他人用您的名字登录，您被踢掉了 :( "
+        	        		+ "\n Someone else is logged in with your name, So you were fired :(");
+        	        sessionOld.sendChanl.offer(messageSend);
+        	        sessionOld.name = null;
         		} catch (IOException e) {
-        			LOGGER.info("SendChanlMgr: tick out  IOException:%s:%s", name, sendNodeOld.session.getId());
+        			LOGGER.info("SendChanlMgr:IOException:%s", sessionOld.session.getId());
         		}
-        	});
+        	}); 
         }
-
+        private synchronized void unregister(Session session) {
+        	if (null == session.name) {
+        		return;
+        	}
+        	sessionMap.remove(session.name);
+        }
         private synchronized void sendsmsg(List<String> names, TextMessage message) {
         	if (ObjectUtils.isEmpty(names)) {
-        		mgr.values().forEach(sendNodeNow -> {
-        			sendNodeNow.sendChanlIndex.offer(message);
-          			LOGGER.info("SendChanlMgr:id{}:{}", sendNodeNow.session.getId(), message.getPayload());
+        		sessionMap.values().forEach(sessionIdx -> {
+        			sessionIdx.sendChanl.offer(message);
         		});
         		return;
         	}
         	names.forEach(name -> {
-        		Optional.ofNullable(mgr.get(name)).ifPresent(sendNodeNow -> {
-        			sendNodeNow.sendChanlIndex.offer(message);
+        		Optional.ofNullable(sessionMap.get(name)).ifPresent(sessionIdx -> {
+        			sessionIdx.sendChanl.offer(message);
         		});
         	});
         }
-
-        private synchronized void godelete(String name, String id) {
-        	SendNode sendNode = mgr.get(name);
-        	if (null == sendNode) {
-        		return;
-        	}
-        	if (!sendNode.session.getId().equals(id)) {
-        		return;
-        	}
-        	mgr.remove(name);
+        private synchronized String getAllNames() {
+        	StringBuilder sb = new StringBuilder();
+    		sb.append("\nAll the names:");
+        	sessionMap.keySet().forEach(name -> {
+        		sb.append("\n@" + name);
+        	});
+        	return sb.toString();
         }
     }
 
     private static SendChanlMgr SENDCHANLMGR = new SendChanlMgr();
-    
+
+    /**
+     * The command not message beginning with #
+     */
+    private static String CMDTER = "#";
+    private static interface DoCmdter {
+    	String  doCmd() throws Exception;
+    }
+
+    /**
+     * The command mapping , key is command value is interface to run
+     */
+    private static Map<String, DoCmdter> CMDMAP = new HashMap<>(10);
+    static {
+    	CMDMAP.put("#list", () -> {
+    		return SENDCHANLMGR.getAllNames();
+    	});
+    }
+
     public Session(String name) throws Exception {
     	this.name = name;
     }
 
-    private final String name;
-    private String id;
+    private String name;
 
     @SessionSenderQue
     private BlockingQueue<TextMessage> sendChanl = new LinkedBlockingQueue<>();
 
+    private WebSocketSession session = null;
+
+    private void doCommand(String cmd) {
+    	String cmdRet = "";
+    	try {
+    		DoCmdter doCmdter = CMDMAP.get(cmd);
+    		if (null == doCmdter) {
+    			cmdRet = "\nno had the command:" + cmd;
+    		} else {
+    			cmdRet = doCmdter.doCmd();
+    		}
+    	} catch (Exception e) {
+    		cmdRet = e.getMessage();
+    	}
+        TextMessage messageSend = new TextMessage(cmdRet);
+    	sendChanl.offer(messageSend);
+    }
+
     @Override
     public void onTextMessage(TextMessage message) throws Exception {
     	String msg = message.getPayload();
+    	if (ObjectUtils.isEmpty(msg)) {
+    		return;
+    	}
+    	if (msg.startsWith(CMDTER)) {
+    		doCommand(msg);
+    		return;
+    	}
     	List<String> matches = null;
         Matcher matcher = PATTERN.matcher(msg);
         while (matcher.find()) {
@@ -130,11 +178,8 @@ public class Session  extends AbstractSessionServer {
 
     @Override
     public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
-    	id = session.getId();
-    	SendNode sendNode = new SendNode();
-    	sendNode.sendChanlIndex = sendChanl;
-    	sendNode.session = session;
-    	SENDCHANLMGR.register(name, sendNode);
+    	this.session = session;
+    	SENDCHANLMGR.register(this);
         TextMessage messageSend = new TextMessage("*** " + name + ", 加入聊天室 / Join chat room ***");
         SENDCHANLMGR.sendsmsg(null, messageSend);
     }
@@ -148,6 +193,6 @@ public class Session  extends AbstractSessionServer {
      */
     @Override
     public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
-    	SENDCHANLMGR.godelete(name, id);
+    	SENDCHANLMGR.unregister(this);
     }
 }

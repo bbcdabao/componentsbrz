@@ -53,7 +53,10 @@
                     document.getElementById("name").focus();
                     return;
                 }
-                socket = new WebSocket("ws://" + registerGet + "/bbcdabao?sessionfactory=chatroom&" + "name=" + nameGet);
+				let testname = "ws://" + registerGet + "/bbcdabao?sessionfactory=chatroom&" + "name=" + encodeURIComponent(nameGet);
+				console.log("======:");
+				console.log(testname);
+                socket = new WebSocket(testname);
                 yournm = '名字 / Name :' + nameGet;
                 registerSectionShow();
                 document.getElementById("sowline").append("# linking ...\n");
