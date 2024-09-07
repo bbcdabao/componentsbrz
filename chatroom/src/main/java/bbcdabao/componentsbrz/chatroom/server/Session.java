@@ -65,7 +65,7 @@ public class Session  extends AbstractSessionServer {
         private Map<String, Session> sessionMap = new HashMap<>(100);
         private synchronized void register(Session session) {
         	Optional.ofNullable(sessionMap.put(session.name, session)).ifPresent(sessionOld -> {
-        		try (sessionOld.session) {
+        		try (WebSocketSession tobeClose = sessionOld.session) {
         	        TextMessage messageSend = new TextMessage("有其他人用您的名字登录，您被踢掉了 :( "
         	        		+ "\n Someone else is logged in with your name, So you were fired :(");
         	        sessionOld.sendChanl.offer(messageSend);
