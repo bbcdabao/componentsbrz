@@ -16,6 +16,9 @@
 server:
   port: 9090
 
+wscfg:
+  pingCyc: 10000
+
 spring:
   web:
     resources:
