@@ -16,11 +16,6 @@ The following introduces the naming rules and content overview. And make it easi
 
 __Below is an introduction to all components:__<br>
 
-- 缩进内容
-  - 二级缩进内容
-  - 二级缩进内容
-
-Componentsbrz is a collection of useful software. Some sub-projects of Componentsbrz are independent Springboot components, such as:
 
 
 
