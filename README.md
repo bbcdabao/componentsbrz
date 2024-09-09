@@ -14,6 +14,10 @@ The following introduces the naming rules and content overview. And make it easi
   - Directories ending in "brz" are springboot components. brz comes from "Subaru BRZ" which is a great car. And i like the letter ending "brz".<br>
   - Directories that do not end with "brz" are examples of using these components. These examples are more interesting.<br>
 
+- __Compile:__<br>
+  - Useing jdk 17
+  - run "mvn install" in the root directory "componentsbrz"
+
 __Below is an introduction to all components:__<br>
 
 
