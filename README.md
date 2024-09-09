@@ -16,6 +16,7 @@ The following introduces the naming rules and content overview. And make it easi
 
 - __Compile:__<br>
   - Useing jdk 17 or above version.
+  - Useing node 22.4.0.
   - run "mvn install" in the root directory "componentsbrz".
 
 # Below is an introduction to all components
