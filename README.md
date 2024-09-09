@@ -18,7 +18,7 @@ The following introduces the naming rules and content overview. And make it easi
   - Useing jdk 17 or above version.
   - run "mvn install" in the root directory "componentsbrz".
 
-__Below is an introduction to all components:__<br>
+# Below is an introduction to all components
 
 
 
