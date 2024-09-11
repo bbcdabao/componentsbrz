@@ -3,6 +3,7 @@
 <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/user-logo.jpg" alt=":)" width="16" height="16" title="Stark Industries" > I am Iron Man......</img> :smile: <br>
 But now that I'm about to start writing code, where's my coffee? :expressionless:
 
+[![GitHub last commit](https://img.shields.io/github/last-commit/{user}/{repo}.svg)](https://github.com/{user}/{repo}/commits/main)
 
 # Componentsbrz Background
 
