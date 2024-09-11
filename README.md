@@ -5,7 +5,7 @@ But now that I'm about to start writing code, where's my coffee? :expressionless
 
 [![GitHub license](https://img.shields.io/github/license/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/blob/develop/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/{user}/{repo}.svg)](https://github.com/{user}/{repo}/releases)
-[![GitHub last commit](https://img.shields.io/github/last-commit/{user}/{repo}.svg)](https://github.com/{user}/{repo}/commits/main)
+[![GitHub last commit](https://img.shields.io/github/last-commit/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/commits/main)
 
 # Componentsbrz Background
 
