@@ -3,7 +3,7 @@
 <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/user-logo.jpg" alt=":)" width="16" height="16" title="Stark Industries" > I am Iron Man......</img> :smile: <br>
 But now that I'm about to start writing code, where's my coffee? :expressionless:
 
-[![Build Status](https://img.shields.io/travis/{user}/{repo}/main.svg)](https://travis-ci.com/{user}/{repo})
+[![GitHub license](https://img.shields.io/github/license/{user}/{repo}.svg)](https://github.com/{user}/{repo}/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/{user}/{repo}.svg)](https://github.com/{user}/{repo}/releases)
 [![GitHub last commit](https://img.shields.io/github/last-commit/{user}/{repo}.svg)](https://github.com/{user}/{repo}/commits/main)
 
