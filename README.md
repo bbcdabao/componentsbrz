@@ -25,8 +25,7 @@ The following introduces the naming rules and content overview. And make it easi
 # Below is an introduction to all components
 
 - __websocketbrz__<br>
-  - Illustrate.<br>
-  {% include_relative ./websocketbrz/README.md %}
+  - [Illustrate](./websocketbrz/README.md)
   - Example.<br>
 
 
