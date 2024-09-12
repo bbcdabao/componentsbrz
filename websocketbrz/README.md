@@ -9,8 +9,15 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
     ```yml
     # Here is an example YAML configuration
     wscfg:
-    # Here is an example YAML configuration
+    # Configure websocket path, Supports configuring multiple paths "," intervals.
+    # like: ws://mypath ...
       paths: mypath
-    another_key: another_value
+    # Origin config
+      allowedOrigins: *
+    # Partinal websocket message support
+      isPartialMsg: true
+    # The detection period for clearing useless WebSocketSession responses, in milliseconds
+      timeCyc: 2000
+    
     ```
     - Instructions for coding
