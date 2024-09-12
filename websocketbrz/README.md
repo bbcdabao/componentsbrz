@@ -39,8 +39,8 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
     __The component interface you can use is at page:__<br>
     **bbcdabao.componentsbrz.websocketbrz.api**
     It includes 4 interfaces:<br>
-      - 1. AbstractSessionServer: 
-It is an abstract class used to initialize access to websocket sessions and receive messages. When there is a reply access, its subclass will be created. The ISessionFactory factory subclass is responsible for creating
+      - __1. AbstractSessionServer:__
+It is an abstract class used to initialize access to websocket sessions and receive messages. When there is a reply access, its subclass will be created. The ISessionFactory factory subclass is responsible for creating.
       - 2. IGetMsgForSend:
       - 3. IRegGetMsgForSend:
       - 4. ISessionFactory:
