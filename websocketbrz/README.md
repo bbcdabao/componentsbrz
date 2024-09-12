@@ -53,7 +53,17 @@ Annotations used to identify websocket factory classes.
 Access the websocket interceptor and mark the subclass that implements HandshakeInterceptor for access authentication.
       - 7. annotation "SessionSenderQue":
 Used to annotate the queue for sending websocket in the subclass that implements AbstractSessionServer. Using this annotation, you can send websocket messages, just like writing the local queue "BlockingQueue"
-
+    - Java websocket project example code 
     ```java
-
+    @SessionFactoryBrz("chatroom")
+    public class SessionFactory implements ISessionFactory {
+	    @Override
+	    public AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception {
+		    String name = queryMap.get("name");
+	  	  if (ObjectUtils.isEmpty(name)) {
+  			  throw new Exception("no name!!!");
+		    }
+ 		    return new Session(name);
+	    }
+    }
     ```
