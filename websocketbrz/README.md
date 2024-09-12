@@ -60,7 +60,7 @@ Used to annotate the queue for sending websocket in the subclass that implements
 	    @Override
 	    public AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception {
 		    String name = queryMap.get("name");
-	  	  if (ObjectUtils.isEmpty(name)) {
+	  	    if (ObjectUtils.isEmpty(name)) {
   			  throw new Exception("no name!!!");
 		    }
  		    return new Session(name);
@@ -74,44 +74,31 @@ Used to annotate the queue for sending websocket in the subclass that implements
     		this.name = name;
     	}
 
-    private final String name;
-    private String id;
+    	private final String name;
+	/**
+     	* Writing to "sendChanl" will send the websocket message
+     	*/
+    	@SessionSenderQue
+    	private BlockingQueue<TextMessage> sendChanl = new LinkedBlockingQueue<>();
 
-    @SessionSenderQue
-    private BlockingQueue<TextMessage> sendChanl = new LinkedBlockingQueue<>();
+	@Override
+    	public void onTextMessage(TextMessage message) throws Exception {
+    	}
 
-    @Override
-    public void onTextMessage(TextMessage message) throws Exception {
-    	String msg = message.getPayload();
-    	List<String> matches = new ArrayList<>();
-        Matcher matcher = PATTERN.matcher(msg);
-        while (matcher.find()) {
-            String match = matcher.group();
-            matches.add(match);
-        }
-        SENDCHANLMGR.sendsmsg(matches, message);
+    	@Override
+    	public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
+    	}
+
+    	@Override
+    	public void onHandleTransportError(Throwable exception) throws Exception {
+    	}
+
+    	/**
+     	* Close the open resource init the onAfterConnectionEstablished function
+     	*/
+    	@Override
+    	public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
+    		SENDCHANLMGR.godelete(name, id);
+    	}
     }
-
-    @Override
-    public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
-    	id = session.getId();
-    	SendNode sendNode = new SendNode();
-    	sendNode.sendChanlIndex = sendChanl;
-    	sendNode.session = session;
-    	SENDCHANLMGR.register(name, sendNode);
-    }
-
-    @Override
-    public void onHandleTransportError(Throwable exception) throws Exception {
-    }
-
-    /**
-     * Close the open resource init the onAfterConnectionEstablished function
-     */
-    @Override
-    public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
-    	SENDCHANLMGR.godelete(name, id);
-    }
-}
-
     ```
