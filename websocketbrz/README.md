@@ -7,9 +7,10 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
   - Instructions for use
     - Instructions for config
     ```yml
-    # 这是一个 YAML 配置示例
-    key: value
+    # Here is an example YAML configuration
+    wscfg:
+    # Here is an example YAML configuration
+      paths: mypath
     another_key: another_value
     ```
-
     - Instructions for coding
