@@ -34,3 +34,6 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
         threadNamePrefix: wsc-sendthread
     ```
     - Instructions for coding
+    ```java
+
+    ```
