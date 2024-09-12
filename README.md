@@ -26,7 +26,7 @@ The following introduces the naming rules and content overview. And make it easi
 
 - __websocketbrz__<br>
   - [Illustrate](./websocketbrz/README.md)
-  - Example.<br>
+  - Example:<br>
 
 
 
