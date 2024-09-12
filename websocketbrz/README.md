@@ -6,5 +6,10 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
   - Schematic diagram
   - Instructions for use
     - Instructions for config
-    - ```yml
+    ```yml
+    # 这是一个 YAML 配置示例
+    key: value
+    another_key: another_value
+    ```
+
     - Instructions for coding
