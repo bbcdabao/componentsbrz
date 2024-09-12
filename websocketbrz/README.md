@@ -38,7 +38,12 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
     - Instructions for coding<br>
     __The component interface you can use is at page:__<br>
     **bbcdabao.componentsbrz.websocketbrz.api**
-    
+    It includes 4 interfaces:<br>
+      - 1. AbstractSessionServer:
+      - 2. IGetMsgForSend:
+      - 3. IRegGetMsgForSend:
+      - 4. ISessionFactory:
+  
     ```java
 
     ```
