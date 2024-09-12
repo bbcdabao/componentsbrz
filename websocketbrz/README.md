@@ -38,7 +38,7 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
     - Instructions for coding<br>
     __The component interface you can use is at page:__<br>
     **bbcdabao.componentsbrz.websocketbrz.api**<br>
-    It includes 4 interfaces:<br>
+    It includes 4 interfaces and 3 annotations:<br>
       - 1. AbstractSessionServer:
 It is an abstract class used to initialize access to websocket sessions and receive messages. When there is a reply access, its subclass will be created. The ISessionFactory factory subclass is responsible for creating.
       - 2. IGetMsgForSend:
@@ -48,8 +48,10 @@ It calls back regGetMsgForSend in the "public void onAfterConnectionEstablished(
       - 4. ISessionFactory:
 It is an interface for creating websocket session factories.
 <br>
-    It includes 3 annotations:<br>
-    
+      - 5. annotation "SessionFactoryBrz":
+      - 6. annotation "SessionInterceptor":
+      - 7. annotation "SessionInterceptor":
+  
     ```java
 
     ```
