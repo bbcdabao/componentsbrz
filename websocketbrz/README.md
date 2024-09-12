@@ -4,7 +4,9 @@ Provides rich annotations to support development, and provides rich support for 
 __Here are two more interesting examples, you can see "terminalhub" and "chatroom" in this project.__<br><br>
 - __Component Description__
   - Schematic diagram
-
+  - Instructions for use
+    - Instructions for config
+    - Instructions for coding
 ```java
 这是代码块
     print("Hello, World!")
