@@ -47,7 +47,6 @@ Its subclass forms a websocket sending module. There will be independent thread 
 It calls back regGetMsgForSend in the "public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend)" interface and is used to register the "IGetMsgForSend" sending module.
       - 4. ISessionFactory:
 It is an interface for creating websocket session factories.
-<br>
       - 5. annotation "SessionFactoryBrz":
       - 6. annotation "SessionInterceptor":
       - 7. annotation "SessionInterceptor":
