@@ -7,5 +7,4 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
   - Instructions for use
     - Instructions for config
     - ```yml
-    - ```
     - Instructions for coding
