@@ -25,8 +25,9 @@ The following introduces the naming rules and content overview. And make it easi
 # Below is an introduction to all components
 
 - __websocketbrz__<br>
-  - [Illustrate](./websocketbrz/README.md)
-  - Example:<br>
+  - [Component Description](./websocketbrz/README.md)
+  - Example1:<br>
+  - Example2:<br>
 
 
 
