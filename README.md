@@ -28,6 +28,10 @@ The following introduces the naming rules and content overview. And make it easi
   - [Component Description](./websocketbrz/README.md)
   - Example1:<br>
   - Example2:<br>
+  
+- __flowcontrolbrz__<br>
+  - [Component Description](./flowcontrolbrz/README.md)
+  - Example1:<br>
 
 
 
