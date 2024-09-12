@@ -36,6 +36,9 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
         threadNamePrefix: wsc-sendthread
     ```
     - Instructions for coding
+    __The component interface you can use is at page:__<br>
+    <span style="color: red;">bbcdabao.componentsbrz.websocketbrz.api</span>
+    
     ```java
 
     ```
