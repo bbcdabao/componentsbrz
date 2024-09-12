@@ -33,6 +33,10 @@ The following introduces the naming rules and content overview. And make it easi
   - [Component Description](./flowcontrolbrz/README.md)
   - Example1:<br>
 
+- __messagebrz__<br>
+  - [Component Description](./flowcontrolbrz/README.md)
+  - Example1:<br>
+
 
 
 
