@@ -98,7 +98,6 @@ Used to annotate the queue for sending websocket in the subclass that implements
      	*/
     	@Override
     	public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
-    		SENDCHANLMGR.godelete(name, id);
     	}
     }
     ```
