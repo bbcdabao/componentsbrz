@@ -6,9 +6,6 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
   - Schematic diagram
   - Instructions for use
     - Instructions for config
-```yml
-``````java
-这是代码块
-    print("Hello, World!")
-```
+    - ```yml
+    - ```
     - Instructions for coding
