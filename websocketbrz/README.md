@@ -53,7 +53,7 @@ Annotations used to identify websocket factory classes.
 Access the websocket interceptor and mark the subclass that implements HandshakeInterceptor for access authentication.
       - 7. annotation "SessionSenderQue":
 Used to annotate the queue for sending websocket in the subclass that implements AbstractSessionServer. Using this annotation, you can send websocket messages, just like writing the local queue "BlockingQueue"
-    - Java websocket project example code 
+    - Java websocket factory example code 
     ```java
     @SessionFactoryBrz("chatroom")
     public class SessionFactory implements ISessionFactory {
@@ -66,4 +66,52 @@ Used to annotate the queue for sending websocket in the subclass that implements
  		    return new Session(name);
 	    }
     }
+    ```
+    - Java websocket session example code
+    ```java
+    public class Session  extends AbstractSessionServer {
+    	public Session(String name) throws Exception {
+    		this.name = name;
+    	}
+
+    private final String name;
+    private String id;
+
+    @SessionSenderQue
+    private BlockingQueue<TextMessage> sendChanl = new LinkedBlockingQueue<>();
+
+    @Override
+    public void onTextMessage(TextMessage message) throws Exception {
+    	String msg = message.getPayload();
+    	List<String> matches = new ArrayList<>();
+        Matcher matcher = PATTERN.matcher(msg);
+        while (matcher.find()) {
+            String match = matcher.group();
+            matches.add(match);
+        }
+        SENDCHANLMGR.sendsmsg(matches, message);
+    }
+
+    @Override
+    public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
+    	id = session.getId();
+    	SendNode sendNode = new SendNode();
+    	sendNode.sendChanlIndex = sendChanl;
+    	sendNode.session = session;
+    	SENDCHANLMGR.register(name, sendNode);
+    }
+
+    @Override
+    public void onHandleTransportError(Throwable exception) throws Exception {
+    }
+
+    /**
+     * Close the open resource init the onAfterConnectionEstablished function
+     */
+    @Override
+    public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
+    	SENDCHANLMGR.godelete(name, id);
+    }
+}
+
     ```
