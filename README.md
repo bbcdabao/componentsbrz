@@ -37,6 +37,7 @@ The following introduces the naming rules and content overview. And make it easi
   - [Component Description](./messagebrz/README.md)
   - Example1:<br>
 
+`console.log('Hello, world!')`
 
 
 
