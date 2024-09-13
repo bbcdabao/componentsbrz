@@ -1,6 +1,6 @@
 # <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/logo.svg" alt="A" width="60" height="60" title="Componentsbrz" >Componentsbrz</img>
-# Notice
-<img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/user-logo.jpg" alt=":)" width="16" height="16" title="Stark Industries" > My frist!......</img> :smile: <br>
+# Welcome
+<img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/user-logo.jpg" alt=":)" width="16" height="16" title="Stark Industries" > ......</img> :smile: <br>
 
 [![GitHub license](https://img.shields.io/github/license/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/blob/develop/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/{user}/{repo}.svg)](https://github.com/{user}/{repo}/releases)
