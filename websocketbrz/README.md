@@ -55,17 +55,17 @@ Access the websocket interceptor and mark the subclass that implements Handshake
 Used to annotate the queue for sending websocket in the subclass that implements AbstractSessionServer. Using this annotation, you can send websocket messages, just like writing the local queue "BlockingQueue"
     - Java websocket factory example code 
     ```java
-    @SessionFactoryBrz("chatroom")
-    public class SessionFactory implements ISessionFactory {
-	    @Override
-	    public AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception {
-		    String name = queryMap.get("name");
-	  	    if (ObjectUtils.isEmpty(name)) {
-  			  throw new Exception("no name!!!");
-		    }
- 		    return new Session(name);
+	@SessionFactoryBrz("chatroom")
+	public class SessionFactory implements ISessionFactory {@
+	    Override
+	    public AbstractSessionServer getSession(Map < String, String > queryMap) throws Exception {
+	        String name = queryMap.get("name");
+	        if (ObjectUtils.isEmpty(name)) {
+	            throw new Exception("no name!!!");
+	        }
+	        return new Session(name);
 	    }
-    }
+	}
     ```
     - Java websocket session example code
     ```java
