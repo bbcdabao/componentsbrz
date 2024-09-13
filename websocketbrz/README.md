@@ -69,35 +69,31 @@ Used to annotate the queue for sending websocket in the subclass that implements
     ```
     - Java websocket session example code
     ```java
-    public class Session  extends AbstractSessionServer {
-    	public Session(String name) throws Exception {
-    		this.name = name;
-    	}
-
-    	private final String name;
-	/**
-     	* Writing to "sendChanl" will send the websocket message
-     	*/
-    	@SessionSenderQue
-    	private BlockingQueue<TextMessage> sendChanl = new LinkedBlockingQueue<>();
-
-	@Override
-    	public void onTextMessage(TextMessage message) throws Exception {
-    	}
-
-    	@Override
-    	public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {
-    	}
-
-    	@Override
-    	public void onHandleTransportError(Throwable exception) throws Exception {
-    	}
-
-    	/**
-     	* Close the open resource init the onAfterConnectionEstablished function
-     	*/
-    	@Override
-    	public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {
-    	}
-    }
+	public class Session extends AbstractSessionServer {
+	    public Session(String name) throws Exception {
+	        this.name = name;
+	    }
+	
+	    private final String name;
+	    /**
+	     * Writing to "sendChanl" will send the websocket message
+	     */
+	    @SessionSenderQue
+	    private BlockingQueue < TextMessage > sendChanl = new LinkedBlockingQueue < > ();
+	
+	    @Override
+	    public void onTextMessage(TextMessage message) throws Exception {}
+	
+	    @Override
+	    public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend) throws Exception {}
+	
+	    @Override
+	    public void onHandleTransportError(Throwable exception) throws Exception {}
+	
+	    /**
+	     * Close the open resource init the onAfterConnectionEstablished function
+	     */
+	    @Override
+	    public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {}
+	}
     ```
