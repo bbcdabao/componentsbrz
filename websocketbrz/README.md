@@ -47,11 +47,11 @@ Its subclass forms a websocket sending module. There will be independent thread 
 It calls back regGetMsgForSend in the "public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend)" interface and is used to register the "IGetMsgForSend" sending module.
       > 4. ISessionFactory:
 It is an interface for creating websocket session factories.
-      > 5. annotation "SessionFactoryBrz":
+      > 5. Annotation "SessionFactoryBrz":
 Annotations used to identify websocket factory classes.
-      > 6. annotation "SessionInterceptor":
+      > 6. Annotation "SessionInterceptor":
 Access the websocket interceptor and mark the subclass that implements HandshakeInterceptor for access authentication.
-      > 7. annotation "SessionSenderQue":
+      > 7. Annotation "SessionSenderQue":
 Used to annotate the queue for sending websocket in the subclass that implements AbstractSessionServer. Using this annotation, you can send websocket messages, just like writing the local queue "BlockingQueue".
     - Java websocket factory example code 
     ```java
