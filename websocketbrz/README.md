@@ -68,7 +68,7 @@ Used to annotate the queue for sending websocket in the subclass that implements
 	}
     ```
     - Java websocket session example code
-    Please see the following two examples to complete the code
+    	Please see the following two examples to complete the code
     ```java
 	public class Session extends AbstractSessionServer {
 	    public Session(String name) throws Exception {
@@ -99,4 +99,4 @@ Used to annotate the queue for sending websocket in the subclass that implements
 	}
     ```
 
-    [测试](../chatroom)
+    [chatroom](../chatroom)
