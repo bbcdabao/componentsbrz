@@ -99,3 +99,4 @@ Used to annotate the queue for sending websocket in the subclass that implements
     ```
     - Please see the following two examples to complete the code
       - [chatroom](../chatroom)
+      - [terminalhub](../terminalhub)
