@@ -39,7 +39,7 @@ __Here are two more interesting examples, you can see "terminalhub" and "chatroo
     __The component interface you can use is at package:__<br>
     **bbcdabao.componentsbrz.websocketbrz.api...**<br>
     It includes 4 interfaces and 3 annotations:<br>
-      >> 1. AbstractSessionServer:
+      > 1. AbstractSessionServer:
 It is an abstract class used to initialize access to websocket sessions and receive messages. When there is a reply access, its subclass will be created. The ISessionFactory factory subclass is responsible for creating.
       - 2. IGetMsgForSend:
 Its subclass forms a websocket sending module. There will be independent thread scheduling to obtain websocket messages and then send them. You can implement its interface, return a message, and then the component will schedule and send asynchronously. This is just one of the ways to send websocket messages.
