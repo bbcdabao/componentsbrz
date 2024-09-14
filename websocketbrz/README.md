@@ -97,3 +97,5 @@ Used to annotate the queue for sending websocket in the subclass that implements
 	    public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {}
 	}
     ```
+
+    [测试](../chatroom)
