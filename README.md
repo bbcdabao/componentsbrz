@@ -2,9 +2,7 @@
 # <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/user-logo.jpg" alt=":)" width="60" height="60" title="Welcome" >    Welcome</img>
  __:smile::smile::smile::smile::smile::smile::smile::smile::smile::smile:__ <br>
 
-[![GitHub license](https://img.shields.io/github/license/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/blob/develop/LICENSE)
-[![GitHub release](https://img.shields.io/github/v/release/{user}/{repo}.svg)](https://github.com/{user}/{repo}/releases)
-[![GitHub last commit](https://img.shields.io/github/last-commit/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/commits/main)
+[![GitHub license](https://img.shields.io/github/license/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/blob/main/LICENSE)
 
 # Componentsbrz Background
 
