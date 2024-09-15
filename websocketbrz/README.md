@@ -2,8 +2,9 @@
 This is a springboot component that makes websockets easier to use. <br>
 Provides rich annotations to support development, and provides rich support for websocket sending buffer queues. Websocket business development can be completed with only some configuration and annotations.<br><br>
 __Here are two more interesting examples, you can see [terminalhub](../terminalhub) and [chatroom](../chatroom) in this project.__<br><br>
-
-- __Instructions for config__
+- __Component Description__
+  - Instructions for use
+    - Instructions for config
     ```yml
     # Here is an example YAML configuration
     wscfg:
@@ -33,7 +34,7 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
         keepAliveSeconds: 10
         threadNamePrefix: wsc-sendthread
     ```
-- __Instructions for coding__
+    - Instructions for coding<br>
     __The component interface you can use is at package:__<br>
     **bbcdabao.componentsbrz.websocketbrz.api...**<br>
     It includes 4 interfaces and 3 annotations:<br>
@@ -95,6 +96,6 @@ Used to annotate the queue for sending websocket in the subclass that implements
 	    public void onAfterConnectionClosed(CloseStatus closeStatus) throws Exception {}
 	}
     ```
-- __Please see the following two examples to complete the code__
+    - Please see the following two examples to complete the code
       - [chatroom](../chatroom)
       - [terminalhub](../terminalhub)
