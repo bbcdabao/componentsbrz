@@ -1,5 +1,4 @@
 # <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/logo.svg" alt="A" width="60" height="60" title="Componentsbrz" >    Componentsbrz</img>
- __:smile::smile::smile::smile::smile::smile::smile::smile::smile::smile:__ <br>
 
 [![GitHub license](https://img.shields.io/github/license/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/blob/main/LICENSE)
 [![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz)
