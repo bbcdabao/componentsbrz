@@ -52,7 +52,8 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
        * Get your WebSocket message to send out.
        * Its subclass forms a websocket sending module. 
        * There will be independent thread scheduling to obtain websocket messages and then send them. 
-       * You can implement its interface, return a message, and then the component will schedule and send asynchronously. 
+       * You can implement its interface, return a message, and then the component will schedule and
+       * send asynchronously. 
        * This is just one of the ways to send websocket messages.
        */
       public interface IGetMsgForSend {
