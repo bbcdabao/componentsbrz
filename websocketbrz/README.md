@@ -36,7 +36,7 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
     ```
     - Instructions for coding<br>
     __The component interface you can use is at package:__<br>
-    **bbcdabao.componentsbrz.websocketbrz.api...**<br>
+    **bbcdabao.componentsbrz.websocketbrz.api.\* **<br>
     It includes 4 interfaces and 3 annotations:<br>
       > 1. AbstractSessionServer:
       ```java
