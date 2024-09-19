@@ -13,5 +13,5 @@ By adopting the token bucket algorithm, you can achieve traffic control for Cont
     # Token bucket capacity
     max-token-bucket: 50
     ```
-    - Instructions for coding
+    - Instructions for coding<br>
     Only one annotation is used on the methods of the Controller layer:<br>
