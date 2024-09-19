@@ -62,6 +62,20 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
            */
           WebSocketMessage<?> getMsg() throws Exception;
       }
+
+    /**
+     * Register IGetMsgForSend.
+     * It calls back regGetMsgForSend in the "public void onAfterConnectionEstablished(WebSocketSession session,
+     * IRegGetMsgForSend regGetMsgForSend)" interface and is used to register the "IGetMsgForSend" sending module.
+     */
+    public interface IRegGetMsgForSend {
+	/**
+	 * Register interface that frame used to get web socket message for send
+	 * @param getMsgForSend
+	 * @throws Exception
+	 */
+        void regGetMsgForSend(IGetMsgForSend getMsgForSend) throws Exception;
+    }
     ```
 
     - Java websocket factory example code 
