@@ -26,3 +26,4 @@ By adopting the token bucket algorithm, you can achieve traffic control for Cont
 	    int value() default 1;
     }
     ```
+    - Java example code 
