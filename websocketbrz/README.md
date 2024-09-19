@@ -41,55 +41,54 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
     ```java
       /**
        * Session framework abstract base class.
-       * It is an abstract class used to initialize access to websocket sessions and receive messages. 
-       * When there is a session come in, the subclass will be created. 
+       * It is an abstract class used to initialize access to websocket sessions and receive messages.
+       * When there is a session come in, the subclass will be created.
        * The ISessionFactory factory subclass is responsible for creating.
        */
-      public abstract class AbstractSessionServer {
-      }
+      public abstract class AbstractSessionServer {}
 
       /**
        * Get your WebSocket message to send out.
-       * Its subclass forms a websocket sending module. 
-       * There will be independent thread scheduling to obtain websocket messages and then send them. 
+       * Its subclass forms a websocket sending module.
+       * There will be independent thread scheduling to obtain websocket messages and then send them.
        * You can implement its interface, return a message, and then the component will schedule and
-       * send asynchronously. 
+       * send asynchronously.
        * This is just one of the ways to send websocket messages.
        */
       public interface IGetMsgForSend {
           /*
            * get one WebSocketMessage for send
            */
-          WebSocketMessage<?> getMsg() throws Exception;
+          WebSocketMessage <? > getMsg() throws Exception;
       }
 
-    /**
-     * Register IGetMsgForSend.
-     * It calls back regGetMsgForSend in the
-     * "public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend)"
-     * interface and is used to register the "IGetMsgForSend" sending module.
-     */
-    public interface IRegGetMsgForSend {
-	/**
-	 * Register interface that frame used to get web socket message for send
-	 * @param getMsgForSend
-	 * @throws Exception
-	 */
-        void regGetMsgForSend(IGetMsgForSend getMsgForSend) throws Exception;
-    }
+      /**
+       * Register IGetMsgForSend.
+       * It calls back regGetMsgForSend in the
+       * "public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend)"
+       * interface and is used to register the "IGetMsgForSend" sending module.
+       */
+      public interface IRegGetMsgForSend {
+          /**
+           * Register interface that frame used to get web socket message for send
+           * @param getMsgForSend
+           * @throws Exception
+           */
+          void regGetMsgForSend(IGetMsgForSend getMsgForSend) throws Exception;
+      }
 
-    /**
-     * Session factory interface.
-     * It will implement the automatic loading function inside the ISessionServer object created.
-     */
-    public interface ISessionFactory {
-	/**
-	 * Get link session
-	 * @return
-	 * @throws Exception
-	 */
-        AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception;
-    }
+      /**
+       * Session factory interface.
+       * It will implement the automatic loading function inside the ISessionServer object created.
+       */
+      public interface ISessionFactory {
+          /**
+           * Get link session
+           * @return
+           * @throws Exception
+           */
+          AbstractSessionServer getSession(Map < String, String > queryMap) throws Exception;
+      }
     ```
 
     - Java websocket factory example code 
