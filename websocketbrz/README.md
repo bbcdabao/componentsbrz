@@ -39,18 +39,25 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
     **bbcdabao.componentsbrz.websocketbrz.api...**<br>
     It includes 4 interfaces and 3 annotations:<br>
       > 1. AbstractSessionServer:
+      >    ---java
+      >    /**
+      >     * Session framework abstract base class
+      >     */
+      >    public abstract class AbstractSessionServer {
+      >    }
+      >    ---
 It is an abstract class used to initialize access to websocket sessions and receive messages. When there is a session come in, the subclass will be created. The ISessionFactory factory subclass is responsible for creating.
-      > 2. IGetMsgForSend:
+      > 3. IGetMsgForSend:
 Its subclass forms a websocket sending module. There will be independent thread scheduling to obtain websocket messages and then send them. You can implement its interface, return a message, and then the component will schedule and send asynchronously. This is just one of the ways to send websocket messages.
-      > 3. IRegGetMsgForSend:
+      > 4. IRegGetMsgForSend:
 It calls back regGetMsgForSend in the "public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend)" interface and is used to register the "IGetMsgForSend" sending module.
-      > 4. ISessionFactory:
+      > 5. ISessionFactory:
 It is an interface for creating websocket session factories.
-      > 5. Annotation "SessionFactoryBrz":
+      > 6. Annotation "SessionFactoryBrz":
 Annotations used to identify websocket factory classes.
-      > 6. Annotation "SessionInterceptor":
+      > 7. Annotation "SessionInterceptor":
 Access the websocket interceptor and mark the subclass that implements HandshakeInterceptor for access authentication.
-      > 7. Annotation "SessionSenderQue":
+      > 8. Annotation "SessionSenderQue":
 Used to annotate the queue for sending websocket in the subclass that implements AbstractSessionServer. Using this annotation, you can send websocket messages, just like writing the local queue "BlockingQueue".
     - Java websocket factory example code 
     ```java
