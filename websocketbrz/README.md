@@ -37,7 +37,8 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
     - Instructions for coding<br>
     __The component interface you can use is at package:__<br>
     **bbcdabao.componentsbrz.websocketbrz.api.\***<br>
-    It includes 4 interfaces and 3 annotations:<br>
+    It includes 4 interfaces and 3 annotations.<br>
+    4 interfaces:<br>
     ```java
       /**
        * Session framework abstract base class.
@@ -90,7 +91,8 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
           AbstractSessionServer getSession(Map < String, String > queryMap) throws Exception;
       }
     ```
-
+    3 annotations:<br>
+    
     - Java websocket factory example code 
     ```java
 	@SessionFactoryBrz("chatroom")
