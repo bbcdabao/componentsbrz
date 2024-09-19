@@ -65,8 +65,9 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
 
     /**
      * Register IGetMsgForSend.
-     * It calls back regGetMsgForSend in the "public void onAfterConnectionEstablished(WebSocketSession session,
-     * IRegGetMsgForSend regGetMsgForSend)" interface and is used to register the "IGetMsgForSend" sending module.
+     * It calls back regGetMsgForSend in the
+     * "public void onAfterConnectionEstablished(WebSocketSession session, IRegGetMsgForSend regGetMsgForSend)"
+     * interface and is used to register the "IGetMsgForSend" sending module.
      */
     public interface IRegGetMsgForSend {
 	/**
