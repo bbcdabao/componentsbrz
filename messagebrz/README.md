@@ -1,5 +1,5 @@
 # Messagebrz
-This is a springboot component that a simple flow control component.<br>
+This is a springboot component that for sending messages between threads.<br>
 By adopting the token bucket algorithm, you can achieve traffic control for Controller layer interface calls through simple configuration and annotations.<br>
 
 - __Component Description__
