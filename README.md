@@ -24,10 +24,6 @@ The following introduces the naming rules and content overview. And make it easi
 - __websocketbrz__<br>
   - [Component Description](./websocketbrz/README.md)
   - Example1:<br>
-  <video controls>
-  <source src="./docs/video/terminal.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-  </video>
   - Example2:<br>
   
 - __flowcontrolbrz__<br>
