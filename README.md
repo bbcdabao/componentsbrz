@@ -1,11 +1,8 @@
-# <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/logo.svg" alt="A" width="60" height="60" title="Stark Industries" >Stark Industries</img>
-# Notice
-<img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/user-logo.jpg" alt=":)" width="16" height="16" title="Stark Industries" > I am Iron Man......</img> :smile: <br>
-But now that I'm about to start writing code, where's my coffee? :expressionless:
+# <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/logo.svg" alt="A" width="60" height="60" title="Componentsbrz" >    Componentsbrz</img>
 
-[![GitHub license](https://img.shields.io/github/license/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/blob/develop/LICENSE)
-[![GitHub release](https://img.shields.io/github/v/release/{user}/{repo}.svg)](https://github.com/{user}/{repo}/releases)
-[![GitHub last commit](https://img.shields.io/github/last-commit/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/commits/main)
+[![GitHub license](https://img.shields.io/github/license/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/blob/main/LICENSE)
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz)
+[![GitHub release](https://img.shields.io/github/release/bbcdabao/componentsbrz.svg)](https://github.com/bbcdabao/componentsbrz/releases)
 
 # Componentsbrz Background
 
@@ -25,8 +22,18 @@ The following introduces the naming rules and content overview. And make it easi
 # Below is an introduction to all components
 
 - __websocketbrz__<br>
-  - Illustrate.<br>
-  - Example.<br>
+  - [Component Description](./websocketbrz/README.md)
+  - Example1:<br>
+  - Example2:<br>
+  
+- __flowcontrolbrz__<br>
+  - [Component Description](./flowcontrolbrz/README.md)
+  - Example1: not yet<br>
+
+- __messagebrz__<br>
+  - [Component Description](./messagebrz/README.md)
+  - Example1: not yet<br>
+
 
 
 

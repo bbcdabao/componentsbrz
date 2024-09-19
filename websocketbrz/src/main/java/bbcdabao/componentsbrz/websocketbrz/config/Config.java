@@ -46,7 +46,7 @@ public class Config {
 	@Value("${wscfg.isPartialMsg:true}")	
 	private boolean isPartialMsg;
 
-	@Value("${wscfg.senderCapacity:2000}")
+	@Value("${wscfg.timeCyc:2000}")
 	private long timeCyc;
 
 	@Value("${wscfg.stepOut:30}")
