@@ -38,8 +38,7 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
     __The component interface you can use is at package:__<br>
     **bbcdabao.componentsbrz.websocketbrz.api.\***<br>
     It includes 4 interfaces and 3 annotations:<br>
-      > 1. AbstractSessionServer:
-      ```java
+    ```java
       /**
        * Session framework abstract base class.
        * It is an abstract class used to initialize access to websocket sessions and receive messages. 
@@ -62,7 +61,7 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
            */
           WebSocketMessage<?> getMsg() throws Exception;
       }
-      ```
+    ```
 
     - Java websocket factory example code 
     ```java
