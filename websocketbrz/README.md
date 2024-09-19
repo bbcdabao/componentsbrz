@@ -42,7 +42,9 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
       ```java
       /**
        * Session framework abstract base class
-       * It is an abstract class used to initialize access to websocket sessions and receive messages. When there is a session come in, the subclass will be created. The ISessionFactory factory subclassis responsible for creating.
+       * It is an abstract class used to initialize access to websocket sessions and receive messages. 
+       * When there is a session come in, the subclass will be created. 
+       * The ISessionFactory factory subclass is responsible for creating.
        */
       public abstract class AbstractSessionServer {
       }
