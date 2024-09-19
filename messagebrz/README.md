@@ -8,15 +8,33 @@ The core algorithm uses a time-sorted queue to retrieve messages that are due fo
     - Java example code 
     ```java
     /**
-     * Controller Interface like login
+     * Define your own message type.
      */
-    @RestController
-    @RequestMapping("/api")
-    public class ApiController {
-        @Flowcontrol
-        @PostMapping("/login")
-        public LoginResponseDto login(@RequestBody LoginDto login) throws Exception {
-    	    ......
+    public class MyMsg extends Message {
+        public MyMsg(String dest) {
+            super(dest);
         }
+    }
+
+    
+    /**
+     * Define your message handling module and use the @MessageHandler annotation to mark the type.
+     * Note that its parameter 'mymodule' is the address to which messages are sent to this module.
+     */
+    @
+    MessageHandler("mymodule")
+    public class MyHandler {
+        public void procMyMsg() throws Exception {...}
+    }
+
+    /**
+     * Send messages using the code above.
+     */
+    void testFunction() {
+        MyMsg msg = new MyMsg("mymodule");
+        // You can set message handling delay like.
+        msg.setDelayTime(10000);
+        // And you can send it to 'procMyMsg'
+        msg.post();
     }
     ```
