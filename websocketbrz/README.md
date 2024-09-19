@@ -38,7 +38,7 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
     __The component interface you can use is at package:__<br>
     **bbcdabao.componentsbrz.websocketbrz.api.\***<br>
     It includes 4 interfaces and 3 annotations.<br>
-    4 interfaces:<br>
+    Interfaces:<br>
     ```java
       /**
        * Session framework abstract base class.
@@ -91,7 +91,7 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
           AbstractSessionServer getSession(Map < String, String > queryMap) throws Exception;
       }
     ```
-    3 annotations:<br>
+    Annotations:<br>
       > 1. Annotation "SessionFactoryBrz":
 Annotations used to identify websocket factory classes.
       > 2. Annotation "SessionInterceptor":
