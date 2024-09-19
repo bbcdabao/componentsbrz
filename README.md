@@ -36,6 +36,8 @@ The following introduces the naming rules and content overview. And make it easi
 
 
 
+在您的代码库中，创建一个新的工作流文件，例如 .github/workflows/ci.yml。
+
 
 name: CI
 
