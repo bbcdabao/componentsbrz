@@ -27,3 +27,17 @@ By adopting the token bucket algorithm, you can achieve traffic control for Cont
     }
     ```
     - Java example code 
+    ```java
+    /**
+     * Controller Interface like login
+     */
+    @RestController
+    @RequestMapping("/api")
+    public class ApiController {
+        @Flowcontrol
+        @PostMapping("/login")
+        public LoginResponseDto login(@RequestBody LoginDto login) throws Exception {
+    	    ......
+	}
+    }
+    ```
