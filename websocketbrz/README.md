@@ -41,12 +41,26 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
       > 1. AbstractSessionServer:
       ```java
       /**
-       * Session framework abstract base class
+       * Session framework abstract base class.
        * It is an abstract class used to initialize access to websocket sessions and receive messages. 
        * When there is a session come in, the subclass will be created. 
        * The ISessionFactory factory subclass is responsible for creating.
        */
       public abstract class AbstractSessionServer {
+      }
+
+      /**
+       * Get your WebSocket message to send out.
+       * Its subclass forms a websocket sending module. 
+       * There will be independent thread scheduling to obtain websocket messages and then send them. 
+       * You can implement its interface, return a message, and then the component will schedule and send asynchronously. 
+       * This is just one of the ways to send websocket messages.
+       */
+      public interface IGetMsgForSend {
+          /*
+           * get one WebSocketMessage for send
+           */
+          WebSocketMessage<?> getMsg() throws Exception;
       }
       ```
 
