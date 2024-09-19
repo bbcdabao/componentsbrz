@@ -8,10 +8,10 @@ By adopting the token bucket algorithm, you can achieve traffic control for Cont
     ```yml
     # Here is an example YAML configuration
     flowcontrol-brz:
-    # Number of tokens generated per second, which is TPS (Transactions Per Second).
-    tps: 10
-    # Token bucket capacity
-    max-token-bucket: 50
+      # Number of tokens generated per second, which is TPS (Transactions Per Second).
+      tps: 10
+      # Token bucket capacity
+      max-token-bucket: 50
     ```
     - Instructions for coding
     Only one annotation is used on the methods of the Controller layer:<br>
