@@ -77,6 +77,19 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
 	 */
         void regGetMsgForSend(IGetMsgForSend getMsgForSend) throws Exception;
     }
+
+    /**
+     * Session factory interface.
+     * It will implement the automatic loading function inside the ISessionServer object created.
+     */
+    public interface ISessionFactory {
+	/**
+	 * Get link session
+	 * @return
+	 * @throws Exception
+	 */
+        AbstractSessionServer getSession(Map<String, String> queryMap) throws Exception;
+    }
     ```
 
     - Java websocket factory example code 
