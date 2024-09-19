@@ -40,11 +40,12 @@ __Here are two more interesting examples, you can see [terminalhub](../terminalh
     It includes 4 interfaces and 3 annotations:<br>
       > 1. AbstractSessionServer:
       ```java
-        /**
-         * Session framework abstract base class
-         */
-        public abstract class AbstractSessionServer {
-        }
+      /**
+       * Session framework abstract base class
+       * It is an abstract class used to initialize access to websocket sessions and receive messages. When there is a session come in, the subclass will be created. The ISessionFactory factory subclassis responsible for creating.
+       */
+      public abstract class AbstractSessionServer {
+      }
       ```
 
     - Java websocket factory example code 
