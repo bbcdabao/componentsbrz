@@ -38,6 +38,6 @@ By adopting the token bucket algorithm, you can achieve traffic control for Cont
         @PostMapping("/login")
         public LoginResponseDto login(@RequestBody LoginDto login) throws Exception {
     	    ......
-	}
+        }
     }
     ```
