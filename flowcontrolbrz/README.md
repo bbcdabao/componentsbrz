@@ -15,3 +15,14 @@ By adopting the token bucket algorithm, you can achieve traffic control for Cont
     ```
     - Instructions for coding<br>
     Only one annotation is used on the methods of the Controller layer:<br>
+    ```java
+    /*
+     * Used on api for flowcontrol
+     */
+    @Retention(RUNTIME)
+    @Target(METHOD)
+    @Inherited
+    public @interface Flowcontrol {
+	    int value() default 1;
+    }
+    ```
