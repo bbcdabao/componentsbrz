@@ -1,31 +1,10 @@
 # Messagebrz
 This is a springboot component that for sending messages between threads.<br>
-By adopting the token bucket algorithm, you can achieve traffic control for Controller layer interface calls through simple configuration and annotations.<br>
+It supports delayed message execution.<br>
+The core algorithm uses a time-sorted queue to retrieve messages that are due for execution from the front of the queue, and then schedules them for processing.<br>
 
 - __Component Description__
   - Instructions for use
-    - Instructions for config
-    ```yml
-    # Here is an example YAML configuration
-    flowcontrol-brz:
-    # Number of tokens generated per second, which is TPS (Transactions Per Second).
-    tps: 10
-    # Token bucket capacity
-    max-token-bucket: 50
-    ```
-    - Instructions for coding
-    Only one annotation is used on the methods of the Controller layer:<br>
-    ```java
-    /*
-     * Used on api for flowcontrol
-     */
-    @Retention(RUNTIME)
-    @Target(METHOD)
-    @Inherited
-    public @interface Flowcontrol {
-	    int value() default 1;
-    }
-    ```
     - Java example code 
     ```java
     /**
