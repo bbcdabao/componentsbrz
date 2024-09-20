@@ -18,6 +18,8 @@
 
 package bbcdabao.componentsbrz.messagebrz.api;
 
+import bbcdabao.componentsbrz.messagebrz.config.MessageBrzAutoConfig;
+
 /**
  * Message base class
  */
@@ -41,7 +43,7 @@ public class Message {
 	}
 
 	public boolean post() {
-		return false;
+		return MessageBrzAutoConfig.post(dest, this);
 	}
 
 	public void setDest(String dest) {
