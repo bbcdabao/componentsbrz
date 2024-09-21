@@ -37,7 +37,7 @@ The following introduces the naming rules and content overview. And make it easi
     <img src="./docs/images/terminalhub-5.png" alt="" style="width: 49%;" />
   </div>
   <div style="display: flex; justify-content: space-between;">
-    <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif" alt="" style="width: 100%;"/>
+    <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif" alt="" width="500" height="300"/>
   </div>
   - Example2:<br>
   
