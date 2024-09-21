@@ -43,7 +43,7 @@
 	</modules>
 
 	<properties>
-		<project.version>1.0.0-SNAPSHOT</project.version>
+		<project.version>1.0.0</project.version>
 		<java.version>17</java.version>
 		<javax.validation-api>2.0.1.Final</javax.validation-api>
 		<httpclient.version>4.5.13</httpclient.version>
