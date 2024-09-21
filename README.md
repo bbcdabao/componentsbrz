@@ -39,6 +39,7 @@ The following introduces the naming rules and content overview. And make it easi
   <div style="display: flex; justify-content: space-between;">
     <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif" alt="" width="99%"/>
   </div>
+  
   - Example2:<br>
   
 - __flowcontrolbrz__<br>
