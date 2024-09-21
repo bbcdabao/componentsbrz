@@ -41,8 +41,11 @@ The following introduces the naming rules and content overview. And make it easi
     <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif" alt="" width="99%"/>
   </div>
   
-  - Example2:<br>
-  
+  - Example2:chatroom<br>
+  An example of a chat room developed using the websocketbrz component.<br>
+  First, run the jar file as the chat registration center: java -jar chatroom-1.0.0-SNAPSHOT.jar<br>
+  Then open "wbclient.html" with a browser.
+
 - __flowcontrolbrz__<br>
   - [Component Description](./flowcontrolbrz/README.md)
   - Example1: not yet<br>
