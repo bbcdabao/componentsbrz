@@ -24,11 +24,19 @@ The following introduces the naming rules and content overview. And make it easi
 - __websocketbrz__<br>
   - [Component Description](./websocketbrz/README.md)
   - Example1:<br>
-  
-  ![Loading Animation](https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif)
   <div style="display: flex; justify-content: space-between;">
-    <img src="./docs/images/terminalhub-1.png" alt="图片2" style="width: 49%;" />
+    <img src="./docs/images/terminalhub-0.png" alt="" style="width: 49%;" />
+    <img src="./docs/images/terminalhub-1.png" alt="" style="width: 49%;" />
   </div>
+  <div style="display: flex; justify-content: space-between;">
+    <img src="./docs/images/terminalhub-2.png" alt="" style="width: 49%;" />
+    <img src="./docs/images/terminalhub-3.png" alt="" style="width: 49%;" />
+  </div>
+  <div style="display: flex; justify-content: space-between;">
+    <img src="./docs/images/terminalhub-4.png" alt="" style="width: 49%;" />
+    <img src="./docs/images/terminalhub-5.png" alt="" style="width: 49%;" />
+  </div>
+  ![Loading Animation](https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif)
   - Example2:<br>
   
 - __flowcontrolbrz__<br>
