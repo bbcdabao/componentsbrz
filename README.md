@@ -26,7 +26,7 @@ The following introduces the naming rules and content overview. And make it easi
   - Example1:<br>
   <div style="display: flex; justify-content: space-between;">
     <img src="./docs/images/terminalhub-0.png" alt="图片1" style="width: 49%;" />
-    <img src="图片2链接" alt="图片2" style="width: 49%;" />
+    <img src="./docs/images/terminalhub-1.png" alt="图片2" style="width: 49%;" />
   </div>
   - Example2:<br>
   
