@@ -23,7 +23,7 @@ The following introduces the naming rules and content overview. And make it easi
 
 - __websocketbrz__<br>
   - [Component Description](./websocketbrz/README.md)
-  - Example1:<br>
+  - Example1:terminalhub<br>
   <div style="display: flex; justify-content: space-between;">
     <img src="./docs/images/terminalhub-0.png" alt="" style="width: 49%;" />
     <img src="./docs/images/terminalhub-1.png" alt="" style="width: 49%;" />
