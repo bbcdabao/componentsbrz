@@ -24,8 +24,8 @@ The following introduces the naming rules and content overview. And make it easi
 - __websocketbrz__<br>
   - [Component Description](./websocketbrz/README.md)
   - Example1:<br>
-  <div style="text-align: center;">
-    <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif" alt="Loading Animation" />
+  <div style="display: flex; justify-content: space-between;">
+    <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif" alt="" style="width: 100%;"/>
   </div>
   <div style="display: flex; justify-content: space-between;">
     <img src="./docs/images/terminalhub-0.png" alt="" style="width: 49%;" />
