@@ -23,7 +23,7 @@ The following introduces the naming rules and content overview. And make it easi
 
 - __websocketbrz__<br>
   - [Component Description](./websocketbrz/README.md)
-  - Example1: [terminalhub](../terminalhub)<br>
+  - Example1: [terminalhub](./terminalhub)<br>
   An example of remote SSH login developed using the websocketbrz component.
   <div style="display: flex; justify-content: space-between;">
     <img src="./docs/images/terminalhub-0.png" alt="" style="width: 49%;" />
@@ -41,7 +41,7 @@ The following introduces the naming rules and content overview. And make it easi
     <img src="https://github.com/bbcdabao/componentsbrz/blob/develop/docs/images/terminalhubf-act.gif" alt="" width="99%"/>
   </div>
   
-  - Example2:[chatroom](../chatroom)<br>
+  - Example2:[chatroom](./chatroom)<br>
   An example of a chat room developed using the websocketbrz component.<br>
   First, run the jar file as the chat registration center: java -jar chatroom-1.0.0-SNAPSHOT.jar<br>
   Then open "wbclient.html" with a browser. And registed for talking.
