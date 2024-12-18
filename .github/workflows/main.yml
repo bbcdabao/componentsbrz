@@ -29,3 +29,17 @@ jobs:
 
       - name: Build with Maven
         run: mvn install
+      # check code
+      - name: Install EditorConfig Checker
+        run: |
+          curl -LO https://github.com/editorconfig-checker/editorconfig-checker/releases/latest/download/ec-linux-amd64.tar.gz
+          tar -xvzf ec-linux-amd64.tar.gz
+          sudo mv ec-linux-amd64 /usr/local/bin/ec
+
+      - name: Check .editorconfig rules
+        run: ec check
+
+      - name: Apply formatting tools
+        run: |
+          prettier --write "**/*.{js,jsx,ts,tsx,json,css,scss,html,md}"
+          find . -name "*.java" | xargs java -jar google-java-format.jar --replace
