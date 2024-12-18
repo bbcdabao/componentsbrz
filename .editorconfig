@@ -1,67 +1,25 @@
 root = true
 
-# 通用配置，适用于所有文件
 [*]
-indent_style = space             # 使用空格作为缩进
-end_of_line = lf                 # 换行符使用 LF
-charset = utf-8                  # 文件编码设置为 UTF-8
-trim_trailing_whitespace = true  # 移除行末多余空格
-insert_final_newline = false     # 文件末尾强制新行
-
-# 针对 XML 文件 (如 pom.xml)，缩进 2 个空格
-[*.xml]
+charset = utf-8
+end_of_line = lf
 indent_style = space
 indent_size = 2
+insert_final_newline = false
+trim_trailing_whitespace = true
 
-# 针对 Java 文件，缩进 4 个空格
 [*.java]
 indent_style = space
 indent_size = 4
 
-# 针对 HTML 文件，缩进 2 个空格
-[*.html]
-indent_style = space
-indent_size = 2
-
-# 针对 CSS 和 SCSS 文件，缩进 2 个空格
-[*.css]
-indent_style = space
-indent_size = 2
-
-[*.scss]
-indent_style = space
-indent_size = 2
-
-# 针对 JavaScript 和 TypeScript 文件，缩进 2 个空格
-[*.js]
-indent_style = space
-indent_size = 2
-
-[*.jsx]
-indent_style = space
-indent_size = 2
-
-[*.ts]
-indent_style = space
-indent_size = 2
-
-[*.tsx]
-indent_style = space
-indent_size = 2
-
-# 针对 JSON 和 YAML 文件，缩进 2 个空格
-[*.json]
-indent_style = space
-indent_size = 2
-
-[*.yaml]
-indent_style = space
-indent_size = 2
-
-# 针对 Markdown 文件，不移除行末空格（因为有些 Markdown 语法依赖于行末双空格）
 [*.md]
 trim_trailing_whitespace = false
 
-# 针对 Makefile 文件，强制使用 Tab 缩进（Makefile 的语法要求）
-[Makefile]
-indent_style = tab
+[node_modules/**]
+indent_style = ignore
+
+[build/**]
+indent_style = ignore
+
+[dist/**]
+indent_style = ignore
