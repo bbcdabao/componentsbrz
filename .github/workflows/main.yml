@@ -34,7 +34,7 @@ jobs:
         run: |
           curl -LO https://github.com/editorconfig-checker/editorconfig-checker/releases/latest/download/ec-linux-amd64.tar.gz
           tar -xvzf ec-linux-amd64.tar.gz
-          sudo mv bin/ec-linux-amd64 /usr/local/bin/e
+          sudo mv bin/ec-linux-amd64 /usr/local/bin/ec
 
       - name: Verify Installation
         run: ec --version
