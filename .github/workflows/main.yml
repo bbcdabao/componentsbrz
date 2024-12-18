@@ -34,10 +34,14 @@ jobs:
         run: |
           curl -LO https://github.com/editorconfig-checker/editorconfig-checker/releases/latest/download/ec-linux-amd64.tar.gz
           tar -xvzf ec-linux-amd64.tar.gz
-          sudo mv bin/ec-linux-amd64 /usr/local/bin/ec
+          sudo mv bin/ec-linux-amd64 /usr/local/bin/e
 
-      - name: Check .editorconfig rules
-        run: ec check
+      - name: Verify Installation
+        run: ec --version
+
+      # Step 4: 运行 EditorConfig Checker
+      - name: Run EditorConfig Check
+        run: ec .
 
       - name: Apply formatting tools
         run: |
