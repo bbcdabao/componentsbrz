@@ -34,7 +34,7 @@ jobs:
         run: |
           curl -LO https://github.com/editorconfig-checker/editorconfig-checker/releases/latest/download/ec-linux-amd64.tar.gz
           tar -xvzf ec-linux-amd64.tar.gz
-          sudo mv ec-linux-amd64 /usr/local/bin/ec
+          sudo mv bin/ec-linux-amd64 /usr/local/bin/ec
 
       - name: Check .editorconfig rules
         run: ec check
